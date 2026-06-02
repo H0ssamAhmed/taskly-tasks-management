@@ -47,7 +47,7 @@ const SignUpForm = () => {
 
     }
     return (
-        <div className='p-12 flex flex-col bg-white items-center justify-center gap-2 bg-ora nge-400 lg:max-w-xl w-full'>
+        <div className='p-12 flex flex-col bg-white items-center justify-center gap-2 w-full lg:max-w-xl'>
             <div className='pb-10 flex flex-col gap-2'>
                 <h1 className='headline-lg'>Create your workspace</h1>
                 <p className='body-md'>Join the editorial approach to task management.</p>
@@ -98,8 +98,8 @@ const SignUpForm = () => {
                     <InputErrorAlert message={errors.jobTitle && errors.jobTitle.message} />
 
                 </InputLayout>
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                    <InputLayout className='relative'>
+                <div className='flex flex-col lg:grid grid-cols-1  gap-4'>
+                    <InputLayout className='relative '>
                         <Label
                             htmlFor='password'
                             text='password'
