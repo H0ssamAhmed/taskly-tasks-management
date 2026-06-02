@@ -23,5 +23,5 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
     )
 });
 
-Input.displayName = "Input"; // مهم لـ React DevTools
+Input.displayName = "Input";
 export default Input;

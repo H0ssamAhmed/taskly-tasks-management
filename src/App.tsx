@@ -6,7 +6,7 @@ import SignUp from './features/auth/pages/SignUp'
 
 function App() {
   return (
-    <main>
+    <main className='min-h-screen bg-background'>
       <Routes>
 
 

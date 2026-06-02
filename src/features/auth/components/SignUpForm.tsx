@@ -10,25 +10,37 @@ import { useState } from 'react';
 import RuleRow from './RuleRow';
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from '../schema/singup';
+import { PasswordRules, signUpSchema } from '../schema/singUp';
+import { Link } from 'react-router-dom';
 
 
 const SignUpForm = () => {
-    const { register,
-        handleSubmit,
-        formState: { errors } } = useForm({
-            resolver: zodResolver(signUpSchema),
-            defaultValues: {
-                name: "",
-                email: "",
-                password: "",
-                confirmPassword: "",
-                jobTitle: "",
-            },
-        })
+    const
+        { register,
+            watch,
+            handleSubmit,
+            formState: { errors, } }
+            = useForm({
+                resolver: zodResolver(signUpSchema),
+                defaultValues: {
+                    name: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                    jobTitle: "",
+                },
+            })
+
+
+    const passwordValue = watch("password") || "";
+    console.log(passwordValue);
 
     const [showpass, setShowPass] = useState(false)
-    const showpasshandle = () => setShowPass(!showpass)
+    const showpasshandle = () => {
+
+
+        setShowPass(!showpass)
+    }
 
 
     const submitting = (values) => {
@@ -37,9 +49,8 @@ const SignUpForm = () => {
 
     }
     return (
-        <div className='p-12 flex flex-col items-center justify-center gap-2 bg-ora nge-400 lg:max-w-xl w-full'>
-            <div className='pb-10'>
-
+        <div className='p-12 flex flex-col bg-white items-center justify-center gap-2 bg-ora nge-400 lg:max-w-xl w-full'>
+            <div className='pb-10 flex flex-col gap-2'>
                 <h1 className='headline-lg'>Create your workspace</h1>
                 <p className='body-md'>Join the editorial approach to task management.</p>
             </div>
@@ -81,6 +92,7 @@ const SignUpForm = () => {
                         text='Job Title (Optional)'
                     />
                     <Input
+                        {...register("jobTitle")}
                         type='text'
                         name='title'
                         placeholder='eg. Project Manager'
@@ -95,6 +107,8 @@ const SignUpForm = () => {
                             text='password'
                         />
                         <Input
+                            {...register("password")}
+
                             type={showpass ? "text" : "password"}
                             name='password'
                             placeholder='Password'
@@ -114,39 +128,37 @@ const SignUpForm = () => {
                             text='Confirm Password'
                         />
                         <Input
+                            {...register("confirmPassword")}
                             type={showpass ? "text" : "password"}
                             name='confirm-password'
                             placeholder='Repeat your Password'
                         />
                     </InputLayout>
-                    <div className='col-span-2'>
-                        <InputErrorAlert message={errors.confirmPassword && errors.confirmPassword.message} />
 
+                    <div className='p-4 flex flex-col gap-2 bg-surface-highest col-span-2'>
+                        <RuleRow
+                            icon={PasswordRules(passwordValue).length ? "CheckedIcon" : "UncheckedIcon"}
+                            text='At least 8 characters'
+                        />
+                        <RuleRow
+                            icon={PasswordRules(passwordValue).mixed ? "CheckedIcon" : "UncheckedIcon"}
+                            text='One uppercase, lowercase, and digit'
+                        />
+                        <RuleRow
+                            icon={PasswordRules(passwordValue).special ? "CheckedIcon" : "UncheckedIcon"}
+                            text='One special character'
+                        />
                     </div>
 
-
+                    <div className='w-full col-span-2'>
+                        <Button variant='primary' className='w-full'>
+                            <Input type='submit' value='Create Workspace' className='hidden' />
+                            Create account
+                        </Button>
+                    </div>
                 </div>
-
-                <div className='p-4 flex flex-col gap-2'>
-                    <RuleRow
-                        icon={"CheckedIcon"}
-                        text='At least 8 characters'
-                    />
-                    <RuleRow
-                        icon={"UncheckedIcon"}
-                        text='One uppercase, lowercase, and digit'
-                    />
-                    <RuleRow
-                        icon={"UncheckedIcon"}
-                        text='One special character'
-                    />
-                </div>
-
-                <Button variant='primary'>
-                    <Input type='submit' value='Create Workspace' className='hidden' />
-                    Create account
-                </Button>
             </form>
+            <p className='text-slate-mid'>Already have an account?  <Link className='text-primary font-bold' to="/sign-in">Log in</Link></p>
         </div>
     );
 };

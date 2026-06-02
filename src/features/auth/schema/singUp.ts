@@ -36,8 +36,19 @@ export const signUpSchema = z
       .or(z.literal("")),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
+    path: ["confirmPassword "],
     message: "Passwords do not match",
   });
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;
+
+export const PasswordRules = (passwordValue) => {
+  return {
+    length: passwordValue.length >= 8,
+    mixed:
+      /[A-Z]/.test(passwordValue) &&
+      /[a-z]/.test(passwordValue) &&
+      /\d/.test(passwordValue),
+    special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(passwordValue),
+  };
+};
