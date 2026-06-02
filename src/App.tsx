@@ -1,17 +1,17 @@
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
+import AuthLayout from './layouts/AuthLayout'
+import SignUp from './features/auth/pages/SignUp'
 
 
 function App() {
   return (
     <main>
-      <h1 className='text-primary'>
-
-      </h1>
-      <h1 className=" text-primary bg-surface-low text-4xl text-center p-4   ">
-        hello, world!
-
-      </h1>
-
+      <Routes>
+        <Route path="/" element={<AuthLayout />}>
+          <Route path="/sign-up" element={<SignUp />} />
+        </Route>
+      </Routes>
     </main>
   )
 }
