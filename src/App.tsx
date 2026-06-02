@@ -8,10 +8,23 @@ function App() {
   return (
     <main>
       <Routes>
-        <Route path="/" element={<AuthLayout />}>
+
+
+        <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUp />} />
+          {/* <Route path="/sign-in" element={<SignIn />} /> */}
+          {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
         </Route>
+
+
+
+
+
+
+
+
       </Routes>
+
     </main>
   )
 }
