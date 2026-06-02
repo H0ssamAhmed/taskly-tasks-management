@@ -1,37 +1,27 @@
 import { cn } from '@/lib/utils';
-import React from 'react'
+import React, { forwardRef } from 'react';
 
-interface InputProps {
-    type?: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     name?: string;
-    required?: boolean;
-    className?: string;
-
 }
-const Input = ({
+
+const Input = forwardRef<HTMLInputElement, InputProps>(({
     type = 'text',
-    value = '',
-    onChange = () => { },
-    placeholder = '',
-    name = '',
     className = '',
-    required = false
-}: InputProps) => {
+    name,
+    ...props
+}, ref) => {
     return (
         <input
+            ref={ref}
             id={name}
-            className={cn('w-full p-2 ps-4 bg-surface-highest rounded-sm', className)}
-            type={type}
-            placeholder={placeholder}
             name={name}
-            value={value}
-            onChange={onChange}
-            required={required}
+            className={cn('w-full py-2 ps-4 pe-9 bg-surface-highest rounded-sm', className)}
+            type={type}
+            {...props}
         />
     )
-};
+});
 
+Input.displayName = "Input"; // مهم لـ React DevTools
 export default Input;

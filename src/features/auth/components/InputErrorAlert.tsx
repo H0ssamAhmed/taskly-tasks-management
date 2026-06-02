@@ -7,7 +7,7 @@ interface InputErrorAlertProps {
 }
 const InputErrorAlert = ({ message, className }: InputErrorAlertProps) => {
     return (
-        <p className={cn('text-error text-label-sm px-1 h-4.5 w-full', className)}>{message}</p>
+        <p className={cn('label-sm text-error  px-1 h-4.5 w-full', className)}>{message}</p>
     )
 }
 
