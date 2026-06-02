@@ -16,7 +16,7 @@
     --error: #d11c1c;
     --warning: #ffbb00;
 
-    --radius-base: 4px;
+    --muted: #434654 --radius-base: 4px;
     --radius-ratio: 2;
 
     --font-family: Inter
@@ -37,7 +37,7 @@
     --color-error: var(--error);
     --color-warning: var(--warning);
 
-    --radius-xs: calc(var(--radius-base) * 0.5);
+    --color-muted: var(--mutted) --radius-xs: calc(var(--radius-base) * 0.5);
     --radius-sm: calc(var(--radius-base));
     --radius-md: calc(var(--radius-base) * var(--radius-ratio));
     --radius-lg: calc(var(--radius-base) * var(--radius-ratio) * 1.5);
@@ -83,6 +83,7 @@
     font-weight: 400;
     font-style: Regular;
     font-size: 14px;
+    color: var(--color-slate-mid);
     line-height: 22.75px;
     letter-spacing: 0px;
     vertical-align: middle;
@@ -92,8 +93,20 @@
     font-weight: 700;
     font-style: Bold;
     font-size: 11px;
+    color: var(--color-slate-mid);
     line-height: 16.5px;
     letter-spacing: 1.1px;
     vertical-align: middle;
     text-transform: uppercase;
+}
+
+.global-icon {
+    fill: currentColor;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+
+.global-icon:hover {
+    opacity: 0.8;
 }

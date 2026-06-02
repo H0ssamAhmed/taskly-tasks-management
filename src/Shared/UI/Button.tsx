@@ -5,7 +5,7 @@ type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps {
-    children: ReactNode;
+    children?: ReactNode;
     variant?: ButtonVariant;
     size?: ButtonSize;
     className?: string;
