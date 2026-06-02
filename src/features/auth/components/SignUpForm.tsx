@@ -48,7 +48,7 @@ const SignUpForm = () => {
     }
     return (
         <div className='p-12 flex flex-col bg-white items-center justify-center gap-2 w-full lg:max-w-xl'>
-            <div className='pb-10 flex flex-col gap-2'>
+            <div className='pb-10 flex flex-col items-start lg:items-center gap-2 w-full'>
                 <h1 className='headline-lg'>Create your workspace</h1>
                 <p className='body-md'>Join the editorial approach to task management.</p>
             </div>
