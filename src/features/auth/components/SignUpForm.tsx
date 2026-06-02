@@ -32,9 +32,7 @@ const SignUpForm = () => {
             })
 
 
-    const passwordValue = watch("password") || "";
-    console.log(passwordValue);
-
+    const rules = PasswordRules(watch("password"))
     const [showpass, setShowPass] = useState(false)
     const showpasshandle = () => {
 
@@ -108,44 +106,45 @@ const SignUpForm = () => {
                         />
                         <Input
                             {...register("password")}
-
                             type={showpass ? "text" : "password"}
                             name='password'
                             placeholder='Password'
                         />
-
                         <InputIcon >
                             <IconDisplayer
                                 onClick={showpasshandle}
                                 name='EyeIcon' width={22} height={15} />
                         </InputIcon>
+                        <InputErrorAlert />
 
                     </InputLayout>
 
                     <InputLayout>
                         <Label
-                            htmlFor='confirm-password'
+                            htmlFor='confirmPassword'
                             text='Confirm Password'
                         />
                         <Input
                             {...register("confirmPassword")}
                             type={showpass ? "text" : "password"}
-                            name='confirm-password'
+                            name='confirmPassword'
                             placeholder='Repeat your Password'
                         />
+                        <InputErrorAlert message={errors.confirmPassword && errors.confirmPassword.message} />
                     </InputLayout>
+
 
                     <div className='p-4 flex flex-col gap-2 bg-surface-highest col-span-2'>
                         <RuleRow
-                            icon={PasswordRules(passwordValue).length ? "CheckedIcon" : "UncheckedIcon"}
+                            icon={rules.length ? "CheckedIcon" : "UncheckedIcon"}
                             text='At least 8 characters'
                         />
                         <RuleRow
-                            icon={PasswordRules(passwordValue).mixed ? "CheckedIcon" : "UncheckedIcon"}
+                            icon={rules.mixed ? "CheckedIcon" : "UncheckedIcon"}
                             text='One uppercase, lowercase, and digit'
                         />
                         <RuleRow
-                            icon={PasswordRules(passwordValue).special ? "CheckedIcon" : "UncheckedIcon"}
+                            icon={rules.special ? "CheckedIcon" : "UncheckedIcon"}
                             text='One special character'
                         />
                     </div>

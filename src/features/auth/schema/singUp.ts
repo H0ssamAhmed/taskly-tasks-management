@@ -12,7 +12,7 @@ export const signUpSchema = z
         "Name can only contain letters and single spaces",
       ),
 
-    email: z.string().trim().email("Please enter a valid email address"),
+    email: z.email("Please enter a valid email address").trim(),
 
     password: z
       .string()
@@ -36,7 +36,7 @@ export const signUpSchema = z
       .or(z.literal("")),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword "],
+    path: ["confirmPassword"],
     message: "Passwords do not match",
   });
 
