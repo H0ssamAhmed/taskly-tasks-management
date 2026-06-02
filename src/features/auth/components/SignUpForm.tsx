@@ -3,7 +3,6 @@ import Input from '@/Shared/UI/Input'
 import Label from '@/Shared/UI/Label'
 import InputLayout from './InputLayout';
 import InputErrorAlert from './InputErrorAlert';
-import { Button } from '@/Shared/UI/Button';
 import { IconDisplayer } from '@/Shared/UI/IconDisplayer';
 import InputIcon from './InputIcon';
 import { useState } from 'react';
@@ -12,24 +11,23 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordRules, signUpSchema } from '../schema/singUp';
 import { Link } from 'react-router-dom';
-
+import type { SignUpPayload } from '../schema/types';
+import { singUp } from '../services/SingUp';
+import { cn } from '@/lib/utils';
+import Spinner from '@/Shared/UI/Spinner'
 
 const SignUpForm = () => {
-    const
-        { register,
-            watch,
-            handleSubmit,
-            formState: { errors, } }
-            = useForm({
-                resolver: zodResolver(signUpSchema),
-                defaultValues: {
-                    name: "",
-                    email: "",
-                    password: "",
-                    confirmPassword: "",
-                    jobTitle: "",
-                },
-            })
+    const [loading, setLoading] = useState<boolean>(false)
+    const { register, watch, handleSubmit, formState: { errors, } } = useForm({
+        resolver: zodResolver(signUpSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            jobTitle: "",
+        },
+    })
 
 
     const rules = PasswordRules(watch("password"))
@@ -41,11 +39,31 @@ const SignUpForm = () => {
     }
 
 
-    const submitting = (values) => {
+    const submitting = async (values) => {
+        setLoading(true)
+        const payloadData: SignUpPayload = {
+            email: values.email,
+            password: values.password,
+            data: {
+                name: values.name,
+                department: values.jobTitle
+            },
+        }
+        try {
+            const res = await singUp(payloadData)
+            console.log(res);
 
-        console.log(values);
+            const result = await res.json();
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+        finally {
+            setLoading(false)
+        }
 
     }
+
     return (
         <div className='p-12 flex flex-col bg-white items-center justify-center gap-2 w-full lg:max-w-xl'>
             <div className='pb-10 flex flex-col items-start lg:items-center gap-2 w-full'>
@@ -149,11 +167,19 @@ const SignUpForm = () => {
                         />
                     </div>
 
-                    <div className='w-full col-span-2'>
-                        <Button variant='primary' className='w-full'>
-                            <Input type='submit' value='Create Workspace' className='hidden' />
-                            Create account
-                        </Button>
+                    <div className={cn('w-full col-span-2 h-12 flex items-center justify-center  hover:bg-primary-container rounded-sm bg-primary  text-white cursor-pointer p-4', loading && "opacity-50 cursor-not-allowed")}>
+                        {!loading ? <Input
+                            value={loading ? "Loading creating account" : "Create account"}
+                            type='submit'
+                            className='bg-primary cursor-pointer hover:bg-primary-container'
+                            disabled={loading} />
+                            :
+                            <div className='flex items-center justify-center gap-2' >
+                                <Spinner />
+                                <p>Loading</p>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </form>

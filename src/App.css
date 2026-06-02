@@ -37,7 +37,9 @@
     --color-error: var(--error);
     --color-warning: var(--warning);
 
-    --color-muted: var(--mutted) --radius-xs: calc(var(--radius-base) * 0.5);
+    --color-muted: var(--mutted);
+    --radius-xs: calc(var(--radius-base) * 0.5);
+
     --radius-sm: calc(var(--radius-base));
     --radius-md: calc(var(--radius-base) * var(--radius-ratio));
     --radius-lg: calc(var(--radius-base) * var(--radius-ratio) * 1.5);
