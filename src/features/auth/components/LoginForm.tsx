@@ -39,18 +39,17 @@ const LoginForm = () => {
 
         try {
             const res = await loginIn(payloadData)
-            if (res.ok) {
-                const result = await res.json();
-                console.log(result);
-                setCookie("access_token", result.access_token, 1);
-                setCookie("refresh_token", result.refresh_token, 7);
-                navegator('/')
+            if (!res.ok) {
+                const { msg }: { msg: string } = await res.json();
+                setError(msg)
                 return
             }
 
-            const { msg }: { msg: string } = await res.json();
-            setError(msg)
-
+            const result = await res.json();
+            console.log(result);
+            setCookie("access_token", result.access_token, 1);
+            setCookie("refresh_token", result.refresh_token, 7);
+            navegator('/')
 
         } catch (error) {
             console.error(error);
@@ -67,7 +66,7 @@ const LoginForm = () => {
                 <p className='body-md'>Please enter your details to access your workspace</p>
             </div>
             <div className={cn('bg-error/20 p-2 w-full flex items-center justify-center rounded-xl opacity-0', error && "opacity-100")}>
-                <InputErrorAlert message={"invalid email or password"} className='text-center' />
+                <InputErrorAlert message={error} className='text-center' />
             </div>
 
             <form onSubmit={handleSubmit(submitting)} className='p-4 w-full flex flex-col gap-4 mb-4'>
@@ -120,9 +119,10 @@ const LoginForm = () => {
                     </InputLayout>
                     <Link className='text-primary text-end' to="/forget-password"> Forget Password?</Link>
                 </div>
-                <div className={cn('w-full col-span-2 h-12 flex items-center justify-center  hover:bg-primary-container rounded-sm  text-white cursor-pointer', loading && "opacity-50 cursor-not-allowed")}>
+                <div className={cn('w-full col-span-2 h-12 flex items-center justify-center  hover:bg-primary-container rounded-sm  text-white cursor-pointer',
+                    loading && "opacity-50 cursor-not-allowed")}>
                     {!loading ? <Input
-                        value={loading ? "Loading creating account" : "Create account"}
+                        value={loading ? "Loggin in" : "Log In"}
                         type='submit'
                         className='bg-primary cursor-pointer hover:bg-primary-container h-full w-full'
                         disabled={loading} />

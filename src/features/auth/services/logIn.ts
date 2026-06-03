@@ -10,9 +10,6 @@ export const loginIn = async (payload: loginInPayload) => {
     },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) {
-    console.error(res);
-    return;
-  }
+  if (!res.ok) return res;
   return res;
 };
