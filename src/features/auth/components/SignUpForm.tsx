@@ -10,13 +10,15 @@ import RuleRow from './RuleRow';
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordRules, signUpSchema } from '../schema/singUp';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import type { SignUpPayload } from '../schema/types';
 import { singUp } from '../services/SingUp';
 import { cn } from '@/lib/utils';
 import Spinner from '@/Shared/UI/Spinner'
+import { setCookie } from '../services/session';
 
 const SignUpForm = () => {
+    const navegator = useNavigate()
     const [loading, setLoading] = useState<boolean>(false)
     const { register, watch, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(signUpSchema),
@@ -28,15 +30,9 @@ const SignUpForm = () => {
             jobTitle: "",
         },
     })
-
-
     const rules = PasswordRules(watch("password"))
     const [showpass, setShowPass] = useState(false)
-    const showpasshandle = () => {
-
-
-        setShowPass(!showpass)
-    }
+    const showpasshandle = () => setShowPass(!showpass)
 
 
     const submitting = async (values) => {
@@ -51,10 +47,13 @@ const SignUpForm = () => {
         }
         try {
             const res = await singUp(payloadData)
-            console.log(res);
+            if (res.ok) {
+                const result = await res.json();
+                setCookie("access_token", result.access_token, 1);
+                setCookie("refresh_token", result.refresh_token, 7);
+            }
+            navegator('/project')
 
-            const result = await res.json();
-            console.log(result);
         } catch (error) {
             console.log(error);
         }
@@ -150,8 +149,6 @@ const SignUpForm = () => {
                         />
                         <InputErrorAlert message={errors.confirmPassword && errors.confirmPassword.message} />
                     </InputLayout>
-
-
                     <div className='p-4 flex flex-col gap-2 bg-surface-highest col-span-2'>
                         <RuleRow
                             icon={rules.length ? "CheckedIcon" : "UncheckedIcon"}
