@@ -11,3 +11,7 @@ export interface SignUpPayload {
     department: JobTitle;
   };
 }
+export interface loginInPayload {
+  email: Email;
+  password: Password;
+}

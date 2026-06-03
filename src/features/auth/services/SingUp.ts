@@ -1,4 +1,4 @@
-import { supabase, baseURL, apikey } from "@/lib/supabase";
+import { baseURL, apikey } from "@/lib/supabase";
 import type { SignUpPayload } from "../schema/types";
 
 export const singUp = async (payload: SignUpPayload) => {

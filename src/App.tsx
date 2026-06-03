@@ -3,6 +3,7 @@ import './App.css'
 import AuthLayout from './layouts/AuthLayout'
 import SignUp from './features/auth/pages/SignUp'
 import MainLayout from './layouts/MainLayout'
+import LogIn from './features/auth/pages/LogIn'
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
 
         <Route element={<AuthLayout />}>
           <Route path="/sign-up" element={<SignUp />} />
-          {/* <Route path="/sign-in" element={<SignIn />} /> */}
+          <Route path="/sign-in" element={<LogIn />} />
           {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
         </Route>
 
