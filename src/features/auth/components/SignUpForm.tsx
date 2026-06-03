@@ -164,11 +164,11 @@ const SignUpForm = () => {
                         />
                     </div>
 
-                    <div className={cn('w-full col-span-2 h-12 flex items-center justify-center  hover:bg-primary-container rounded-sm bg-primary  text-white cursor-pointer p-4', loading && "opacity-50 cursor-not-allowed")}>
+                    <div className={cn('w-full col-span-2 h-12 flex items-center justify-center  hover:bg-primary-container rounded-sm  text-white cursor-pointer', loading && "opacity-50 cursor-not-allowed")}>
                         {!loading ? <Input
                             value={loading ? "Loading creating account" : "Create account"}
                             type='submit'
-                            className='bg-primary cursor-pointer hover:bg-primary-container'
+                            className='bg-primary cursor-pointer hover:bg-primary-container h-full w-full'
                             disabled={loading} />
                             :
                             <div className='flex items-center justify-center gap-2' >
@@ -176,8 +176,9 @@ const SignUpForm = () => {
                                 <p>Loading</p>
                             </div>
                         }
-
                     </div>
+
+
                 </div>
             </form>
             <p className='text-slate-mid'>Already have an account?  <Link className='text-primary font-bold' to="/sign-in">Log in</Link></p>
