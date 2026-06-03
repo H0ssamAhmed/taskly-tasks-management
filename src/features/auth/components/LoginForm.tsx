@@ -19,6 +19,7 @@ const LoginForm = () => {
     const navegator = useNavigate()
     const [loading, setLoading] = useState<boolean>(false)
     const [showpass, setShowPass] = useState(false)
+    const [rememberMe, setRememberMe] = useState(false)
     const [error, setError] = useState("")
     const showpasshandle = () => setShowPass(!showpass)
     const { register, handleSubmit, formState: { errors, } } = useForm({
@@ -28,7 +29,7 @@ const LoginForm = () => {
             password: "",
         },
     })
-
+    const handleRemeberCheck = () => setRememberMe(!rememberMe)
 
     const submitting = async (values) => {
         setLoading(true)
@@ -36,7 +37,6 @@ const LoginForm = () => {
             email: values.email,
             password: values.password,
         }
-
         try {
             const res = await loginIn(payloadData)
             if (!res.ok) {
@@ -44,11 +44,9 @@ const LoginForm = () => {
                 setError(msg)
                 return
             }
-
             const result = await res.json();
-            console.log(result);
-            setCookie("access_token", result.access_token, 1);
-            setCookie("refresh_token", result.refresh_token, 7);
+            setCookie("access_token", result.access_token, rememberMe ? 1 : 30);
+            setCookie("refresh_token", result.refresh_token, rememberMe ? 1 : 30);
             navegator('/')
 
         } catch (error) {
@@ -109,6 +107,9 @@ const LoginForm = () => {
                 <div className='grid grid-cols-2 '>
                     <InputLayout className='flex-row justify-start items-center '>
                         <Input
+                            name='remember-me'
+                            checked={rememberMe}
+                            onChange={handleRemeberCheck}
                             type='checkbox'
                             className='w-fit'
                         />
