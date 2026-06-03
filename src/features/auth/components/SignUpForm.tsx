@@ -69,7 +69,7 @@ const SignUpForm = () => {
                 <h1 className='headline-lg'>Create your workspace</h1>
                 <p className='body-md'>Join the editorial approach to task management.</p>
             </div>
-            <form onSubmit={handleSubmit(submitting)} className='  p-4 w-full grid grid-cols-1 gap-1  '>
+            <form onSubmit={handleSubmit(submitting)} className='p-4 w-full grid grid-cols-1 gap-1  '>
 
                 <InputLayout>
                     <Label
@@ -132,8 +132,7 @@ const SignUpForm = () => {
                                 onClick={showpasshandle}
                                 name='EyeIcon' width={22} height={15} />
                         </InputIcon>
-                        <InputErrorAlert />
-
+                        <InputErrorAlert message={errors.password && errors.password.message} />
                     </InputLayout>
 
                     <InputLayout>
@@ -149,6 +148,7 @@ const SignUpForm = () => {
                         />
                         <InputErrorAlert message={errors.confirmPassword && errors.confirmPassword.message} />
                     </InputLayout>
+
                     <div className='p-4 flex flex-col gap-2 bg-surface-highest col-span-2'>
                         <RuleRow
                             icon={rules.length ? "CheckedIcon" : "UncheckedIcon"}
