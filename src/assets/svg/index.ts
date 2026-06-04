@@ -13,6 +13,9 @@ import RocketIcon from "./rocket.svg";
 import SettingsIcon from "./settings.svg";
 import CheckedIcon from "./checked.svg";
 import UncheckedIcon from "./unchecked.svg";
+import Arrow from "./arrow.svg";
+import Alarm from "./alarm.svg";
+import Lock from "./lock.svg";
 
 export {
   ArchitectureIcon,
@@ -30,6 +33,9 @@ export {
   SettingsIcon,
   CheckedIcon,
   UncheckedIcon,
+  Alarm,
+  Arrow,
+  Lock,
 };
 
 export type IconType =
@@ -47,4 +53,7 @@ export type IconType =
   | "RocketIcon"
   | "SettingsIcon"
   | "CheckedIcon"
-  | "UncheckedIcon";
+  | "UncheckedIcon"
+  | "Alarm"
+  | "Arrow"
+  | "Lock";

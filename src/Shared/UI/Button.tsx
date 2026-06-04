@@ -13,7 +13,7 @@ interface ButtonProps {
 
 const variants: Record<ButtonVariant, string> = {
     primary: "bg-gradient-to-r from-primary to-primary-container text-white hover:bg-primary/90 rounded-xs py-2.5 px-60",
-    secondary: "text-slate-300 opacity-50",
+    secondary: "bg-surface-low opacity-50",
     ghost: "bg-transparent hover:bg-gray-100 text-black",
 };
 
