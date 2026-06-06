@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+
 import type { SignUpPayload } from '../schema/types';
 import { singUp } from '../services/SingUp';
 

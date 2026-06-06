@@ -8,7 +8,7 @@ export interface SignUpPayload {
   password: Password;
   data: {
     name: Name;
-    department: JobTitle;
+    department?: JobTitle;
   };
 }
 export interface loginInPayload {
