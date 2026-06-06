@@ -9,14 +9,3 @@ export const logInSchema = z.object({
 });
 
 export type SignUpFormData = z.infer<typeof logInSchema>;
-
-export const PasswordRules = (passwordValue) => {
-  return {
-    length: passwordValue.length >= 8,
-    mixed:
-      /[A-Z]/.test(passwordValue) &&
-      /[a-z]/.test(passwordValue) &&
-      /\d/.test(passwordValue),
-    special: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(passwordValue),
-  };
-};
