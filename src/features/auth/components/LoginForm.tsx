@@ -31,7 +31,7 @@ const LoginForm = () => {
     })
     const handleRemeberCheck = () => setRememberMe(!rememberMe)
 
-    const submitting = async (values) => {
+    const submitting = async (values: loginInPayload): Promise<void> => {
         setLoading(true)
         const payloadData: loginInPayload = {
             email: values.email,

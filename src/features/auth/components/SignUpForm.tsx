@@ -17,6 +17,14 @@ import { cn } from '@/lib/utils';
 import Spinner from '@/Shared/UI/Spinner'
 import { setCookie } from '../services/session';
 
+interface FormValues {
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+    jobTitle?: string,
+}
+
 const SignUpForm = () => {
     const navegator = useNavigate()
     const [loading, setLoading] = useState<boolean>(false)
@@ -33,9 +41,7 @@ const SignUpForm = () => {
     const rules = PasswordRules(watch("password"))
     const [showpass, setShowPass] = useState(false)
     const showpasshandle = () => setShowPass(!showpass)
-
-
-    const submitting = async (values) => {
+    const submitting = async (values: FormValues): Promise<void> => {
         setLoading(true)
         const payloadData: SignUpPayload = {
             email: values.email,
