@@ -1,30 +1,31 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import InputErrorAlert from './InputErrorAlert'
 import { cn } from '@/lib/utils'
 import { useForm } from 'react-hook-form'
 import Label from '@/Shared/UI/Label'
 import InputLayout from './InputLayout'
 import Input from '@/Shared/UI/Input'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ForgotPasswordSchema } from '../schema/ForgotPassword'
-import type { Email } from '../schema/types'
 import Spinner from '@/Shared/UI/Spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IconDisplayer } from '@/Shared/UI/IconDisplayer'
 import { Button } from '@/Shared/UI/Button'
 
 export const ForgetPasswordForm = () => {
-    const navegator = useNavigate()
+    // const navegator = useNavigate()
     const [loading, setLoading] = useState<boolean>(false)
-    const [error, setError] = useState("")
+    // const [error, setError] = useState("")
     const { register, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(ForgotPasswordSchema),
         defaultValues: {
             email: "",
         },
     })
-    const submitting = async (values) => {
-        // setLoading(true)
+    const submitting = async (values: { email: string }) => {
+        console.log(values);
+
+        setLoading(true)
         // const payloadData: {email:Email} = {
         //     email: values.email,
         // }
@@ -46,6 +47,7 @@ export const ForgetPasswordForm = () => {
         //     setLoading(false)
         // }
 
+        setLoading(false)
     }
     return (
         <div className='p-4'>

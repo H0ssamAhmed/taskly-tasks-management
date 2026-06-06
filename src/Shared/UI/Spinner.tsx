@@ -11,7 +11,7 @@ const Spinner = () => {
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="lucide lucide-loader-icon lucide-loader"
+        className="lucide lucide-loader-icon lucide-loader"
       >
         <path d="M12 2v4" />
         <path d="m16.2 7.8 2.9-2.9" />
