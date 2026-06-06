@@ -42,7 +42,7 @@ export const signUpSchema = z
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 
-export const PasswordRules = (passwordValue) => {
+export const PasswordRules = (passwordValue: string) => {
   return {
     length: passwordValue.length >= 8,
     mixed:
