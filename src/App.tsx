@@ -6,6 +6,7 @@ import MainLayout from './layouts/MainLayout'
 import LogIn from './features/auth/pages/LogIn'
 import ForgetPpassword from './features/auth/pages/ForgetPpassword'
 import { Toaster } from 'react-hot-toast';
+import ResetPassword from './features/auth/pages/ResetPassword'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<LogIn />} />
           <Route path="/forget-password" element={<ForgetPpassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route element={<MainLayout />}>
