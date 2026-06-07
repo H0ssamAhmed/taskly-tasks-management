@@ -1,13 +1,12 @@
-import { baseURL, apikey } from "@/lib/supabase";
+import { baseURL } from "@/lib/supabase";
 import type { SignUpPayload } from "../schema/types";
+import { reqHeader } from "@/utils/constants/Request";
 
 export const singUp = async (payload: SignUpPayload) => {
   const res = await fetch(baseURL + "/auth/v1/signup", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      apikey: apikey,
-    },
+    headers: { ...reqHeader },
+
     body: JSON.stringify(payload),
   });
   if (!res.ok) return res;
