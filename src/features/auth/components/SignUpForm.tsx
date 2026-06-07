@@ -16,6 +16,8 @@ import { singUp } from '../services/SingUp';
 import { cn } from '@/lib/utils';
 import Spinner from '@/Shared/UI/Spinner'
 import { setCookie } from '../../../utils/cookies';
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants/CookieStrings';
+import { ToastError } from '@/utils/Toast';
 
 interface FormValues {
     name: string,
@@ -41,6 +43,8 @@ const SignUpForm = () => {
     const rules = PasswordRules(watch("password"))
     const [showpass, setShowPass] = useState(false)
     const showpasshandle = () => setShowPass(!showpass)
+    const [error, setError] = useState("")
+
     const submitting = async (values: FormValues): Promise<void> => {
         setLoading(true)
         const payloadData: SignUpPayload = {
@@ -53,15 +57,19 @@ const SignUpForm = () => {
         }
         try {
             const res = await singUp(payloadData)
-            if (res.ok) {
-                const result = await res.json();
-                setCookie("access_token", result.access_token, 1);
-                setCookie("refresh_token", result.refresh_token, 7);
+            if (!res.ok) {
+                const { msg }: { msg: string } = await res.json();
+                setError(msg)
+                return
             }
+            const result = await res.json();
+            setCookie(ACCESS_TOKEN_KEY, result.access_token);
+            setCookie(REFRESH_TOKEN_KEY, result.refresh_token);
             navegator('/project')
 
         } catch (error) {
-            console.log(error);
+            ToastError("Network error")
+            console.error(error);
         }
         finally {
             setLoading(false)
@@ -74,6 +82,9 @@ const SignUpForm = () => {
             <div className='pb-10 flex flex-col items-start lg:items-center gap-2 w-full'>
                 <h1 className='headline-lg'>Create your workspace</h1>
                 <p className='body-md'>Join the editorial approach to task management.</p>
+            </div>
+            <div className={cn('bg-error/20 p-2 w-full flex items-center justify-center rounded-xl opacity-0', error && "opacity-100")}>
+                <InputErrorAlert message={error} className='text-center' />
             </div>
             <form onSubmit={handleSubmit(submitting)} className='p-4 w-full grid grid-cols-1 gap-1  '>
 

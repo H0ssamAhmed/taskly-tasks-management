@@ -1,9 +1,18 @@
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants/CookieStrings";
 
-export function setCookie(name: string, value: string, days?: number): void {
-  const expires = "; expires=" + days;
-  document.cookie =
-    name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=Lax";
+export function setCookie(
+  name: string,
+  value: string,
+  days?: number | null,
+): void {
+  let expires = "";
+
+  if (days && typeof days === "number") {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
 export function getCookie(name: string): string | null {

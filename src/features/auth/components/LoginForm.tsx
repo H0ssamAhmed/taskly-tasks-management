@@ -15,6 +15,8 @@ import type { loginInPayload } from '../schema/types'
 import { loginIn } from '../services/logIn'
 import { setCookie } from '../../../utils/cookies'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants/CookieStrings'
+import { ToastError } from '@/utils/Toast'
+
 
 const LoginForm = () => {
     const navegator = useNavigate()
@@ -45,14 +47,16 @@ const LoginForm = () => {
                 setError(msg)
                 return
             }
-            const days = rememberMe && 30
+            const days = rememberMe ? 30 : 0
             const result = await res.json();
             setCookie(ACCESS_TOKEN_KEY, result.access_token, days);
             setCookie(REFRESH_TOKEN_KEY, result.refresh_token, days);
             navegator('/')
 
         } catch (error) {
+            ToastError("Network error")
             console.error(error);
+
         }
         finally {
             setLoading(false)

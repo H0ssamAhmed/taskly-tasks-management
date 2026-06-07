@@ -5,7 +5,7 @@ import SignUp from './features/auth/pages/SignUp'
 import MainLayout from './layouts/MainLayout'
 import LogIn from './features/auth/pages/LogIn'
 import ForgetPpassword from './features/auth/pages/ForgetPpassword'
-
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -29,9 +29,12 @@ function App() {
 
 
 
-
       </Routes>
 
+      <Toaster
+        position="bottom-right"
+        reverseOrder={false}
+      />
     </main>
   )
 }
