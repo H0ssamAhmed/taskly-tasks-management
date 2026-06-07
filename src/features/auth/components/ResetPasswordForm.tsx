@@ -28,6 +28,7 @@ const ResetPasswordForm = () => {
     const [showpass, setShowPass] = useState(false)
     const showpasshandle = () => setShowPass(!showpass)
     const submitting = async (values: ResetPassword): Promise<void> => {
+        setLoading(true)
         const payloadData: ResetPassword = {
             password: values.password,
             confirmPassword: values.confirmPassword,
@@ -51,10 +52,12 @@ const ResetPasswordForm = () => {
         // finally {
 
         // }
+        setLoading(false)
+
 
     }
     return (
-        <div className='p-12 flex flex-col bg-white items-center justify-center gap-2 w-full lg:max-w-xl'>
+        <div className='p-6 flex flex-col bg-white items-center justify-center gap-2 w-full lg:max-w-xl'>
             <div className='pb-10 flex flex-col items-start lg:items-center gap-2 w-full'>
                 <h1 className='headline-lg'>Create a New Password</h1>
                 <p className='body-md'>Create a new, strong password to secure your workstation
@@ -100,7 +103,7 @@ const ResetPasswordForm = () => {
                     <InputErrorAlert message={errors.confirmPassword && errors.confirmPassword.message} />
                 </InputLayout>
 
-                <div className='p-4 grid  grid-cols-2 gap-2 bg-surface-low col-span-2'>
+                <div className='p-4 grid  grid-cols-l md:grid-cols-2 gap-4 bg-surface-low col-span-2'>
                     <RuleRow
                         icon={rules.length ? "CheckedIcon" : "UncheckedIcon"}
                         text='8-64 characters'
@@ -139,7 +142,7 @@ const ResetPasswordForm = () => {
 
 
             </form>
-            <p className='text-slate-mid'>  <Link className='text-primary font-bold' to="/sign-in">Back to sign  in</Link></p>
+            <Link className='text-primary' to="/sign-in">Back to sign  in</Link>
         </div>
     )
 }
