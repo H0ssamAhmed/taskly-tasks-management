@@ -22,7 +22,10 @@ export const resetPasswordSchema = z
   });
 
 export type ResetPassword = z.infer<typeof resetPasswordSchema>;
-
+export interface ResetPasswordPayload {
+  password: string;
+  access_token: string | null;
+}
 export const PasswordRules = (passwordValue: string) => {
   return {
     length: passwordValue.length >= 2 && passwordValue.length <= 64,

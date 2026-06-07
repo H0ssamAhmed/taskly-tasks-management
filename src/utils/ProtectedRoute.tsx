@@ -12,11 +12,16 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const type = params.get('type');
   const urlToken = params.get('access_token');
 
-  if (type === 'recovery' && urlToken) {
+  const error = location.href.includes('access_denied');
+
+  if ((type === 'recovery' && urlToken)) {
     return <Navigate to={`/reset-password?access_token=${urlToken}`} replace />
   }
+  if (error) {
+    return <Navigate to={`/reset-password`} replace />
+  }
   if (!access_token) {
-    return <Navigate to="/sign-in" replace />;
+    return <Navigate to="/sign-in" />;
   }
 
 

@@ -6,15 +6,21 @@ import InputErrorAlert from './InputErrorAlert'
 import { cn } from '@/lib/utils'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PasswordRules, resetPasswordSchema, type ResetPassword } from '../schema/ResetPassword'
+import { PasswordRules, resetPasswordSchema, type ResetPassword, type ResetPasswordPayload } from '../schema/ResetPassword'
 
 import InputIcon from './InputIcon'
 import { IconDisplayer } from '@/Shared/UI/IconDisplayer'
 import Spinner from '@/Shared/UI/Spinner'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import RuleRow from './RuleRow'
+import { resetPassword } from '../services/ResetPassoword'
+import { ToastError, ToastSuccess } from '@/utils/Toast'
+import { ACCESS_TOKEN_KEY } from '@/utils/constants/CookieStrings'
 
 const ResetPasswordForm = () => {
+    const [searchParams] = useSearchParams()
+    const navigator = useNavigate()
+
     const [loading, setLoading] = useState(false)
     const { register, handleSubmit, watch, formState: { errors } } = useForm({
         resolver: zodResolver(resetPasswordSchema),
@@ -24,35 +30,43 @@ const ResetPasswordForm = () => {
         }
     })
     const rules = PasswordRules(watch("password"))
+    const urlToken = searchParams.get(ACCESS_TOKEN_KEY);
 
     const [showpass, setShowPass] = useState(false)
     const showpasshandle = () => setShowPass(!showpass)
     const submitting = async (values: ResetPassword): Promise<void> => {
         setLoading(true)
-        const payloadData: ResetPassword = {
+        const payloadData: ResetPasswordPayload = {
             password: values.password,
-            confirmPassword: values.confirmPassword,
+            access_token: urlToken
         }
         console.log(payloadData);
+        resetPassword(payloadData)
+        try {
+            const res = await resetPassword(payloadData)
+            if (!res.ok) {
+                const { msg }: { msg: string } = await res.json();
+                ToastError(msg || "Network error")
 
-        // try {
-        //     const res = await singUp(payloadData)
-        //     if (!res.ok) {
-        //         const { msg }: { msg: string } = await res.json();
+                return
+            }
+            const result = await res.json();
+            ToastSuccess("Your password has been updated successfully. You can now log in")
+            console.log(result);
+            setTimeout(() => {
+                navigator('/sign-in')
+            }, 3000);
 
-        //         return
-        //     }
-        //     const result = await res.json();
 
 
-        // } catch (error) {
-        //     ToastError("Network error")
-        //     console.error(error);
-        // }
-        // finally {
 
-        // }
-        setLoading(false)
+        } catch (error) {
+            ToastError("Network error")
+            console.error(error);
+        }
+        finally {
+            setLoading(false)
+        }
 
 
     }
