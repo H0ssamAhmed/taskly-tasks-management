@@ -33,6 +33,8 @@ const ResetPasswordForm = () => {
             password: values.password,
             confirmPassword: values.confirmPassword,
         }
+        console.log(payloadData);
+
         // try {
         //     const res = await singUp(payloadData)
         //     if (!res.ok) {
