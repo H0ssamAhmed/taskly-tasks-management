@@ -15,7 +15,7 @@ import type { SignUpPayload } from '../schema/types';
 import { singUp } from '../services/SingUp';
 import { cn } from '@/lib/utils';
 import Spinner from '@/Shared/UI/Spinner'
-import { setCookie } from '../services/session';
+import { setCookie } from '../../../utils/cookies';
 
 interface FormValues {
     name: string,

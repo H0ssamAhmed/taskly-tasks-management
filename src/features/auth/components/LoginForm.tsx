@@ -13,7 +13,8 @@ import { cn } from '@/lib/utils'
 import Spinner from '@/Shared/UI/Spinner'
 import type { loginInPayload } from '../schema/types'
 import { loginIn } from '../services/logIn'
-import { setCookie } from '../services/session'
+import { setCookie } from '../../../utils/cookies'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants/CookieStrings'
 
 const LoginForm = () => {
     const navegator = useNavigate()
@@ -44,9 +45,10 @@ const LoginForm = () => {
                 setError(msg)
                 return
             }
+            const days = rememberMe && 30
             const result = await res.json();
-            setCookie("access_token", result.access_token, rememberMe ? 1 : 30);
-            setCookie("refresh_token", result.refresh_token, rememberMe ? 1 : 30);
+            setCookie(ACCESS_TOKEN_KEY, result.access_token, days);
+            setCookie(REFRESH_TOKEN_KEY, result.refresh_token, days);
             navegator('/')
 
         } catch (error) {
