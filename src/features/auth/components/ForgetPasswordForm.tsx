@@ -11,11 +11,15 @@ import Spinner from '@/Shared/UI/Spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IconDisplayer } from '@/Shared/UI/IconDisplayer'
 import { Button } from '@/Shared/UI/Button'
+import { passwordReset } from '../services/ForgerPassword'
+import type { Email } from '../schema/types'
+import { ToastError } from '@/utils/Toast'
 
 export const ForgetPasswordForm = () => {
     // const navegator = useNavigate()
     const [loading, setLoading] = useState<boolean>(false)
-    // const [error, setError] = useState("")
+    const [isEmailSent, setIsEmailSent] = useState(false)
+    const [countValue, setCountValue] = useState("05:00")
     const { register, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(ForgotPasswordSchema),
         defaultValues: {
@@ -23,34 +27,61 @@ export const ForgetPasswordForm = () => {
         },
     })
     const submitting = async (values: { email: string }) => {
-        console.log(values);
+        startCountdown(5);
 
         setLoading(true)
-        // const payloadData: {email:Email} = {
-        //     email: values.email,
-        // }
-        // try {
-        //     const res = await loginIn(payloadData)
-        //     if (!res.ok) {
-        //         const { msg }: { msg: string } = await res.json();
-        //         setError(msg)
-        //         return
-        //     }
-        //     const result = await res.json();
+        const payloadData: { email: Email } = {
+            email: values.email,
+        }
+        try {
+            const res = await passwordReset(payloadData)
+            if (!res.ok) {
+                const { msg }: { msg: string } = await res.json();
+                ToastError(msg || "Network error")
+                return
+            }
+            await res.json();
+            setIsEmailSent(true)
 
-        //     navegator('/')
 
-        // } catch (error) {
-        //     console.error(error);
-        // }
-        // finally {
-        //     setLoading(false)
-        // }
 
+            // navegator('/')
+
+        } catch (error) {
+            ToastError("Network error")
+            console.error(error);
+            setIsEmailSent(false)
+
+
+        }
+        finally {
+            setLoading(false)
+        }
         setLoading(false)
     }
+
+    function startCountdown(minutes: number) {
+        let totalSeconds = minutes * 60;
+
+        const intervalId = setInterval(() => {
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+
+            const NewcountValue = (`${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`);
+            setCountValue(NewcountValue)
+
+            totalSeconds--;
+            if (totalSeconds < 0) {
+                clearInterval(intervalId);
+                setIsEmailSent(false)
+
+            }
+        }, 1000);
+    }
+
+    // Start a 5-minute countdown
     return (
-        <div className='p-4'>
+        <div className='p-4 max-w-lg'>
             <div className='p-8 flex flex-col bg-white items-center justify-center gap-2 w-full lg:max-w-xl'>
                 <div className='w-12 h-12 flex items-center justify-center lg:hidden bg-surface-low rounded-2xl mb-6 '>
                     <IconDisplayer name='Lock' width={20} height={20} className='my-8' />
@@ -81,7 +112,7 @@ export const ForgetPasswordForm = () => {
                     <div className={cn('w-full col-span-2 h-12 flex items-center justify-center  hover:bg-primary-container rounded-sm  text-white cursor-pointer',
                         loading && "opacity-50 cursor-not-allowed")}>
                         {!loading ? <Input
-                            value={loading ? "Loggin in" : "Log In"}
+                            value={loading ? "Loading" : "Send Reset Link"}
                             type='submit'
                             className='bg-primary cursor-pointer hover:bg-primary-container h-full w-full'
                             disabled={loading} />
@@ -101,16 +132,16 @@ export const ForgetPasswordForm = () => {
                 <div className='p-8 w-full opacity-20 hidden lg:block'>
                     <hr />
                 </div>
-                <LgResendBox />
+                {isEmailSent && <LgResendBox count={countValue} />}
             </div>
-            <SmResendBox />
+            {isEmailSent && <SmResendBox count={countValue} />}
 
         </div>
 
     )
 }
 
-const LgResendBox = () => {
+const LgResendBox = ({ count }: { count: string }) => {
     return (
         <div className='hidden lg:block'>
             <div className=' py-2 px-8 bg-success/20 flex items-start justify-center gap-2'>
@@ -122,14 +153,14 @@ const LgResendBox = () => {
                 <Button className='w-full' variant="secondary">
                     <IconDisplayer width={16} height={16} name='Alarm' className='w-4 h-4 mx-2' />
 
-                    Resend in 05:00</Button>
+                    Resend in {count}</Button>
             </div>
         </div>
 
 
     )
 }
-const SmResendBox = () => {
+const SmResendBox = ({ count }: { count: string }) => {
     return (
         <div className='block lg:hidden py-8 w-full'>
             <div className='py-2 px-8 bg-success/20 flex flex-col items-start justify-center gap-4'>
@@ -144,7 +175,7 @@ const SmResendBox = () => {
                     <p className="body-md">Didn't receive the email?</p>
                     <Button className='text-sm text-primary' variant="ghost">
                         <IconDisplayer width={16} height={16} name='Alarm' className='w-4 h-4 mx-2' />
-                        Resend in 05:00
+                        Resend in {count}
                     </Button>
                 </div>
             </div>
