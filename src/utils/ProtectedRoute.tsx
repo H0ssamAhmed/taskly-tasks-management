@@ -11,9 +11,6 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const params = new URLSearchParams(hash);
   const type = params.get('type');
   const urlToken = params.get('access_token');
-  console.log(type);
-  console.log(access_token);
-  console.log(urlToken);
 
   if (type === 'recovery' && urlToken) {
     return <Navigate to={`/reset-password?access_token=${urlToken}`} replace />
