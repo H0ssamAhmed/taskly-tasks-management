@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children?: ReactNode;
     variant?: ButtonVariant;
     size?: ButtonSize;
@@ -28,6 +28,7 @@ export function Button({
     variant = "primary",
     size = "md",
     className,
+    ...props
 }: ButtonProps) {
     return (
         <button
@@ -37,6 +38,7 @@ export function Button({
                 sizes[size],
                 className
             )}
+            {...props}
         >
             {children}
         </button>
