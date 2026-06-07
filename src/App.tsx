@@ -28,7 +28,7 @@ function App() {
 
     const token = getAccessToken();
     if (!token) {
-      navigate('/login');
+      navigate('/sign-in');
     }
   }, [navigate]);
 
