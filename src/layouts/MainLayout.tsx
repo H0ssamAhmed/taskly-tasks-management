@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
-
     return (
         <div className=" mx-auto">
             <header className="flex px-6 py-6 items-center justify-start gap-2">

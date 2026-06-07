@@ -10,6 +10,7 @@ import ResetPassword from './features/auth/pages/ResetPassword'
 import { ProtectedRoute } from './utils/ProtectedRoute'
 
 
+
 function App() {
 
 
@@ -25,7 +26,11 @@ function App() {
 
         <Route
           path='/'
-          element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }>
           <Route path='/project' element={<h1>project page Coming sonn</h1>} />
         </Route>
       </Routes>

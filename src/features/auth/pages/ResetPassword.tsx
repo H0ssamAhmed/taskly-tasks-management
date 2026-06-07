@@ -7,9 +7,7 @@ import InvalidLink from '../components/InvalidLink';
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get(ACCESS_TOKEN_KEY);
-    const type = searchParams.get('type');
-
-    const isValid = type === 'recovery' && token !== null;
+    const isValid = token !== null;
 
     if (!isValid) return <InvalidLink />;
 
