@@ -1,14 +1,28 @@
 import { getCurrentUser } from "@/features/user/services/userApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { UserType } from "../schema/types";
 
 export const fetchCuurentUser = createAsyncThunk("user/fetchUser", async () => {
   const response = await getCurrentUser();
   return response;
 });
-
+interface AuthState {
+  data: UserType | null;
+  status: "idle" | "loading" | "success" | "error";
+  loading: boolean;
+  IsError: boolean;
+  error: string | null;
+}
+const initialState: AuthState = {
+  data: null,
+  status: "idle",
+  loading: false,
+  IsError: false,
+  error: null,
+};
 const userSlice = createSlice({
   name: "currentUser",
-  initialState: { data: null, loading: false, error: false },
+  initialState,
   reducers: {
     setUser: (state, action) => {
       state.data = action.payload;
@@ -16,16 +30,20 @@ const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchCuurentUser.pending, (state) => {
+      state.status = "loading";
       state.loading = true;
-      state.error = false;
+      state.IsError = false;
     });
     builder.addCase(fetchCuurentUser.fulfilled, (state, action) => {
+      state.status = "success";
       state.data = action.payload;
       state.loading = false;
     });
     builder.addCase(fetchCuurentUser.rejected, (state) => {
+      state.status = "error";
       state.loading = false;
-      state.error = true;
+      state.IsError = true;
+      state.error = "error";
     });
   },
 });

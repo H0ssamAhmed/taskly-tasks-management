@@ -24,7 +24,7 @@ export const getCurrentUser = async () => {
     setCookie(REFRESH_TOKEN_KEY, newTokens.refresh_token);
     return newTokens.user;
   }
-  return result;
+  return result.user_metadata;
 };
 export const refreshToken = async () => {
   const refresh_token = getRefreshToken();
