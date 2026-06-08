@@ -18,7 +18,7 @@ const Header = ({ handleOpenNavMobile }: Props) => {
                 </div>
                 <Link to={"/"} className="font-bold text-xl">Taskly</Link>
                 <div className='flex items-center justify-end ms-auto  gap-4'>
-                    <div className='text-center'>
+                    <div className='text-center hidden lg:block'>
                         <h3 className='title-md'>Hossam Ahmed</h3>
                         <p className='text-primary font-bold'>Front end developer</p>
                     </div>
