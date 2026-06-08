@@ -3,25 +3,25 @@ import { NavLinkk } from '@/utils/constants/SideNav'
 import SideLink from './SideLink';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import Logout from './Logout';
+import LogoutBtn from './Logout';
 
 
 const SideNav = () => {
     const [isCollapse, setIsCollapse] = useState(false)
     const changeCollapse = () => setIsCollapse(!isCollapse)
     return (
-        <nav className={cn('bg-surface-highest h-screen w-3xs p-2 transition-all',
+        <nav className={cn('bg-surface-highest  h-screen w-3xs p-2 transition-all',
             isCollapse && "w-16"
         )}>
             <div className='flex flex-col h-full'>
                 <Logo isCollapse={isCollapse} />
                 <div className='flex flex-col gap-2'>
-                    {NavLinkk.map((link) => <SideLink {...link}
+                    {NavLinkk.map((link, idx) => <SideLink key={idx + link.path} {...link}
                         isCollapse={isCollapse}
                     />)}
                 </div>
-                <div className="p-4 mt-auto border-t border-sidebar-border">
-                    <Logout
+                <div className="mt-auto broder-1 border-t border-slate-light">
+                    <LogoutBtn
                         isCollapse={isCollapse}
                         onclick={changeCollapse}
                     />

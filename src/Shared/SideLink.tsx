@@ -9,11 +9,11 @@ const SideLink = (Props: Props) => {
     const { pathname } = useLocation()
     return (
         <Link to={path}>
-            <div className={cn('flex items-center px-4 py-4 justify-start gap-4 rounded-sm',
+            <div className={cn('flex items-center px-4 py-4 hover:bg-surface-low justify-start gap-4 rounded-sm',
                 pathname == path && "bg-white"
 
             )}>
-                <img src={icon} alt="" />
+                <img src={icon} alt="" className='w-4 h-4' />
                 {!isCollapse && <p>{text}</p>}
             </div>
         </Link>

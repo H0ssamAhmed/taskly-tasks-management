@@ -31,7 +31,7 @@ function App() {
               <MainLayout />
             </ProtectedRoute>
           }>
-          <Route path='/projects' element={<h1>projects'</h1>} />
+          <Route path='/' element={<h1>projects</h1>} />
           <Route path='/project-epic' element={<h1>project-epic</h1>} />
           <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
           <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
