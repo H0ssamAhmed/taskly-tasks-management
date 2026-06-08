@@ -28,7 +28,7 @@ export const signUpSchema = z
       ),
 
     confirmPassword: z.string(),
-    jobTitle: z
+    department: z
       .string()
       .trim()
       .max(100, "Job title must not exceed 100 characters")

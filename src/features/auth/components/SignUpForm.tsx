@@ -24,7 +24,7 @@ interface FormValues {
     email: string,
     password: string,
     confirmPassword: string,
-    jobTitle?: string,
+    department?: string,
 }
 
 const SignUpForm = () => {
@@ -37,7 +37,7 @@ const SignUpForm = () => {
             email: "",
             password: "",
             confirmPassword: "",
-            jobTitle: "",
+            department: "",
         },
     })
     const rules = PasswordRules(watch("password"))
@@ -47,12 +47,14 @@ const SignUpForm = () => {
 
     const submitting = async (values: FormValues): Promise<void> => {
         setLoading(true)
+        console.log(values.department);
+
         const payloadData: SignUpPayload = {
             email: values.email,
             password: values.password,
             data: {
                 name: values.name,
-                department: values.jobTitle
+                department: values.department
             },
         }
         try {
@@ -65,7 +67,7 @@ const SignUpForm = () => {
             const result = await res.json();
             setCookie(ACCESS_TOKEN_KEY, result.access_token);
             setCookie(REFRESH_TOKEN_KEY, result.refresh_token);
-            navegator('/project')
+            navegator('/')
 
         } catch (error) {
             ToastError("Network error")
@@ -120,16 +122,15 @@ const SignUpForm = () => {
 
                 <InputLayout>
                     <Label
-                        htmlFor='title'
+                        htmlFor='department'
                         text='Job Title (Optional)'
                     />
                     <Input
-                        {...register("jobTitle")}
+                        {...register("department")}
                         type='text'
-                        name='title'
+                        name='department'
                         placeholder='eg. Project Manager'
                     />
-                    <InputErrorAlert message={errors.jobTitle && errors.jobTitle.message} />
 
                 </InputLayout>
                 <div className='flex flex-col lg:grid grid-cols-1  gap-4'>
