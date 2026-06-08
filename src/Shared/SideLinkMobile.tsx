@@ -4,12 +4,12 @@ import { Link, useLocation } from 'react-router-dom'
 interface Props extends NavLink {
     isCollapse?: boolean
 }
-const SideLink = (Props: Props) => {
+const SideLinkMobile = (Props: Props) => {
     const { path, icon, text, isCollapse } = Props
     const { pathname } = useLocation()
     return (
         <Link to={path}>
-            <div className={cn('flex  items-center px-4 py-4 hover:bg-surface-low justify-start gap-4 rounded-sm',
+            <div className={cn('flex  items-center justify-center flex-col px-2 py-2 hover:bg-surface-low gap-1 rounded-sm',
                 pathname == path && "bg-white"
 
             )}>
@@ -20,4 +20,4 @@ const SideLink = (Props: Props) => {
     )
 }
 
-export default SideLink
+export default SideLinkMobile

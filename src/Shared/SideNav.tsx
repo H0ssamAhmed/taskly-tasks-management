@@ -1,22 +1,24 @@
 import Logo from '@/Shared/Logo';
-import { NavLinkk } from '@/utils/constants/SideNav'
+import { NavLinks } from '@/utils/constants/SideNav'
 import SideLink from './SideLink';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import LogoutBtn from './Logout';
 
 
-const SideNav = () => {
+const SideNav = ({ isNavMobileOpen }: { isNavMobileOpen: boolean }) => {
     const [isCollapse, setIsCollapse] = useState(false)
     const changeCollapse = () => setIsCollapse(!isCollapse)
     return (
-        <nav className={cn('bg-surface-highest  h-screen w-3xs p-2 transition-all',
-            isCollapse && "w-16"
+        <nav className={cn('bg-surface-highest h-screen w-3xs p-2 transition-all z-30 -ml-64 lg:ml-0 ',
+            isCollapse && "w-16",
+            isNavMobileOpen && "ml-0 absolute"
+
         )}>
             <div className='flex flex-col h-full'>
                 <Logo isCollapse={isCollapse} />
                 <div className='flex flex-col gap-2'>
-                    {NavLinkk.map((link, idx) => <SideLink key={idx + link.path} {...link}
+                    {NavLinks.map((link, idx) => <SideLink key={idx + link.path} {...link}
                         isCollapse={isCollapse}
                     />)}
                 </div>

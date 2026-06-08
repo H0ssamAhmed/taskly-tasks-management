@@ -20,7 +20,7 @@ function LogoutBtn({ isCollapse, onclick }: Props) {
     }
     return (
         <div className="w-full">
-            <div className={cn('flex cursor-pointer items-center px-4 py-4 justify-start gap-4 rounded-sm hover:bg-surface-low transition-all',
+            <div className={cn('hidden lg:flex cursor-pointer items-center px-4 py-4 justify-start gap-4 rounded-sm hover:bg-surface-low transition-all',
             )}
                 onClick={onclick}
             >
