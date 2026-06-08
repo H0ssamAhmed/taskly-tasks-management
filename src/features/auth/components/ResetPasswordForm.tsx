@@ -40,19 +40,16 @@ const ResetPasswordForm = () => {
             password: values.password,
             access_token: urlToken
         }
-        console.log(payloadData);
         resetPassword(payloadData)
         try {
             const res = await resetPassword(payloadData)
             if (!res.ok) {
                 const { msg }: { msg: string } = await res.json();
                 ToastError(msg || "Network error")
-
                 return
             }
-            const result = await res.json();
+            await res.json();
             ToastSuccess("Your password has been updated successfully. You can now log in")
-            console.log(result);
             setTimeout(() => {
                 navigator('/sign-in')
             }, 3000);

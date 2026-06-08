@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
-    const [isNavMobileOpen, setIsNavMobileOpen] = useState(true)
+    const [isNavMobileOpen, setIsNavMobileOpen] = useState(false)
     const handleOpenNavMobile = () => {
         setIsNavMobileOpen(!isNavMobileOpen); console.log(isNavMobileOpen);
     }

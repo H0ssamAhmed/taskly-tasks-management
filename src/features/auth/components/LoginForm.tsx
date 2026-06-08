@@ -52,7 +52,7 @@ const LoginForm = () => {
             setCookie(ACCESS_TOKEN_KEY, result.access_token, days);
             setCookie(REFRESH_TOKEN_KEY, result.refresh_token, days);
             navegator('/')
-            console.log('done');
+
 
 
         } catch (error) {

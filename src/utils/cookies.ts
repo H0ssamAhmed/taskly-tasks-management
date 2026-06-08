@@ -1,3 +1,4 @@
+import { refreshToken } from "@/features/user/services/userApi";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants/CookieStrings";
 
 export function setCookie(
@@ -31,6 +32,9 @@ export function removeCookie(name: string): void {
 
 export const getAccessToken = (): string | null => {
   return getCookie(ACCESS_TOKEN_KEY);
+};
+export const getRefreshToken = (): string | null => {
+  return getCookie(REFRESH_TOKEN_KEY);
 };
 
 export const getREFRESH_TOKEN_KEY = (): string | null => {

@@ -1,11 +1,29 @@
 import { Burger } from "@/assets/svg"
+import { getCurrentUser } from "@/features/user/services/userApi"
 import type { SetStateAction } from "react"
-import React from "react"
+import React, { use, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 interface Props {
     handleOpenNavMobile: React.Dispatch<SetStateAction<boolean>>
 }
 const Header = ({ handleOpenNavMobile }: Props) => {
+    const [avatarLetters, setAvatarLetters] = useState("")
+    const [userMetaData, setUserMetaData] = useState({})
+    const userData = async () => {
+        const user = await getCurrentUser()
+        if (user) {
+            console.log(user);
+            setUserMetaData(user.user_metadata)
+            const { name } = user.user_metadata
+            const first = name.split(" ")[0][0]
+            const second = name.split(" ").length == 2 ? name.split(" ")[1][0] : name.split(" ")[0][1]
+            setAvatarLetters(first + second)
+        }
+
+    }
+    useEffect(() => {
+        userData()
+    }, [])
 
     return (
         <header className='w-full justify-between bg-background broder-1 border-b border-slate-light  p-4'>
@@ -19,11 +37,11 @@ const Header = ({ handleOpenNavMobile }: Props) => {
                 <Link to={"/"} className="font-bold text-xl lg:hidden block">Taskly</Link>
                 <div className='flex items-center justify-end ms-auto  gap-4'>
                     <div className='text-center hidden lg:block'>
-                        <h3 className='title-md'>Hossam Ahmed</h3>
-                        <p className='text-primary font-bold'>Front end developer</p>
+                        <h3 className='title-md'>{userMetaData.name}</h3>
+                        <p className='text-primary font-bold'>{userMetaData.department}</p>
                     </div>
                     <div className='bg-primary-container font-semibold w-10 h-10 rounded-sm text-2xl flex items-center justify-center'>
-                        HA
+                        {avatarLetters}
                     </div>
                 </div>
             </div>

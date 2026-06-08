@@ -11,7 +11,6 @@ function LogoutBtn({ isCollapse, onclick }: Props) {
     const logOut = () => {
         removeTokens()
         const token = getAccessToken()
-        console.log(token);
 
         if (!token) {
 
