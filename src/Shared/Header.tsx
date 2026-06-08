@@ -12,11 +12,11 @@ const Header = ({ handleOpenNavMobile }: Props) => {
             <div className=" flex items-center justify-between w-full">
                 <div
                     onClick={() => handleOpenNavMobile(false)}
-                    className=" lg:hidden flex items-center justify-start me-2 hover:bg-surface-highest  cursor-pointer p-2 rounded-sm"
+                    className="flex items-center justify-start me-2 hover:bg-surface-highest  cursor-pointer p-2 rounded-sm"
                 >
                     <img src={Burger} className="w-4.5 h-3" />
                 </div>
-                <Link to={"/"} className="font-bold text-xl">Taskly</Link>
+                <Link to={"/"} className="font-bold text-xl lg:hidden block">Taskly</Link>
                 <div className='flex items-center justify-end ms-auto  gap-4'>
                     <div className='text-center hidden lg:block'>
                         <h3 className='title-md'>Hossam Ahmed</h3>
