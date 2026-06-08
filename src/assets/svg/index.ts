@@ -16,6 +16,13 @@ import UncheckedIcon from "./unchecked.svg";
 import Arrow from "./arrow.svg";
 import Alarm from "./alarm.svg";
 import Lock from "./lock.svg";
+import Exclamation from "./exclamation.svg";
+import File from "./file.svg";
+import List from "./list.svg";
+import Person from "./person.svg";
+import Tree from "./tree.svg";
+import CollapseArrow from "./l-arrow.svg";
+import Logout from "./logout.svg";
 
 export {
   ArchitectureIcon,
@@ -36,6 +43,13 @@ export {
   Alarm,
   Arrow,
   Lock,
+  Exclamation,
+  File,
+  List,
+  Person,
+  Tree,
+  CollapseArrow,
+  Logout,
 };
 
 export type IconType =
@@ -56,4 +70,11 @@ export type IconType =
   | "UncheckedIcon"
   | "Alarm"
   | "Arrow"
-  | "Lock";
+  | "Lock"
+  | "File"
+  | "Tree"
+  | "List"
+  | "Person"
+  | "Exclamation"
+  | "CollapseArrow"
+  | "Logout";

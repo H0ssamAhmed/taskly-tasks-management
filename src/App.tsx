@@ -31,7 +31,11 @@ function App() {
               <MainLayout />
             </ProtectedRoute>
           }>
-          <Route path='/project' element={<h1>project page Coming sonn</h1>} />
+          <Route path='/projects' element={<h1>projects'</h1>} />
+          <Route path='/project-epic' element={<h1>project-epic</h1>} />
+          <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
+          <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
+          <Route path='/project-details' element={<h1>project-details</h1>} />
         </Route>
       </Routes>
       <Toaster
