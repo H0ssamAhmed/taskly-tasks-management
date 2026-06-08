@@ -15,3 +15,12 @@ export interface loginInPayload {
   email: Email;
   password: Password;
 }
+
+export interface UserType {
+  department: string;
+  email: string;
+  email_verified: boolean;
+  name: string;
+  phone_verified: boolean;
+  sub: string;
+}

@@ -8,41 +8,43 @@ import ForgetPpassword from './features/auth/pages/ForgetPpassword'
 import { Toaster } from 'react-hot-toast';
 import ResetPassword from './features/auth/pages/ResetPassword'
 import { ProtectedRoute } from './utils/ProtectedRoute'
-
+import { Provider } from "react-redux";
+import { store } from './store/store'
 
 
 function App() {
-
-
   return (
-    <main className='min-h-screen bg-background'>
-      <Routes>
-        <Route element={<AuthLayout />}>
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/sign-in" element={<LogIn />} />
-          <Route path="/forget-password" element={<ForgetPpassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-        </Route>
+    <Provider store={store}>
+      <main className='min-h-screen bg-background'>
+        <Routes>
+          <Route element={<AuthLayout />}>
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-in" element={<LogIn />} />
+            <Route path="/forget-password" element={<ForgetPpassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Route>
 
-        <Route
-          path='/'
-          element={
-            <ProtectedRoute>
-              <MainLayout />
-            </ProtectedRoute>
-          }>
-          <Route path='/' element={<h1>projects</h1>} />
-          <Route path='/project-epic' element={<h1>project-epic</h1>} />
-          <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
-          <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
-          <Route path='/project-details' element={<h1>project-details</h1>} />
-        </Route>
-      </Routes>
-      <Toaster
-        position="bottom-right"
-        reverseOrder={false}
-      />
-    </main>
+          <Route
+            path='/'
+            element={
+              <ProtectedRoute>
+                <MainLayout />
+              </ProtectedRoute>
+            }>
+            <Route path='/' element={<h1>projects</h1>} />
+            <Route path='/project-epic' element={<h1>project-epic</h1>} />
+            <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
+            <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
+            <Route path='/project-details' element={<h1>project-details</h1>} />
+          </Route>
+        </Routes>
+        <Toaster
+          position="bottom-right"
+          reverseOrder={false}
+        />
+      </main>
+    </Provider>
+
   )
 }
 
