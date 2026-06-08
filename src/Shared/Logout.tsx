@@ -1,22 +1,12 @@
-import { CollapseArrow, Logout } from "@/assets/svg/index.ts"
+import { CollapseArrow } from "@/assets/svg/index.ts"
 import { cn } from "@/lib/utils"
-import { getAccessToken, removeTokens } from "@/utils/cookies"
-import { useNavigate } from "react-router-dom"
+import LogOutBtn from "./LogOutBtn"
 interface Props {
     isCollapse: boolean,
     onclick: () => void
 }
 function LogoutBtn({ isCollapse, onclick }: Props) {
-    const navigator = useNavigate()
-    const logOut = () => {
-        removeTokens()
-        const token = getAccessToken()
 
-        if (!token) {
-
-            navigator("/sign-in")
-        }
-    }
     return (
         <div className="w-full">
             <div className={cn('hidden lg:flex cursor-pointer items-center px-4 py-4 justify-start gap-4 rounded-sm hover:bg-surface-low transition-all',
@@ -26,12 +16,7 @@ function LogoutBtn({ isCollapse, onclick }: Props) {
                 <img src={CollapseArrow} alt="" className={cn("w-4 h-4 transition-all", isCollapse && "rotate-180")} />
                 {!isCollapse && <p>Collapse</p>}
             </div>
-            <div
-                onClick={logOut}
-                className={cn('flex cursor-pointer items-center text-red-700 px-4 py-4 justify-start gap-4 rounded-sm hover:bg-surface-low transition-all')}>
-                <img src={Logout} alt="" className={cn("w-4 h-4 transition-all")} />
-                {!isCollapse && <p>Logout</p>}
-            </div>
+            <LogOutBtn isCollapse={isCollapse} />
         </div>
     )
 }
