@@ -1,15 +1,18 @@
+import { RedirectIfLoggedIn } from "@/utils/AuthRouteRedirection";
 import Logo from "../Shared/Logo"
 import { Outlet } from "react-router-dom";
 
 
 const AuthLayout = () => {
     return (
-        <div className=" mx-auto">
-            <Logo />
-            <div className="flex flex-col items-center justify-center">
-                <Outlet />
+        <RedirectIfLoggedIn>
+            <div className=" mx-auto">
+                <Logo />
+                <div className="flex flex-col items-center justify-center">
+                    <Outlet />
+                </div>
             </div>
-        </div>
+        </RedirectIfLoggedIn>
     )
 }
 

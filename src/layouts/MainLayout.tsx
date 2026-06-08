@@ -2,6 +2,7 @@ import Header from '@/Shared/Header'
 import SideLinkMobile from '@/Shared/SideLinkMobile'
 import SideNav from '@/Shared/SideNav'
 import { NavLinksMobil } from '@/utils/constants/SideNav'
+import { ProtectedRoute } from '@/utils/ProtectedRoute'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
@@ -11,6 +12,8 @@ const MainLayout = () => {
         setIsNavMobileOpen(!isNavMobileOpen); console.log(isNavMobileOpen);
     }
     return (
+        // <ProtectedRoute>
+
         <div className="mx-auto flex relative">
             {isNavMobileOpen && <div onClick={handleOpenNavMobile} className='w-screen z-20 h-screen bg-black/50 absolute'></div>}
             <SideNav isNavMobileOpen={isNavMobileOpen} />
@@ -26,6 +29,8 @@ const MainLayout = () => {
                 />)}
             </div>
         </div>
+        // </ProtectedRoute>
+
     )
 }
 

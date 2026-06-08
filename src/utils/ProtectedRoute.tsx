@@ -13,10 +13,6 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const type = params.get('type');
   const urlToken = params.get('access_token');
   const { authError } = useUsers()
-
-
-
-
   const error = location.href.includes('access_denied');
 
   if ((type === 'recovery' && urlToken)) {

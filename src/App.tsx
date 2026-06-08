@@ -26,11 +26,7 @@ function App() {
 
           <Route
             path='/'
-            element={
-              <ProtectedRoute>
-                <MainLayout />
-              </ProtectedRoute>
-            }>
+            element={<MainLayout />}>
             <Route path='/' element={<h1>projects</h1>} />
             <Route path='/project-epic' element={<h1>project-epic</h1>} />
             <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
