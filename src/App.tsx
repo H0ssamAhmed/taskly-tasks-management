@@ -7,7 +7,6 @@ import LogIn from './features/auth/pages/LogIn'
 import ForgetPpassword from './features/auth/pages/ForgetPpassword'
 import { Toaster } from 'react-hot-toast';
 import ResetPassword from './features/auth/pages/ResetPassword'
-import { ProtectedRoute } from './utils/ProtectedRoute'
 import { Provider } from "react-redux";
 import { store } from './store/store'
 

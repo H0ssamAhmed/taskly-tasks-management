@@ -2,7 +2,6 @@ import Header from '@/Shared/Header'
 import SideLinkMobile from '@/Shared/SideLinkMobile'
 import SideNav from '@/Shared/SideNav'
 import { NavLinksMobil } from '@/utils/constants/SideNav'
-import { ProtectedRoute } from '@/utils/ProtectedRoute'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
