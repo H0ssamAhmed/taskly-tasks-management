@@ -1,7 +1,4 @@
 
-import type { SignUpPayload } from '../schema/types';
-import { singUp } from '../services/SingUp';
-
 export const useAuth = () => {
     // const [session, setSession] = useState<Session | null>(null);
     // const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -11,14 +8,14 @@ export const useAuth = () => {
 
 
 
-    const signUpUser = async (data: SignUpPayload) => {
-        console.log(data);
+    // const signUpUser = async (data: SignUpPayload) => {
+    //     console.log(data);
 
-        const res = await singUp(data)
-        console.log(res);
+    //     const res = await singUp(data)
+    //     console.log(res);
 
-    }
-    return {
-        signUpUser
-    }
+    // }
+    // return {
+    //     signUpUser
+    // }
 }

@@ -5,12 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import { loginOut } from '@/features/auth/services/logout'
 import { ToastError } from '@/utils/Toast'
 import { useState } from 'react'
+import { useAppDispatch } from '@/store/store'
+import { setUser } from '@/features/auth/slice/authSlice'
 interface Props {
     isCollapse?: boolean,
     className?: string
 }
 const LogOutBtn = ({ isCollapse = false, className }: Props) => {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(false)
     const logOut = async () => {
         setLoading(true)
@@ -21,8 +24,16 @@ const LogOutBtn = ({ isCollapse = false, className }: Props) => {
                 ToastError("Logout failed, please try again.")
             }
             if (res.ok) {
+                dispatch(
+                    setUser({
+                        data: null,
+                        status: "idle",
+                        loading: false,
+                        IsError: false,
+                        error: null,
+                    })
+                )
                 navigate("/sign-in", { replace: true });
-
             }
         } catch (err) {
             console.error(err);

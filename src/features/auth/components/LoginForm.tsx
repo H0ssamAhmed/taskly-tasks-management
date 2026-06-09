@@ -16,6 +16,8 @@ import { loginIn } from '../services/logIn'
 import { setCookie } from '../../../utils/cookies'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants/CookieStrings'
 import { ToastError } from '@/utils/Toast'
+import { useAppDispatch } from '@/store/store'
+import { setUser } from '../slice/authSlice'
 
 
 const LoginForm = () => {
@@ -24,6 +26,8 @@ const LoginForm = () => {
     const [showpass, setShowPass] = useState(false)
     const [rememberMe, setRememberMe] = useState(false)
     const [error, setError] = useState("")
+    const dispatch = useAppDispatch()
+
     const showpasshandle = () => setShowPass(!showpass)
     const { register, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(logInSchema),
@@ -51,10 +55,16 @@ const LoginForm = () => {
             const result = await res.json();
             setCookie(ACCESS_TOKEN_KEY, result.access_token, days);
             setCookie(REFRESH_TOKEN_KEY, result.refresh_token, days);
+            dispatch(
+                setUser({
+                    data: result.user.user_metadata,
+                    status: "success",
+                    loading: false,
+                    IsError: false,
+                    error: null,
+                })
+            )
             navegator('/')
-
-
-
         } catch (error) {
             ToastError("Network error")
             console.error(error);
