@@ -13,17 +13,22 @@ import { Button } from '@/Shared/UI/Button'
 import { Link } from 'react-router-dom'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { CreatPrpject } from '../services/projectApi'
+import { cn } from '@/lib/utils'
 
 const AddProjectForm = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
-    const { register, reset, handleSubmit, formState: { errors, } } = useForm({
+    const { register, reset, watch, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(AddProjectSchema),
         defaultValues: {
             name: "",
             description: ""
         },
     })
+    const descritpionLenght = watch("description").replace(/\s+/g, ' ').length || 0
+
+
+
 
     const submitting = async (values: AddProjectFormData): Promise<void> => {
         setLoading(true)
@@ -95,19 +100,25 @@ const AddProjectForm = () => {
                                 className=' py-2 ps-4 pe-9 bg-surface-highest w-full h-37 rounded-sm'
 
                             />
-                            <InputErrorAlert message={errors.description && errors.description.message} />
+                            <div className='flex items-center justify-between w-full'>
+                                <InputErrorAlert message={errors.description && errors.description.message} />
+                                <p className={cn('ms-auto text-slate-mid text-xs flex items-center justify-end w-1/3', descritpionLenght > 500 && "text-red-600")}>
+                                    {descritpionLenght + ` / 500`} <span className='lg:inline-block mx-1 hidden'>characters</span>
 
+                                </p>
+
+                            </div>
                         </InputLayout>
                     </div>
-                    <div className='flex items-center justify-between py-4'>
-                        <Button variant="ghost">
+                    <div className='flex flex-col lg:flex-row items-center justify-between py-4 gap-4'>
+                        <Button variant="ghost" className='w-full lg:w-fit bg-green-400'>
                             <Link to={"/project"}>Back</Link>
                         </Button>
 
                         {!loading ? <input
                             value={loading ? "Loading creating project" : "Create Project"}
                             type='submit'
-                            className='bg-primary text-white px-4 py-3 cursor-pointer hover:bg-primary-container rounded-sm '
+                            className='bg-primary text-white w-full lg:w-fit px-4 py-3 cursor-pointer hover:bg-primary-container rounded-sm '
                             disabled={loading} />
                             :
                             <div className='flex items-center justify-center gap-2' >
