@@ -111,7 +111,7 @@ const AddProjectForm = () => {
                         </InputLayout>
                     </div>
                     <div className='flex flex-col lg:flex-row items-center justify-between py-4 gap-4'>
-                        <Button variant="ghost" className='w-full lg:w-fit'>
+                        <Button variant="ghost" className='w-full lg:w-fit rounded-sm'>
                             <Link to={"/project"}>Back</Link>
                         </Button>
 
