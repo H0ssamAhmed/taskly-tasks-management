@@ -16,7 +16,8 @@
     --error: #d11c1c;
     --warning: #ffbb00;
 
-    --muted: #434654 --radius-base: 4px;
+    --muted: #434654;
+    --radius-base: 4px;
     --radius-ratio: 2;
 
     --font-family: Inter

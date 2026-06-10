@@ -1,0 +1,127 @@
+
+import { AddProjectSchema, type AddProjectFormData } from '../schema/AddProject'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import CheckIcon from '@/assets/svgs/CheckIcon'
+import InputLayout from '@/features/auth/components/InputLayout'
+import Input from '@/Shared/UI/Input'
+import Label from '@/Shared/UI/Label'
+import InputErrorAlert from '@/features/auth/components/InputErrorAlert'
+import { useState } from 'react'
+import Spinner from '@/Shared/UI/Spinner'
+import { Button } from '@/Shared/UI/Button'
+import { Link } from 'react-router-dom'
+import { ToastError, ToastSuccess } from '@/utils/Toast'
+import { CreatPrpject } from '../services/projectApi'
+
+const AddProjectForm = () => {
+    const [loading, setLoading] = useState<boolean>(false)
+
+    const { register, reset, handleSubmit, formState: { errors, } } = useForm({
+        resolver: zodResolver(AddProjectSchema),
+        defaultValues: {
+            name: "",
+            description: ""
+        },
+    })
+
+    const submitting = async (values: AddProjectFormData): Promise<void> => {
+        setLoading(true)
+
+        const payloadData: AddProjectFormData = {
+            name: values.name,
+            description: values.description
+        }
+        try {
+            const res = await CreatPrpject(payloadData)
+            if (!res.ok) {
+                const { msg }: { msg: string } = await res.json();
+                ToastError(`Failed to create project ${msg}`)
+                return
+            }
+            ToastSuccess("Project created successfully")
+            reset()
+        } catch (error) {
+            ToastError(`Failed to create project`)
+            console.error(error);
+        }
+        finally {
+            setLoading(false)
+        }
+
+    }
+    return (
+        <div className='py-4 md:px-2 lg:px-8 w-full rounded-sm'>
+            <div className='py-4'>
+                <div className='flex items-center justify-start gap-4 pt-8 pb-10 bg-white '>
+                    <div className='rounded-sm bg-surface-low p-2'>
+                        <CheckIcon className='w-5.5 h-5' />
+                    </div>
+                    <div>
+                        <h2 className="font-semibold text-2xl">Initialize New Project</h2>
+                        <p className='body-md text-slate-mid'>Define the scope and foundational details of your project.</p>
+                    </div>
+                </div>
+                <form onSubmit={handleSubmit(submitting)}
+                    className='flex flex-col gap-4 pt-8'
+                >
+                    <div
+                        className='flex flex-col gap-6 '
+
+                    >
+                        <InputLayout>
+                            <Label
+                                htmlFor='title'
+                                text='Project TITLE'
+                                requied={true}
+                            />
+                            <Input
+                                {...register("name")}
+                                name="name"
+                                placeholder='eg. Change the layout'
+                                className='bg-surface-highest'
+                            />
+                            <InputErrorAlert message={errors.name && errors.name.message} />
+                        </InputLayout>
+                        <InputLayout>
+                            <Label
+                                htmlFor='description'
+                                text='DESCRIPTION'
+                            />
+                            <textarea
+                                {...register("description")}
+                                name="description"
+                                placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."
+                                className=' py-2 ps-4 pe-9 bg-surface-highest w-full h-37 rounded-sm'
+
+                            />
+                            <InputErrorAlert message={errors.description && errors.description.message} />
+
+                        </InputLayout>
+                    </div>
+                    <div className='flex items-center justify-between py-4'>
+                        <Button variant="ghost">
+                            <Link to={"/project"}>Back</Link>
+                        </Button>
+
+                        {!loading ? <input
+                            value={loading ? "Loading creating project" : "Create Project"}
+                            type='submit'
+                            className='bg-primary text-white px-4 py-3 cursor-pointer hover:bg-primary-container rounded-sm '
+                            disabled={loading} />
+                            :
+                            <div className='flex items-center justify-center gap-2' >
+                                <Spinner />
+                                <p>Loading</p>
+                            </div>
+                        }
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    )
+}
+
+export default AddProjectForm

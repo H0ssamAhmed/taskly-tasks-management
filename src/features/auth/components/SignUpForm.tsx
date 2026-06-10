@@ -47,8 +47,6 @@ const SignUpForm = () => {
 
     const submitting = async (values: FormValues): Promise<void> => {
         setLoading(true)
-        console.log(values.department);
-
         const payloadData: SignUpPayload = {
             email: values.email,
             password: values.password,

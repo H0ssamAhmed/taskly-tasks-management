@@ -4,7 +4,7 @@ export type NavLink = { text: string; path: string; icon: string };
 export const NavLinks: NavLink[] = [
   {
     text: "Projects",
-    path: "/",
+    path: "/project",
     icon: File,
   },
   {
@@ -31,7 +31,7 @@ export const NavLinks: NavLink[] = [
 export const NavLinksMobil: NavLink[] = [
   {
     text: "Projects",
-    path: "/",
+    path: "/project",
     icon: File,
   },
   {

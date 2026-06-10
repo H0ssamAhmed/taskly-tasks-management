@@ -36,6 +36,8 @@ const LogOutBtn = ({ isCollapse = false, className }: Props) => {
                 navigate("/sign-in", { replace: true });
             }
         } catch (err) {
+            ToastError("Logout failed, please try again.")
+
             console.error(err);
         }
         finally {

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 import './App.css'
 import AuthLayout from './layouts/AuthLayout'
 import SignUp from './features/auth/pages/SignUp'
@@ -9,6 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import ResetPassword from './features/auth/pages/ResetPassword'
 import { Provider } from "react-redux";
 import { store } from './store/store'
+import AddProject from './features/addProject/pages/AddProject'
 
 
 function App() {
@@ -26,7 +27,8 @@ function App() {
           <Route
             path='/'
             element={<MainLayout />}>
-            <Route path='/' element={<h1>projects</h1>} />
+            <Route path='/project' element={<h1>projects <Link to="add">add</Link></h1>} />
+            <Route path='/project/add' element={<AddProject />} />
             <Route path='/project-epic' element={<h1>project-epic</h1>} />
             <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
             <Route path='/project-memebers' element={<h1>project-memebers</h1>} />

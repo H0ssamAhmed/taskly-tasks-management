@@ -6,7 +6,7 @@ interface LabelProps {
     text?: string;
     className?: string;
     children?: React.ReactNode;
-    requied: boolean
+    requied?: boolean
 }
 const Label = ({ htmlFor, text, className, children, requied = false }: LabelProps) => {
     return (
