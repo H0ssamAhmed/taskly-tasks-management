@@ -8,7 +8,7 @@ const AuthLayout = () => {
         <RedirectIfLoggedIn>
             <div className=" mx-auto">
                 <Logo />
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex h-[calc(100vh-64px)] flex-col items-center justify-center">
                     <Outlet />
                 </div>
             </div>
