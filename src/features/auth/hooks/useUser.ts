@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect, useState } from "react";
-import { fetchCuurentUser } from "../slice/authSlice";
+import { fetchCuurentUser } from "../authSlice/authSlice";
 import type { UserType } from "../schema/types";
 
 export function useUsers() {

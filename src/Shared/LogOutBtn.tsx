@@ -6,7 +6,7 @@ import { loginOut } from '@/features/auth/services/logout'
 import { ToastError } from '@/utils/Toast'
 import { useState } from 'react'
 import { useAppDispatch } from '@/store/store'
-import { setUser } from '@/features/auth/slice/authSlice'
+import { setUser } from '@/features/auth/authSlice/authSlice'
 interface Props {
     isCollapse?: boolean,
     className?: string

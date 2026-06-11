@@ -17,7 +17,7 @@ import { setCookie } from '../../../utils/cookies'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants/CookieStrings'
 import { ToastError } from '@/utils/Toast'
 import { useAppDispatch } from '@/store/store'
-import { setUser } from '../slice/authSlice'
+import { setUser } from '../authSlice/authSlice'
 
 
 const LoginForm = () => {
