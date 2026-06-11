@@ -10,13 +10,17 @@ import InputErrorAlert from '@/features/auth/components/InputErrorAlert'
 import { useState } from 'react'
 import Spinner from '@/Shared/UI/Spinner'
 import { Button } from '@/Shared/UI/Button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { CreatPrpject } from '../services/projectApi'
 import { cn } from '@/lib/utils'
+import { useAppDispatch } from '@/store/store'
+import { fetchALlProjects } from '@/features/projects/slice/projectSlice'
 
 const AddProjectForm = () => {
     const [loading, setLoading] = useState<boolean>(false)
+    const navigator = useNavigate()
+    const dispatch = useAppDispatch()
 
     const { register, reset, watch, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(AddProjectSchema),
@@ -46,6 +50,8 @@ const AddProjectForm = () => {
             }
             ToastSuccess("Project created successfully")
             reset()
+            await dispatch(fetchALlProjects())
+            navigator("/project")
         } catch (error) {
             ToastError(`Failed to create project`)
             console.error(error);
