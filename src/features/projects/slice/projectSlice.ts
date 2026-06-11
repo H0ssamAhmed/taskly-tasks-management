@@ -4,8 +4,8 @@ import { getProjects } from "../services/ProjectsApi";
 export const fetchALlProjects = createAsyncThunk(
   "project/fethcProject",
   async () => {
-    const res = await getProjects();
-    return res;
+    const response = await getProjects();
+    return response;
   },
 );
 
@@ -45,7 +45,7 @@ const projectstSlice = createSlice({
     builder.addCase(fetchALlProjects.rejected, (state) => {
       state.loading = false;
       state.status = "error";
-      state.IsError = false;
+      state.IsError = true;
       state.error = "error";
     });
   },

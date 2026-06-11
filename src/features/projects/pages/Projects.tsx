@@ -8,9 +8,12 @@ import { useAppSelector } from '@/store/store'
 import EmptyProjects from '../components/EmptyProjects'
 import ProjectsSkeleton from '../components/ProjectSkeleton'
 import ButtonSkeleton from '../components/ButtonSkeleton'
+import ProjectsError from '../components/ProjectsError'
 
 const Projects = () => {
-    const { data, status, loading } = useAppSelector((state) => state.projects)
+    const { data, status, loading, IsError } = useAppSelector((state) => state.projects)
+
+
 
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8 '>
@@ -23,7 +26,7 @@ const Projects = () => {
 
             {loading && <ProjectsSkeleton />}
 
-            {!loading && status == "error" && <h1>will display error component</h1>}
+            {!loading && IsError && <ProjectsError />}
 
 
             {!loading && status == "success" && data?.length == 0
