@@ -9,6 +9,7 @@ import EmptyProjects from '../components/EmptyProjects'
 import ProjectsSkeleton from '../components/ProjectSkeleton'
 import ButtonSkeleton from '../components/ButtonSkeleton'
 import ProjectsError from '../components/ProjectsError'
+import ProjectsPagination from '../components/ProjectsPagination'
 
 const Projects = () => {
     const { data, status, loading, IsError } = useAppSelector((state) => state.projects)
@@ -16,7 +17,7 @@ const Projects = () => {
 
 
     return (
-        <div className='py-2 px-2 md:px-4 lg:px-8 '>
+        <div className='py-2 px-2 md:px-4 lg:px-8 min-h-[calc(100vh-64px)]  relative  '>
 
             <Link className='bg-primary absolute p-6 lg:hidden rounded-lg bottom-24 right-6' to={"add"}><PlusIcon width={14} height={14} className='text-white' /></Link>
 
@@ -31,12 +32,15 @@ const Projects = () => {
 
             {!loading && status == "success" && data?.length == 0
                 ? <EmptyProjects />
-                : <PageBody className='lg:w-full bg-surfacelow 40vh] '>
+                : <PageBody className='lg:w-full flex flex-col justify-start items-center bg-surfacelow min-h-[40vh] bg-green-200s '>
                     <ProjectsList />
 
                 </PageBody>
             }
+            <div className=' absolute  w-full p-4  py-8 bottom-0   left-0'>
 
+                <ProjectsPagination />
+            </div>
         </div>
     )
 }
