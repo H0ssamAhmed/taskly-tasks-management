@@ -7,7 +7,7 @@ import { Button } from '@/Shared/UI/Button'
 import AddProjectForm from '../components/AddProjectForm'
 import LambIcon from '@/assets/svgs/LambIcon'
 
-const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "add", text: "Add NEW PROJECT", active: true }]
+const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: "Add NEW PROJECT", active: true }]
 const AddProject = () => {
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8'>
