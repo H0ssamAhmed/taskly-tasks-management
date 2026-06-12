@@ -36,7 +36,7 @@ export const useNavlist = () => {
     },
     {
       text: "Project Details",
-      path: `/project/${id}/details`,
+      path: `/project/${id}/edit`,
       icon: Exclamation,
       isShow: id ? true : false,
     },

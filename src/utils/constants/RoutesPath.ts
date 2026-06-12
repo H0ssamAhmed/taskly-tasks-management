@@ -9,9 +9,8 @@ export const mainLayoutPaths = {
   project_home: "",
   project: "/project",
   add_project: "add",
-  project_details: ":id/details",
   project_epics: "epics",
   project_tasks: "tasks",
   project_memebers: "memebers",
-  project_edit: "edit",
+  project_details: "edit",
 };

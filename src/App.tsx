@@ -37,14 +37,13 @@ function App() {
               element={<ProjectsLayout />}
             >
               <Route path={mainLayoutPaths.project_home} element={<Projects />} />
-              <Route path={mainLayoutPaths.project_details} element={<ProjectDetails />} />
               <Route path={mainLayoutPaths.add_project} element={<AddProject />} />
-              <Route path={mainLayoutPaths.project_edit} element={<h1>edit prjects</h1>} />
               <Route path=":id">
                 <Route path={mainLayoutPaths.project_epics} element={<ProjectDetails />} />
                 <Route path={mainLayoutPaths.project_tasks} element={<h1>Tasks</h1>} />
                 <Route path={mainLayoutPaths.project_memebers} element={<h1>Members</h1>} />
-                <Route path={mainLayoutPaths.project_edit} element={<h1>Edit Project</h1>} />
+                <Route path={mainLayoutPaths.project_details} element={<ProjectDetails />} />
+
               </Route>
             </Route>
             {/* 
