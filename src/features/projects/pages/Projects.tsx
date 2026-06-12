@@ -19,7 +19,7 @@ const Projects = () => {
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8 min-h-[calc(100vh-64px)]  relative  '>
 
-            <Link className='bg-primary absolute p-6 lg:hidden rounded-lg bottom-24 right-6' to={"add"}><PlusIcon width={14} height={14} className='text-white' /></Link>
+            <Link className='bg-primary fixed p-6 lg:hidden rounded-lg bottom-24 right-6' to={"add"}><PlusIcon width={14} height={14} className='text-white' /></Link>
 
             {<PageHeader title='Projects' description='Manage and curate your projects'>
                 {loading ? <ButtonSkeleton /> : <Button className='flex gap-4 justify-center items-center py-3 px-5'><PlusIcon /><Link to={"add"}>Create New Project</Link></Button>}
@@ -37,7 +37,7 @@ const Projects = () => {
 
                 </PageBody>
             }
-            <div className=' absolute  w-full p-4  py-8 bottom-0   left-0'>
+            <div className='py-4 w-full px-4 bottom-4 left-0'>
 
                 <ProjectsPagination />
             </div>

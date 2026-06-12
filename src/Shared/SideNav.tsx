@@ -10,7 +10,7 @@ const SideNav = ({ isNavMobileOpen }: { isNavMobileOpen: boolean }) => {
     const [isCollapse, setIsCollapse] = useState(false)
     const changeCollapse = () => setIsCollapse(!isCollapse)
     return (
-        <nav className={cn('bg-surface-highest h-screen w-3xs p-2 transition-all z-30 -ml-64 lg:ml-0 ',
+        <nav className={cn('bg-surface-highest h-screen lg:sticky left-0 top-0 w-3xs p-2 transition-all z-30 -ml-64 lg:ml-0 ',
             isCollapse && "w-16",
             isNavMobileOpen && "ml-0 absolute"
 

@@ -16,7 +16,7 @@ const ProjectsList = () => {
 
     return (
         <div className="flex flex-wrap justify-center items-center gap-6">
-            {data?.map((project: ProjectType) => <ProjectCard {...project} key={project.id} />)}
+            {data.map((project: ProjectType) => <ProjectCard {...project} key={project.id} />)}
             {!loading && status == "success" && <AddCard />}
         </div>
     )
