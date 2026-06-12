@@ -10,6 +10,7 @@ import ProjectsSkeleton from '../components/ProjectSkeleton'
 import ButtonSkeleton from '../components/ButtonSkeleton'
 import ProjectsError from '../components/ProjectsError'
 import ProjectsPagination from '../components/ProjectsPagination'
+import { Suspense } from 'react'
 
 const Projects = () => {
     const { data, status, loading, IsError } = useAppSelector((state) => state.projects)
@@ -33,7 +34,9 @@ const Projects = () => {
             {!loading && status == "success" && data?.length == 0
                 ? <EmptyProjects />
                 : <PageBody className='lg:w-full flex flex-col justify-start items-center bg-surfacelow min-h-[40vh] bg-green-200s '>
-                    <ProjectsList />
+                    <Suspense fallback={<ProjectsSkeleton />}>
+                        <ProjectsList />
+                    </Suspense>
 
                 </PageBody>
             }
