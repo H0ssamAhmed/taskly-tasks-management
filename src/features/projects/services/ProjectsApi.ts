@@ -1,14 +1,23 @@
 import { baseURL } from "@/lib/supabase";
 import { reqHeader } from "@/utils/constants/Request";
 import { getAccessToken } from "@/utils/cookies";
-
-export const getProjects = async () => {
+export const pageLimit: number = 10;
+export const getProjects = async ({ page = 1 }: { page?: number }) => {
+  const limit: number = pageLimit;
+  const offset = (page - 1 < 0 ? 0 : page - 1) * pageLimit;
   const ACCESS_TOKEN = getAccessToken();
   try {
-    const response = await fetch(baseURL + "/rest/v1/rpc/get_projects", {
-      method: "GET",
-      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
-    });
+    const response = await fetch(
+      baseURL + `/rest/v1/rpc/get_projects?limit=${limit}&offset=${offset}`,
+      {
+        method: "GET",
+        headers: {
+          ...reqHeader,
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Prefer: "count=exact",
+        },
+      },
+    );
 
     if (!response.ok) {
       if (response.status === 401) {
@@ -20,7 +29,13 @@ export const getProjects = async () => {
       throw new Error("CLIENT_ERROR");
     }
 
-    return await response.json();
+    const rangeHeader =
+      (await response.headers.get("Content-Range")) || "0-9/0";
+    const result = {
+      data: await response.json(),
+      pagination: rangeHeader,
+    };
+    return result;
   } catch (error) {
     if (error instanceof TypeError) {
       console.error(error);

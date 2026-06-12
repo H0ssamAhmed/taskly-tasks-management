@@ -50,7 +50,7 @@ const AddProjectForm = () => {
             }
             ToastSuccess("Project created successfully")
             reset()
-            await dispatch(fetchALlProjects())
+            await dispatch(fetchALlProjects({ page: 1 }))
             navigator("/project")
         } catch (error) {
             ToastError(`Failed to create project`)

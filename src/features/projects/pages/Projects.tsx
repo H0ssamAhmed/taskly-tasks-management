@@ -16,7 +16,6 @@ const Projects = () => {
     const { data, status, loading, IsError } = useAppSelector((state) => state.projects)
 
 
-
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8 min-h-[calc(100vh-64px)]  relative  '>
 
@@ -31,7 +30,7 @@ const Projects = () => {
             {!loading && IsError && <ProjectsError />}
 
 
-            {!loading && status == "success" && data?.length == 0
+            {loading && status == "success" && data?.length == 0
                 ? <EmptyProjects />
                 : <PageBody className='lg:w-full flex flex-col justify-start items-center bg-surfacelow min-h-[40vh] bg-green-200s '>
                     <Suspense fallback={<ProjectsSkeleton />}>

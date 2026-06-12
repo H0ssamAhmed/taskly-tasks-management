@@ -10,7 +10,7 @@ const ProjectsList = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         if (status == "idle") {
-            dispatch(fetchALlProjects())
+            dispatch(fetchALlProjects({ page: 1 }))
         }
     }, [])
 
