@@ -80,7 +80,7 @@ const LoadingSkeleton = ({ className }: { className?: string }) => {
 const Dropdown = () => {
     const { data } = useAppSelector((state) => state.user);
     return (
-        <div className="p-4 absolute bg-surface-highest -left-48 top-16 rounded-sm">
+        <div className="p-4 absolute bg-surface-highest -left-48 top-16 rounded-sm z-1">
             <div className="flex flex-col items-start justify-between ">
                 <p className="body-md" > {data?.name}</p>
                 <p className="body-md"> {data?.email}</p>
