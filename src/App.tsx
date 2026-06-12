@@ -11,6 +11,8 @@ import { Provider } from "react-redux";
 import { store } from './store/store'
 import AddProject from './features/addProject/pages/AddProject'
 import Projects from './features/projects/pages/Projects'
+import ProjectsLayout from './layouts/ProjectsLayout'
+import ProjectDetails from './features/projects/pages/ProjectDetails'
 
 
 function App() {
@@ -28,8 +30,16 @@ function App() {
           <Route
             path='/'
             element={<MainLayout />}>
-            <Route path='/project' element={<Projects />} />
-            <Route path='/project/add' element={<AddProject />} />
+
+            <Route
+              path='/project'
+              element={<ProjectsLayout />}
+            >
+              <Route path='' element={<Projects />} />
+              <Route path={`/project/:id/epics`} element={<ProjectDetails />} />
+              <Route path='add' element={<AddProject />} />
+            </Route>
+
             <Route path='/project-epic' element={<h1>project-epic</h1>} />
             <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
             <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
