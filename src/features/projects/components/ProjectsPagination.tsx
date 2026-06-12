@@ -6,14 +6,13 @@ import { useState } from 'react';
 // import { useInfiniteScroll } from '../hooks/useInfintyScroll';
 
 const ProjectsPagination = () => {
-  const { pagination, data } = useAppSelector((state) => state.projects)
+  const { pagination } = useAppSelector((state) => state.projects)
   const dispatch = useAppDispatch()
   const [range, total_count] = pagination.split("/");
   const [start] = range.split("-").map(Number);
   const totalPages = Math.ceil(Number(total_count) / pageLimit)
   const [page, setPage] = useState(Math.floor(start / pageLimit) + 1)
-  const hasMore = data?.length < Number(total_count);
-  console.log(hasMore);
+  // const hasMore = data?.length < Number(total_count);
 
 
   const handlePageNumber = async (pageNum: number) => {

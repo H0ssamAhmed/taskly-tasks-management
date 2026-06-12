@@ -13,6 +13,7 @@ import AddProject from './features/addProject/pages/AddProject'
 import Projects from './features/projects/pages/Projects'
 import ProjectsLayout from './layouts/ProjectsLayout'
 import ProjectDetails from './features/projects/pages/ProjectDetails'
+import { authPaths, mainLayoutPaths } from './utils/constants/RoutesPath'
 
 
 function App() {
@@ -21,30 +22,38 @@ function App() {
       <main className='min-h-screen bg-background'>
         <Routes>
           <Route element={<AuthLayout />}>
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/sign-in" element={<LogIn />} />
-            <Route path="/forget-password" element={<ForgetPpassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path={authPaths.sign_up} element={<SignUp />} />
+            <Route path={authPaths.sign_in} element={<LogIn />} />
+            <Route path={authPaths.forget_password} element={<ForgetPpassword />} />
+            <Route path={authPaths.reset_password} element={<ResetPassword />} />
           </Route>
 
           <Route
-            path='/'
+            path={mainLayoutPaths.main}
             element={<MainLayout />}>
 
             <Route
-              path='/project'
+              path={mainLayoutPaths.project}
               element={<ProjectsLayout />}
             >
-              <Route path='' element={<Projects />} />
-              <Route path={`/project/:id/epics`} element={<ProjectDetails />} />
-              <Route path='add' element={<AddProject />} />
+              <Route path={mainLayoutPaths.project_home} element={<Projects />} />
+              <Route path={mainLayoutPaths.project_details} element={<ProjectDetails />} />
+              <Route path={mainLayoutPaths.add_project} element={<AddProject />} />
+              <Route path={mainLayoutPaths.project_edit} element={<h1>edit prjects</h1>} />
+              <Route path=":id">
+                <Route path={mainLayoutPaths.project_epics} element={<ProjectDetails />} />
+                <Route path={mainLayoutPaths.project_tasks} element={<h1>Tasks</h1>} />
+                <Route path={mainLayoutPaths.project_memebers} element={<h1>Members</h1>} />
+                <Route path={mainLayoutPaths.project_edit} element={<h1>Edit Project</h1>} />
+              </Route>
             </Route>
-
+            {/* 
             <Route path='/project-epic' element={<h1>project-epic</h1>} />
             <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
             <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
-            <Route path='/project-details' element={<h1>project-details</h1>} />
+            <Route path='/project-details' element={<h1>project-details</h1>} /> */}
           </Route>
+
         </Routes>
         <Toaster
           position="bottom-right"

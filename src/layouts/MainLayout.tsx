@@ -1,12 +1,14 @@
 import Header from '@/Shared/Header'
 import SideLinkMobile from '@/Shared/SideLinkMobile'
 import SideNav from '@/Shared/SideNav'
-import { NavLinksMobil } from '@/utils/constants/SideNav'
+import { useNavlist } from '@/utils/constants/useNavlist'
 import { ProtectedRoute } from '@/utils/ProtectedRoute'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
+    const NavLinks = useNavlist()
+
     const [isNavMobileOpen, setIsNavMobileOpen] = useState(false)
     const handleOpenNavMobile = () => {
         setIsNavMobileOpen(!isNavMobileOpen);
@@ -23,7 +25,7 @@ const MainLayout = () => {
                     </div>
                 </div>
                 <div className='flex lg:hidden items-center justify-between p-2 fixed z-10 bottom-0 w-full  broder-1 border-t border-slate-light bg-background  gap-2'>
-                    {NavLinksMobil.map((link, idx) => <SideLinkMobile key={idx + link.path} {...link}
+                    {NavLinks.map((link, idx) => <SideLinkMobile key={idx + link.path} {...link}
 
                     />)}
                 </div>
