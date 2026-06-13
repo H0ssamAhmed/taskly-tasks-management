@@ -12,8 +12,8 @@ import { store } from './store/store'
 import AddProject from './features/addProject/pages/AddProject'
 import Projects from './features/projects/pages/Projects'
 import ProjectsLayout from './layouts/ProjectsLayout'
-import ProjectDetails from './features/projects/pages/ProjectDetails'
 import { authPaths, mainLayoutPaths } from './utils/constants/RoutesPath'
+import EditProject from './features/editProject/page/EditProject'
 
 
 function App() {
@@ -39,18 +39,13 @@ function App() {
               <Route path={mainLayoutPaths.project_home} element={<Projects />} />
               <Route path={mainLayoutPaths.add_project} element={<AddProject />} />
               <Route path=":id">
-                <Route path={mainLayoutPaths.project_epics} element={<ProjectDetails />} />
+                <Route path={mainLayoutPaths.project_epics} element={<h1>Project Edpics</h1>} />
                 <Route path={mainLayoutPaths.project_tasks} element={<h1>Tasks</h1>} />
                 <Route path={mainLayoutPaths.project_memebers} element={<h1>Members</h1>} />
-                <Route path={mainLayoutPaths.project_details} element={<ProjectDetails />} />
+                <Route path={mainLayoutPaths.project_details} element={<EditProject />} />
 
               </Route>
             </Route>
-            {/* 
-            <Route path='/project-epic' element={<h1>project-epic</h1>} />
-            <Route path='/project-tasks' element={<h1>project-tasks</h1>} />
-            <Route path='/project-memebers' element={<h1>project-memebers</h1>} />
-            <Route path='/project-details' element={<h1>project-details</h1>} /> */}
           </Route>
 
         </Routes>
