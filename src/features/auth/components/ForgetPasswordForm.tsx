@@ -9,11 +9,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { passwordReset } from '../services/ForgerPassword'
 import type { Email } from '../schema/types'
 import { ToastError } from '@/utils/Toast'
-import { IconDisplayer } from '@/shared_temp/UI/IconDisplayer'
-import Label from '@/shared_temp/UI/Label'
-import Input from '@/shared_temp/UI/Input'
-import Spinner from '@/shared_temp/UI/Spinner'
-import { Button } from '@/shared_temp/UI/Button'
+import { IconDisplayer } from '@/shared/UI/IconDisplayer'
+import Label from '@/shared/UI/Label'
+import Input from '@/shared/UI/Input'
+import Spinner from '@/shared/UI/Spinner'
+import { Button } from '@/shared/UI/Button'
 
 export const ForgetPasswordForm = () => {
     // const navegator = useNavigate()

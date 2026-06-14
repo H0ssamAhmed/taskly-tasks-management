@@ -13,10 +13,10 @@ import { useAppDispatch } from '@/store/store'
 import { fetchALlProjects } from '@/features/projects/slice/projectSlice'
 import { descriptionLengthChecker, projectSchema, type ProjectFormData } from '../schema/Project.schema'
 import { creatPrpject } from '../services/ProjectsApi'
-import Label from '@/shared_temp/UI/Label'
-import Input from '@/shared_temp/UI/Input'
-import Spinner from '@/shared_temp/UI/Spinner'
-import { Button } from '@/shared_temp/UI/Button'
+import Label from '@/shared/UI/Label'
+import Input from '@/shared/UI/Input'
+import Spinner from '@/shared/UI/Spinner'
+import { Button } from '@/shared/UI/Button'
 
 const AddProjectForm = () => {
     const [loading, setLoading] = useState<boolean>(false)
