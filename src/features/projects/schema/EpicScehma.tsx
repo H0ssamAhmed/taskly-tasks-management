@@ -10,7 +10,7 @@ export const epicSchema = z.object({
         .string()
         .max(500, "Description should not exceed 500 characters"),
 
-    assignee: z
+    assignee_id: z
         .string()
         .optional(),
 

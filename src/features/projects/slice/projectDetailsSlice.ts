@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import type { ProjectType } from "@/lib/types";
 import { getProjectById } from "@/features/projects/services/ProjectsApi";
+import type { ProjectType } from "../schema/types";
 
 export const fetchProjectById = createAsyncThunk(
   "project/fetchProjectById",

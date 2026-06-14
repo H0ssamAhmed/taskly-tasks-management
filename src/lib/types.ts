@@ -5,11 +5,3 @@ export interface MyIconProps extends React.SVGProps<SVGSVGElement> {
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   name?: string;
 }
-
-export interface ProjectType {
-  id: string;
-  name: string;
-  description?: string;
-  created_at: string;
-  created_by: string;
-}

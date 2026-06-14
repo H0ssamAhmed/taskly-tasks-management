@@ -9,10 +9,15 @@ import { descriptionLengthChecker } from '../schema/Project.schema'
 import InputErrorAlert from '@/features/auth/components/InputErrorAlert'
 import { cn } from '@/lib/utils'
 import { Button } from '@/shared/UI/Button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import type { ProjectEpicType } from '../schema/types'
+import { ToastError, ToastSuccess } from '@/utils/Toast'
+import { creatPrpjectEpic } from '../services/ProjectsApi'
 
 const NewEpicForm = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { id } = useParams()
+    const navigate = useNavigate()
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
         resolver: zodResolver(epicSchema),
     })
     const [isSubmitting, setisSubmitting] = useState(false)
@@ -21,35 +26,32 @@ const NewEpicForm = () => {
     const descritpionLenght = descriptionLengthChecker(watch("description"))
 
     const submitting = async (values: EpicFormData): Promise<void> => {
-        console.log(values);
+        setisSubmitting(true)
+        const payload: ProjectEpicType = {
+            ...values,
+            project_id: id!
+        }
 
+        try {
+            const res = await creatPrpjectEpic(payload)
+            if (!res.ok) {
+                const { message }: { message: string } = await res.json();
+                ToastError(`Failed to create project epic ${message}`)
+                return
+            }
+            ToastSuccess("Project epic created successfully")
+            reset()
+            navigate(`/project/${id}/epics`)
+        } catch (error) {
+            ToastError(`Failed to create project epic`)
+            console.error(error);
+        }
+        finally {
+            setisSubmitting(false)
 
-        setisSubmitting(false)
-        // const payload: EditProjectPayLoad = {
-        //     id: id!,
-        //     name: values.name,
-        //     description: values.description
-        // }
-        // try {
-        //     const res = await updatePrpject({ id: id!, payload })
-        //     if (!res.ok) {
-        //         const { msg }: { msg: string } = await res.json();
-        //         ToastError(`Failed to update project ${msg}`)
-        //         return
-        //     }
-        //     ToastSuccess("Project updated successfully")
-        //     dispatch(fetchProjectById(id!))
-        // } catch (error) {
-        //     ToastError(`Failed to update project`)
-        //     console.error(error);
-        // }
-        // finally {
-        //     setisSubmitting(false)
-
-        // }
+        }
     }
-    return (
-
+    return (<div className='lg:-500 w-full p-4 '>
         <form onSubmit={handleSubmit(submitting)} className='w-full flex flex-col gap-4'>
             <InputLayout className='grid grid-cols-1 lg:grid-cols-3 my-6 items-start'>
                 <Label
@@ -97,12 +99,10 @@ const NewEpicForm = () => {
                     />
                     <div className='col-span-2'>
                         <select className='w-full py-3  appearance-none  ps-4 pe-9 bg-surface-highest rounded-sm'
-                            {...register("assignee")}
+                            {...register("assignee_id")}
                         >
                             <option value="">Select Memeber</option>
-                            <option value="Pepk;dmfsdkla">Select Memeber</option>
-                            <option value="32546789 ">Select Memeber</option>
-
+                            <option value="f75e78b8-91ab-4fe9-a9f9-7473c7a059b9">Hossam Ahmed</option>
                         </select>
                     </div>
                 </InputLayout>
@@ -134,6 +134,7 @@ const NewEpicForm = () => {
             </div>
 
         </form>
+    </div>
     )
 }
 

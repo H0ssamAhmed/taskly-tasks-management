@@ -16,6 +16,8 @@ import { authPaths, mainLayoutPaths } from './utils/constants/RoutesPath'
 import EditProject from './features/projects/pages/EditProject'
 import ProjectMember from './features/projects/pages/ProjectMember'
 import ProjectEpics from './features/projects/pages/ProjectEpics'
+import NewProjectEpics from './features/projects/pages/NewProjectEpics'
+
 
 
 function App() {
@@ -42,6 +44,7 @@ function App() {
               <Route path={mainLayoutPaths.add_project} element={<AddProject />} />
               <Route path=":id">
                 <Route path={mainLayoutPaths.project_epics} element={<ProjectEpics />} />
+                <Route path={mainLayoutPaths.project_epics + "/new"} element={<NewProjectEpics />} />
                 <Route path={mainLayoutPaths.project_tasks} element={<h1>Tasks</h1>} />
                 <Route path={mainLayoutPaths.project_memebers} element={<ProjectMember />} />
                 <Route path={mainLayoutPaths.project_details} element={<EditProject />} />

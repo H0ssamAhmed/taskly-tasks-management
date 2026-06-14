@@ -2,6 +2,8 @@ import { baseURL } from "@/lib/supabase";
 import { reqHeader } from "@/utils/constants/Request";
 import { getAccessToken } from "@/utils/cookies";
 import type { ProjectFormData } from "../schema/Project.schema";
+import type { ProjectEpicType } from "../schema/types";
+
 export const pageLimit: number = 10;
 export const getProjects = async ({ page = 1 }: { page?: number }) => {
   const limit: number = pageLimit;
@@ -95,4 +97,16 @@ export const getProjectMemeber = async (id: string) => {
   );
   if (!res.ok) return res;
   return res.json();
+};
+
+export const creatPrpjectEpic = async (payload: ProjectEpicType) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + "/rest/v1/epics", {
+    method: "POST",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) return res;
+  return res;
 };
