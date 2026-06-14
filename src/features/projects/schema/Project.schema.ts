@@ -12,3 +12,8 @@ export const projectSchema = z.object({
 });
 
 export type ProjectFormData = z.infer<typeof projectSchema>;
+
+export const descriptionLengthChecker = (describtion: string) => {
+  const descritpionLenght = describtion?.replace(/\s+/g, " ").length || 0;
+  return descritpionLenght;
+};

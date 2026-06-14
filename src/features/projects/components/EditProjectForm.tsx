@@ -13,7 +13,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { projectSchema } from '../schema/Project.schema'
+import { descriptionLengthChecker, projectSchema } from '../schema/Project.schema'
 import type { EditProjectPayLoad } from '../schema/types'
 import { fetchProjectById } from '@/features/projects/slice/projectDetailsSlice'
 import { updatePrpject } from '../services/ProjectsApi'
@@ -45,7 +45,7 @@ const EditProjectForm = () => {
         }
     }, [status])
 
-    const descritpionLenght = watch("description")?.replace(/\s+/g, ' ').length || 0
+    const descritpionLenght = descriptionLengthChecker(watch("description"))
 
     const submitting = async (values: { name: string, description: string }): Promise<void> => {
         setisSubmitting(true)

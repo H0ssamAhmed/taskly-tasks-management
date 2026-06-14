@@ -16,7 +16,7 @@ import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { cn } from '@/lib/utils'
 import { useAppDispatch } from '@/store/store'
 import { fetchALlProjects } from '@/features/projects/slice/projectSlice'
-import { projectSchema, type ProjectFormData } from '../schema/Project.schema'
+import { descriptionLengthChecker, projectSchema, type ProjectFormData } from '../schema/Project.schema'
 import { creatPrpject } from '../services/ProjectsApi'
 
 const AddProjectForm = () => {
@@ -31,7 +31,9 @@ const AddProjectForm = () => {
             description: ""
         },
     })
-    const descritpionLenght = watch("description").replace(/\s+/g, ' ').length || 0
+
+    const descritpionLenght = descriptionLengthChecker(watch("description"))
+
 
 
 
