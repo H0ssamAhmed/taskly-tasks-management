@@ -1,4 +1,4 @@
-import Logo from '@/shared/Logo';
+import Logo from './Logo';
 import { useNavlist } from '@/utils/constants/useNavlist'
 import SideLink from './SideLink';
 import { useState } from 'react';

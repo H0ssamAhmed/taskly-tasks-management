@@ -1,7 +1,4 @@
 import PlusIcon from '@/assets/svgs/PlusIcon'
-import PageBody from '@/shared/PageBody'
-import PageHeader from '@/shared/PageHeader'
-import { Button } from '@/shared/UI/Button'
 import { Link } from 'react-router-dom'
 import ProjectsList from '../components/ProjectsList'
 import { useAppSelector } from '@/store/store'
@@ -11,6 +8,9 @@ import ButtonSkeleton from '../components/ButtonSkeleton'
 import ProjectsError from '../components/ProjectsError'
 import ProjectsPagination from '../components/ProjectsPagination'
 import { Suspense } from 'react'
+import PageHeader from '@/shared/PageHeader'
+import { Button } from '@/shared/UI/Button'
+import PageBody from '@/shared/PageBody'
 
 const Projects = () => {
     const { data, status, loading, IsError } = useAppSelector((state) => state.projects)

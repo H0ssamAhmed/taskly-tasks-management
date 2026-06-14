@@ -3,12 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import CheckIcon from '@/assets/svgs/CheckIcon'
 import InputLayout from '@/features/auth/components/InputLayout'
-import Input from '@/shared/UI/Input'
-import Label from '@/shared/UI/Label'
 import InputErrorAlert from '@/features/auth/components/InputErrorAlert'
 import { useEffect, useState } from 'react'
-
-import { Button } from '@/shared/UI/Button'
 import { Link, useParams } from 'react-router-dom';
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { cn } from '@/lib/utils'
@@ -18,6 +14,9 @@ import type { EditProjectPayLoad } from '../schema/types'
 import { fetchProjectById } from '@/features/projects/slice/projectDetailsSlice'
 import { updatePrpject } from '../services/ProjectsApi'
 import ProjectFormSkeleton from './ProjectFormSkeleton'
+import Label from '@/shared/UI/Label'
+import Input from '@/shared/UI/Input'
+import { Button } from '@/shared/UI/Button'
 
 const EditProjectForm = () => {
     const { id } = useParams()

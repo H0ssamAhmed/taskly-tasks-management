@@ -1,21 +1,20 @@
 import { useState } from 'react'
 import InputLayout from './InputLayout'
-import Label from '@/shared/UI/Label'
-import Input from '@/shared/UI/Input'
 import InputErrorAlert from './InputErrorAlert'
 import { cn } from '@/lib/utils'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PasswordRules, resetPasswordSchema, type ResetPassword, type ResetPasswordPayload } from '../schema/ResetPassword'
-
 import InputIcon from './InputIcon'
-import { IconDisplayer } from '@/shared/UI/IconDisplayer'
-import Spinner from '@/shared/UI/Spinner'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import RuleRow from './RuleRow'
 import { resetPassword } from '../services/ResetPassoword'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { ACCESS_TOKEN_KEY } from '@/utils/constants/CookieStrings'
+import Label from '@/shared/UI/Label'
+import Input from '@/shared/UI/Input'
+import { IconDisplayer } from '@/shared/UI/IconDisplayer'
+import Spinner from '@/shared/UI/Spinner'
 
 const ResetPasswordForm = () => {
     const [searchParams] = useSearchParams()

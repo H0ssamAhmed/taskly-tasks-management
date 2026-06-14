@@ -1,8 +1,9 @@
-import { Button } from '@/shared/UI/Button'
+
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { pageLimit } from '../services/ProjectsApi';
 import { fetchALlProjects } from '../slice/projectSlice';
 import { useState } from 'react';
+import { Button } from '@/shared/UI/Button';
 // import { useInfiniteScroll } from '../hooks/useInfintyScroll';
 
 const ProjectsPagination = () => {

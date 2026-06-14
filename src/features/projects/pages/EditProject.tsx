@@ -1,11 +1,11 @@
 
-import BreadCrumb from '@/shared/BreadCrumb'
 import EditProjectForm from '../components/EditProjectForm'
+import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
+import LambIcon from '@/assets/svgs/LambIcon'
+import BreadCrumb from '@/shared/BreadCrumb'
+import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
-import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
-import PageBody from '@/shared/PageBody'
-import LambIcon from '@/assets/svgs/LambIcon'
 import { useAppSelector } from '@/store/store'
 
 const EditProject = () => {

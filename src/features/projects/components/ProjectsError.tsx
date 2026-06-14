@@ -1,6 +1,7 @@
 import ErrorCloudIcon from '@/assets/svgs/ErrorCloudIcon'
 import { Button } from '@/shared/UI/Button'
 
+
 const ProjectsError = () => {
     return (
         <div className='p-4 h-[50vh] flex items-center justify-center'>

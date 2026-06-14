@@ -1,9 +1,6 @@
 
-import Input from '@/shared/UI/Input'
-import Label from '@/shared/UI/Label'
 import InputLayout from './InputLayout';
 import InputErrorAlert from './InputErrorAlert';
-import { IconDisplayer } from '@/shared/UI/IconDisplayer';
 import InputIcon from './InputIcon';
 import { useState } from 'react';
 import RuleRow from './RuleRow';
@@ -14,10 +11,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { SignUpPayload } from '../schema/types';
 import { singUp } from '../services/SingUp';
 import { cn } from '@/lib/utils';
-import Spinner from '@/shared/UI/Spinner'
 import { setCookie } from '../../../utils/cookies';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/constants/CookieStrings';
 import { ToastError } from '@/utils/Toast';
+import Label from '@/shared/UI/Label';
+import Input from '@/shared/UI/Input';
+import { IconDisplayer } from '@/shared/UI/IconDisplayer';
+import Spinner from '@/shared/UI/Spinner';
 
 interface FormValues {
     name: string,
