@@ -1,19 +1,44 @@
 import PlusIcon from '@/assets/svgs/PlusIcon'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import ProjectsList from '../components/ProjectsList'
-import { useAppSelector } from '@/store/store'
 import EmptyProjects from '../components/EmptyProjects'
 import ProjectsSkeleton from '../components/ProjectSkeleton'
-import ButtonSkeleton from '../components/ButtonSkeleton'
-import ProjectsError from '../components/ProjectsError'
+// import ProjectsError from '../components/ProjectsError'
 import ProjectsPagination from '../components/ProjectsPagination'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
 import PageBody from '@/shared/PageBody'
+import { getProjects } from '../services/ProjectsApi'
 
 const Projects = () => {
-    const { data, status, loading, IsError } = useAppSelector((state) => state.projects)
+    const loaction = useLocation()
+    const [searchParams] = useSearchParams()
+    const page = searchParams.get("page") || 1
+    const [isLoading, setIsLoading] = useState(true)
+    const [pagination, setPaginantion] = useState<string>("")
+    const [projects, setProjects] = useState([])
+
+    const fetchProject = async () => {
+        try {
+            const response = await getProjects({ page: Number(page) })
+            setProjects(response.data)
+            setPaginantion(response.pagination)
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false)
+        }
+
+    }
+    useEffect(() => {
+        fetchProject()
+
+    }, [loaction])
+    if (isLoading) {
+        return <ProjectsSkeleton />
+    }
 
 
     return (
@@ -21,27 +46,25 @@ const Projects = () => {
 
             <Link className='bg-primary fixed p-6 lg:hidden rounded-lg bottom-24 right-6' to={"add"}><PlusIcon width={14} height={14} className='text-white' /></Link>
 
-            {<PageHeader title='Projects' description='Manage and curate your projects'>
-                {loading ? <ButtonSkeleton /> : <Button className='flex gap-4 justify-center items-center py-3 px-5'><PlusIcon /><Link to={"add"}>Create New Project</Link></Button>}
-            </PageHeader>}
+            <PageHeader title='Projects' description='Manage and curate your projects'>
+                <Button className='flex gap-4 justify-center items-center py-3 px-5'><PlusIcon /><Link to={"add"}>Create New Project</Link></Button>
+            </PageHeader>
 
-            {loading && <ProjectsSkeleton />}
-
-            {!loading && IsError && <ProjectsError />}
+            {/* {!loading && IsError && <ProjectsError />} */}
 
 
-            {loading && status == "success" && data?.length == 0
+            {!isLoading && projects?.length == 0
                 ? <EmptyProjects />
                 : <PageBody className='lg:w-full flex flex-col justify-start items-center bg-surfacelow min-h-[40vh] bg-green-200s '>
                     <Suspense fallback={<ProjectsSkeleton />}>
-                        <ProjectsList />
+                        <ProjectsList projects={projects} />
                     </Suspense>
 
                 </PageBody>
             }
             <div className='py-4 w-full px-4 bottom-4 left-0'>
 
-                <ProjectsPagination />
+                <ProjectsPagination page={pagination} />
             </div>
         </div>
     )
