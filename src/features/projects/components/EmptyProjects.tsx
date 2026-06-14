@@ -1,6 +1,6 @@
 import NotebookIcon from '@/assets/svgs/NotebookIcon'
 import PlusIcon from '@/assets/svgs/PlusIcon'
-import { Button } from '@/shared/UI/Button'
+import { Button } from '@/shared_temp/UI/Button'
 
 import { Link } from 'react-router-dom'
 

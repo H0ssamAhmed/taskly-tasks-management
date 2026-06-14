@@ -3,10 +3,10 @@ import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
 
 import AddProjectForm from '../components/AddProjectForm'
 import LambIcon from '@/assets/svgs/LambIcon'
-import BreadCrumb from '@/shared/BreadCrumb'
-import PageHeader from '@/shared/PageHeader'
-import { Button } from '@/shared/UI/Button'
-import PageBody from '@/shared/PageBody'
+import BreadCrumb from '@/shared_temp/BreadCrumb'
+import PageHeader from '@/shared_temp/PageHeader'
+import { Button } from '@/shared_temp/UI/Button'
+import PageBody from '@/shared_temp/PageBody'
 
 const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: "Add NEW PROJECT", active: true }]
 const AddProject = () => {

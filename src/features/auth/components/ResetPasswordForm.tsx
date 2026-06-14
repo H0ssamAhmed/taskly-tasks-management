@@ -11,10 +11,10 @@ import RuleRow from './RuleRow'
 import { resetPassword } from '../services/ResetPassoword'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { ACCESS_TOKEN_KEY } from '@/utils/constants/CookieStrings'
-import Label from '@/shared/UI/Label'
-import Input from '@/shared/UI/Input'
-import { IconDisplayer } from '@/shared/UI/IconDisplayer'
-import Spinner from '@/shared/UI/Spinner'
+import Label from '@/shared_temp/UI/Label'
+import Input from '@/shared_temp/UI/Input'
+import { IconDisplayer } from '@/shared_temp/UI/IconDisplayer'
+import Spinner from '@/shared_temp/UI/Spinner'
 
 const ResetPasswordForm = () => {
     const [searchParams] = useSearchParams()

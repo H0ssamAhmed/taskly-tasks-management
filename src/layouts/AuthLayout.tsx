@@ -1,5 +1,5 @@
 import { RedirectIfLoggedIn } from "@/utils/AuthRouteRedirection";
-import Logo from "../shared/Logo"
+import Logo from "../shared_temp/Logo"
 import { Outlet } from "react-router-dom";
 
 

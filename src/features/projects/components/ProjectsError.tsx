@@ -1,5 +1,5 @@
 import ErrorCloudIcon from '@/assets/svgs/ErrorCloudIcon'
-import { Button } from '@/shared/UI/Button'
+import { Button } from '@/shared_temp/UI/Button'
 
 
 const ProjectsError = () => {

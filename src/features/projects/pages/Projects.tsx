@@ -8,9 +8,9 @@ import ButtonSkeleton from '../components/ButtonSkeleton'
 import ProjectsError from '../components/ProjectsError'
 import ProjectsPagination from '../components/ProjectsPagination'
 import { Suspense } from 'react'
-import PageHeader from '@/shared/PageHeader'
-import { Button } from '@/shared/UI/Button'
-import PageBody from '@/shared/PageBody'
+import PageHeader from '@/shared_temp/PageHeader'
+import { Button } from '@/shared_temp/UI/Button'
+import PageBody from '@/shared_temp/PageBody'
 
 const Projects = () => {
     const { data, status, loading, IsError } = useAppSelector((state) => state.projects)
