@@ -14,7 +14,7 @@ const PageHeader = ({ children, title, description }: Props) => {
                     <p className='text-slate-mid lg:w-2/3'>{description}</p>
 
                 </div>
-                <div className='hidden lg:block'>
+                <div className='hidden lg:flex items-center justify-end gap-4  ms-auto w-1/2'>
                     {children}
                 </div>
             </div>
