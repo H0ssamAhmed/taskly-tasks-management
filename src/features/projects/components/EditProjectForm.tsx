@@ -6,8 +6,8 @@ import InputLayout from '@/features/auth/components/InputLayout'
 import Input from '@/Shared/UI/Input'
 import Label from '@/Shared/UI/Label'
 import InputErrorAlert from '@/features/auth/components/InputErrorAlert'
-import { useEffect } from 'react'
-import Spinner from '@/Shared/UI/Spinner'
+import { useEffect, useState } from 'react'
+
 import { Button } from '@/Shared/UI/Button'
 import { Link, useParams } from 'react-router-dom';
 import { ToastError, ToastSuccess } from '@/utils/Toast'
@@ -21,6 +21,7 @@ import ProjectFormSkeleton from './ProjectFormSkeleton'
 
 const EditProjectForm = () => {
     const { id } = useParams()
+    const [isSubmitting, setisSubmitting] = useState(false)
     const dispatch = useAppDispatch()
     const { data, status, loading } = useAppSelector((state) => state.ProjectDetails)
 
@@ -29,7 +30,7 @@ const EditProjectForm = () => {
     })
 
     useEffect(() => {
-        if (id) {
+        if (id && status == "idle") {
             dispatch(fetchProjectById(id))
         }
     }, [id, dispatch])
@@ -47,7 +48,7 @@ const EditProjectForm = () => {
     const descritpionLenght = watch("description")?.replace(/\s+/g, ' ').length || 0
 
     const submitting = async (values: { name: string, description: string }): Promise<void> => {
-
+        setisSubmitting(true)
         const payload: EditProjectPayLoad = {
             id: id!,
             name: values.name,
@@ -61,9 +62,14 @@ const EditProjectForm = () => {
                 return
             }
             ToastSuccess("Project updated successfully")
+            dispatch(fetchProjectById(id!))
         } catch (error) {
             ToastError(`Failed to update project`)
             console.error(error);
+        }
+        finally {
+            setisSubmitting(false)
+
         }
     }
     if (loading) {
@@ -125,21 +131,17 @@ const EditProjectForm = () => {
                         </InputLayout>
                     </div>
                     <div className='flex flex-col lg:flex-row items-center justify-between py-4 gap-4'>
-                        <Button variant="ghost" className='w-full lg:w-fit rounded-sm'>
+                        <Button role="complementary" variant="ghost" className='w-full lg:w-fit rounded-sm'>
                             <Link type="bytton" to={"/project"}>Cancel</Link>
                         </Button>
-
-                        {!loading ? <input
-                            value={loading ? "Loading Updating project" : "Update Project"}
-                            type='submit'
+                        <Button
+                            disabled={isSubmitting}
                             className='bg-primary text-white w-full lg:w-fit px-4 py-3 cursor-pointer hover:bg-primary-container rounded-sm '
-                            disabled={loading} />
-                            :
-                            <div className='flex items-center justify-center gap-2' >
-                                <Spinner />
-                                <p>Loading</p>
-                            </div>
-                        }
+
+                        >
+                            {isSubmitting ? "Loading" : "Update Project"}
+                        </Button>
+
 
                     </div>
                 </form>
