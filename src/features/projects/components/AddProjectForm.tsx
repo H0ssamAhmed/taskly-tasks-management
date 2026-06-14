@@ -1,5 +1,5 @@
 
-import { AddProjectSchema, type AddProjectFormData } from '../schema/AddProject'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import CheckIcon from '@/assets/svgs/CheckIcon'
@@ -12,10 +12,12 @@ import Spinner from '@/Shared/UI/Spinner'
 import { Button } from '@/Shared/UI/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
-import { CreatPrpject } from '../services/projectApi'
+
 import { cn } from '@/lib/utils'
 import { useAppDispatch } from '@/store/store'
 import { fetchALlProjects } from '@/features/projects/slice/projectSlice'
+import { projectSchema, type ProjectFormData } from '../schema/Project.schema'
+import { creatPrpject } from '../services/ProjectsApi'
 
 const AddProjectForm = () => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -23,7 +25,7 @@ const AddProjectForm = () => {
     const dispatch = useAppDispatch()
 
     const { register, reset, watch, handleSubmit, formState: { errors, } } = useForm({
-        resolver: zodResolver(AddProjectSchema),
+        resolver: zodResolver(projectSchema),
         defaultValues: {
             name: "",
             description: ""
@@ -34,15 +36,15 @@ const AddProjectForm = () => {
 
 
 
-    const submitting = async (values: AddProjectFormData): Promise<void> => {
+    const submitting = async (values: ProjectFormData): Promise<void> => {
         setLoading(true)
 
-        const payloadData: AddProjectFormData = {
+        const payloadData: ProjectFormData = {
             name: values.name,
             description: values.description
         }
         try {
-            const res = await CreatPrpject(payloadData)
+            const res = await creatPrpject(payloadData)
             if (!res.ok) {
                 const { msg }: { msg: string } = await res.json();
                 ToastError(`Failed to create project ${msg}`)
@@ -142,3 +144,7 @@ const AddProjectForm = () => {
 }
 
 export default AddProjectForm
+
+
+
+

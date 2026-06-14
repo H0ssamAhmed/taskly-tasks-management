@@ -9,11 +9,11 @@ import { Toaster } from 'react-hot-toast';
 import ResetPassword from './features/auth/pages/ResetPassword'
 import { Provider } from "react-redux";
 import { store } from './store/store'
-import AddProject from './features/addProject/pages/AddProject'
+import AddProject from './features/projects/pages/AddProject'
 import Projects from './features/projects/pages/Projects'
 import ProjectsLayout from './layouts/ProjectsLayout'
 import { authPaths, mainLayoutPaths } from './utils/constants/RoutesPath'
-import EditProject from './features/editProject/page/EditProject'
+import EditProject from './features/projects/pages/EditProject'
 
 
 function App() {

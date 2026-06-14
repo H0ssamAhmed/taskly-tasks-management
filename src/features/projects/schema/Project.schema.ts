@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const AddProjectSchema = z.object({
+export const projectSchema = z.object({
   name: z
     .string()
     .min(3, "Project name must be at least 3 characters.")
@@ -11,4 +11,4 @@ export const AddProjectSchema = z.object({
     .max(500, "Description should not exceed 500 characters"),
 });
 
-export type AddProjectFormData = z.infer<typeof AddProjectSchema>;
+export type ProjectFormData = z.infer<typeof projectSchema>;

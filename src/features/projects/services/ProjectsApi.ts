@@ -1,6 +1,7 @@
 import { baseURL } from "@/lib/supabase";
 import { reqHeader } from "@/utils/constants/Request";
 import { getAccessToken } from "@/utils/cookies";
+import type { ProjectFormData } from "../schema/Project.schema";
 export const pageLimit: number = 10;
 export const getProjects = async ({ page = 1 }: { page?: number }) => {
   const limit: number = pageLimit;
@@ -43,4 +44,42 @@ export const getProjects = async ({ page = 1 }: { page?: number }) => {
     }
     throw error;
   }
+};
+
+export const creatPrpject = async (payload: ProjectFormData) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + "/rest/v1/projects", {
+    method: "POST",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) return res;
+  return res;
+};
+export const updatePrpject = async ({
+  id,
+  payload,
+}: {
+  id: string;
+  payload: ProjectFormData;
+}) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + `/rest/v1/projects?id=eq.${id}`, {
+    method: "PATCH",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) return res;
+  return res;
+};
+export const getProjectById = async (id: string) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + `/rest/v1/projects?id=eq.${id}&select=*`, {
+    method: "GET",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+  });
+  if (!res.ok) return res;
+  return res;
 };

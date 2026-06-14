@@ -1,5 +1,4 @@
 
-import { editProjectSchema } from '../schema/editProject'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import CheckIcon from '@/assets/svgs/CheckIcon'
@@ -12,13 +11,13 @@ import Spinner from '@/Shared/UI/Spinner'
 import { Button } from '@/Shared/UI/Button'
 import { Link, useParams } from 'react-router-dom';
 import { ToastError, ToastSuccess } from '@/utils/Toast'
-
 import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-
-import { updatePrpject } from '../services/editProjectApi'
+import { projectSchema } from '../schema/Project.schema'
 import type { EditProjectPayLoad } from '../schema/types'
-import { fetchProjectById } from '../slice/projectSlice'
+import { fetchProjectById } from '@/features/projects/slice/projectDetailsSlice'
+import { updatePrpject } from '../services/ProjectsApi'
+import ProjectFormSkeleton from './ProjectFormSkeleton'
 
 const EditProjectForm = () => {
     const { id } = useParams()
@@ -26,7 +25,7 @@ const EditProjectForm = () => {
     const { data, status, loading } = useAppSelector((state) => state.ProjectDetails)
 
     const { register, reset, watch, handleSubmit, formState: { errors, } } = useForm({
-        resolver: zodResolver(editProjectSchema),
+        resolver: zodResolver(projectSchema),
     })
 
     useEffect(() => {
@@ -48,16 +47,14 @@ const EditProjectForm = () => {
     const descritpionLenght = watch("description")?.replace(/\s+/g, ' ').length || 0
 
     const submitting = async (values: { name: string, description: string }): Promise<void> => {
-        console.log(values);
 
-
-        const payloadData: EditProjectPayLoad = {
+        const payload: EditProjectPayLoad = {
             id: id!,
             name: values.name,
             description: values.description
         }
         try {
-            const res = await updatePrpject(payloadData)
+            const res = await updatePrpject({ id: id!, payload })
             if (!res.ok) {
                 const { msg }: { msg: string } = await res.json();
                 ToastError(`Failed to update project ${msg}`)
@@ -70,7 +67,7 @@ const EditProjectForm = () => {
         }
     }
     if (loading) {
-        return <h1>Loading....</h1>
+        return <ProjectFormSkeleton />
     }
     return (
         <div className='py-4 md:px-2 lg:px-8 w-full rounded-sm'>
@@ -153,3 +150,5 @@ const EditProjectForm = () => {
 }
 
 export default EditProjectForm
+
+
