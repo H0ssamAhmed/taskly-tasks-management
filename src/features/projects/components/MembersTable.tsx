@@ -1,3 +1,5 @@
+
+import OptionDotsIcon from '@/assets/svgs/OptionDotsIcon'
 import type { ProjectMemberType } from '../schema/types'
 import { cn } from '@/lib/utils'
 import Avatar from '@/shared/UI/Avatar'
@@ -41,9 +43,9 @@ const MembersTable = ({ memebers }: { memebers: ProjectMemberType[] }) => {
                             </span>
                         </td>
 
-                        <td className="px-6 py-4">
-                            <Button variant="ghost" className=' mx-auto' >
-                                Edit
+                        <td className="px-6 py-4 bg flex items-center justify-end  ">
+                            <Button variant="ghost" className='rounded-sm' >
+                                <OptionDotsIcon />
                             </Button>
                         </td>
                     </tr>
