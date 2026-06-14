@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { getAccessToken } from "./cookies";
 import { useUsers } from "@/features/auth/hooks/useUser";
 
@@ -7,13 +7,15 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const location = useLocation();
   const access_token = getAccessToken()
   const hash = window.location.hash.substring(1);
   const params = new URLSearchParams(hash);
   const type = params.get('type');
   const urlToken = params.get('access_token');
   const { authError } = useUsers()
-  const error = location.href.includes('access_denied');
+  const error = window.location.href.includes('access_denied');
+
 
   if ((type === 'recovery' && urlToken)) {
     return <Navigate to={`/reset-password?access_token=${urlToken}`} replace />
@@ -27,6 +29,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   if (authError) {
     return <Navigate to="/sign-in" />;
   }
+  if (location.pathname == "/") {
+    return <Navigate to="/project" />;
+  }
+
 
 
 
