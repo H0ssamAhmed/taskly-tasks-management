@@ -83,3 +83,16 @@ export const getProjectById = async (id: string) => {
   if (!res.ok) return res;
   return res;
 };
+
+export const getProjectMemeber = async (id: string) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(
+    baseURL + `/rest/v1/get_project_members?project_id=eq.${id}&select=*`,
+    {
+      method: "GET",
+      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    },
+  );
+  if (!res.ok) return res;
+  return res.json();
+};

@@ -6,6 +6,7 @@ import type { SetStateAction } from "react"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import LogOutBtn from "./LogOutBtn"
+import Avatar from "./UI/Avatar"
 interface Props {
     handleOpenNavMobile: React.Dispatch<SetStateAction<boolean>>
 }
@@ -57,9 +58,11 @@ const Header = ({ handleOpenNavMobile }: Props) => {
                             className='relative bg-primary-container rounded-sm cursor-pointer'>
                             <div
                                 onClick={hadleOpenDropdown}
-                                className="font-semibold w-10 h-10 text-2xl flex items-center justify-center">
-                                {avatarLetters}
+                            >
+
+                                <Avatar name={avatarLetters} />
                             </div>
+
                             {isDropdownOpen && <Dropdown />}
                         </div>
                     </div>
