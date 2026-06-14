@@ -1,4 +1,5 @@
-import EditIcon from '@/assets/svgs/editIcon'
+
+import EditIcon from '@/assets/svgs/EditIcon'
 import { formatDate } from '@/lib/helpers'
 import type { ProjectType } from '@/lib/types'
 import { Link } from 'react-router-dom'
