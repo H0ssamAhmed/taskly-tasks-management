@@ -6,9 +6,12 @@ import { Button } from '@/Shared/UI/Button'
 import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
 import PageBody from '@/Shared/PageBody'
 import LambIcon from '@/assets/svgs/LambIcon'
-const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: "Add NEW PROJECT", active: true }]
+import { useAppSelector } from '@/store/store'
 
 const EditProject = () => {
+    const { data } = useAppSelector((state) => state.ProjectDetails)
+    const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: data?.name, active: true }, { link: "", text: "Edit", active: true }]
+
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8'>
             <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />

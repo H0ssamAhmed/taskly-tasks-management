@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 import Arrow from "/src/assets/svg/l-arrow.svg"
 import { cn } from '@/lib/utils'
 import { Fragment } from 'react/jsx-runtime'
-type Link = { link: string, text: string, active?: boolean }
+type LinkType = { link?: string, text: string, active?: boolean }
 interface Props {
-    links: Link[],
+    links: LinkType[],
     className?: string
 }
 const BreadCrumb = ({ links, className }: Props) => {
