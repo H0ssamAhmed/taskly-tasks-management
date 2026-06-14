@@ -2,8 +2,8 @@
 import OptionDotsIcon from '@/assets/svgs/OptionDotsIcon'
 import type { ProjectMemberType } from '../schema/types'
 import { cn } from '@/lib/utils'
-import Avatar from '@/shared/UI/Avatar'
 import { Button } from '@/shared/UI/Button'
+import Memeber from './Memeber'
 
 const MembersTable = ({ memebers }: { memebers: ProjectMemberType[] }) => {
     return (
@@ -29,12 +29,9 @@ const MembersTable = ({ memebers }: { memebers: ProjectMemberType[] }) => {
                         className="border-t border-slate-200 hover:bg-slate-50 transition-colors not-last:border-b "
                     >
                         <td className="px-6 py-4 text-sm text-slate-800 flex items-center justify-start gap-4">
-                            <Avatar name={member.metadata.name} className='text-sm p-4 ' />
-                            <div >
-                                <p className='headline-lg text-sm!'>{member.metadata.name}</p>
-                                <p className='body-md text-xs'>{member.metadata.email}</p>
-                            </div>
-
+                            <Memeber
+                                name={member.metadata.name}
+                                email={member.metadata.email} />
                         </td>
 
                         <td className="px-6 py-4 text-sm text-slate-600">
