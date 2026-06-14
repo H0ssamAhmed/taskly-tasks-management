@@ -1,5 +1,5 @@
 import type { IconType } from '@/assets/svg'
-import { IconDisplayer } from '@/Shared/UI/IconDisplayer'
+import { IconDisplayer } from '@/shared/UI/IconDisplayer'
 
 interface Props {
     icon: IconType

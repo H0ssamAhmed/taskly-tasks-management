@@ -1,9 +1,9 @@
 
 import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
-import BreadCrumb from '@/Shared/BreadCrumb'
-import PageBody from '@/Shared/PageBody'
-import PageHeader from '@/Shared/PageHeader'
-import { Button } from '@/Shared/UI/Button'
+import BreadCrumb from '@/shared/BreadCrumb'
+import PageBody from '@/shared/PageBody'
+import PageHeader from '@/shared/PageHeader'
+import { Button } from '@/shared/UI/Button'
 import AddProjectForm from '../components/AddProjectForm'
 import LambIcon from '@/assets/svgs/LambIcon'
 

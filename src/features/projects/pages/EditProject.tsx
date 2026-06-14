@@ -1,10 +1,10 @@
 
-import BreadCrumb from '@/Shared/BreadCrumb'
+import BreadCrumb from '@/shared/BreadCrumb'
 import EditProjectForm from '../components/EditProjectForm'
-import PageHeader from '@/Shared/PageHeader'
-import { Button } from '@/Shared/UI/Button'
+import PageHeader from '@/shared/PageHeader'
+import { Button } from '@/shared/UI/Button'
 import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
-import PageBody from '@/Shared/PageBody'
+import PageBody from '@/shared/PageBody'
 import LambIcon from '@/assets/svgs/LambIcon'
 import { useAppSelector } from '@/store/store'
 

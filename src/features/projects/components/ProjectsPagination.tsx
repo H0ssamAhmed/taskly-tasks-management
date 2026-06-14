@@ -1,4 +1,4 @@
-import { Button } from '@/Shared/UI/Button'
+import { Button } from '@/shared/UI/Button'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { pageLimit } from '../services/ProjectsApi';
 import { fetchALlProjects } from '../slice/projectSlice';
