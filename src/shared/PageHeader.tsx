@@ -3,7 +3,7 @@ import React from 'react'
 interface Props {
     title: string,
     description?: string
-    children?: React.ReactNode
+    children?: React.ReactNode,
 }
 const PageHeader = ({ children, title, description }: Props) => {
     return (
