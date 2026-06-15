@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 import type { ProjectMemberType } from '../schema/types'
 import MembersTableSkeleton from '../components/MembersTableSkeleton'
 import MembersTable from '../components/MembersTable'
-import ProjectsError from '../components/ProjectsError'
+import PageError from '../../../shared/PageError'
 
 
 const ProjectMember = () => {
@@ -21,6 +21,7 @@ const ProjectMember = () => {
     const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: "Memebers", active: true }]
 
     const fetchMemebers = async () => {
+        setLoading(true)
         try {
             const memebers = await getProjectMemeber(id!)
             setMemebers(memebers);
@@ -53,7 +54,7 @@ const ProjectMember = () => {
                     invite member</Button>
             </PageHeader>
 
-            <ProjectsError />
+            <PageError onClick={fetchMemebers} />
         </div>)
     }
 

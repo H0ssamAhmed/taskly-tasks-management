@@ -12,9 +12,9 @@ import { useEffect, useState } from 'react'
 import { getPrpjectEpics } from '../services/ProjectsApi'
 import type { ProjectEpicsType } from '../schema/types'
 import EpicsFullPageSkelton from '../components/epic/EpicSkelton'
-import ProjectsError from '../components/ProjectsError'
 import EmptyEpics from '../components/epic/EmptyEpics'
 import EmptyOnSearch from '../components/epic/EmptyOnSearch'
+import PageError from '../../../shared/PageError'
 
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
@@ -31,6 +31,7 @@ const ProjectEpics = () => {
     const [fixedResponse, setFisedResponse] = useState<ProjectEpicsType[]>([])
 
     const fetchEpics = async () => {
+        setLoading(true)
         try {
             const response = await getPrpjectEpics(id!)
             setEpics(response);
@@ -66,7 +67,7 @@ const ProjectEpics = () => {
 
     if (loading) return <EpicsFullPageSkelton />
 
-    if (error) return <ProjectsError />
+    if (error) return <PageError onClick={fetchEpics} />
 
     if (!fixedResponse.length) return <EmptyEpics />
 

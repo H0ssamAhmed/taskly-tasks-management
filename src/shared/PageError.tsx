@@ -2,7 +2,7 @@ import ErrorCloudIcon from '@/assets/svgs/ErrorCloudIcon'
 import { Button } from '@/shared/UI/Button'
 
 
-const ProjectsError = () => {
+const PageError = ({ onClick }: { onClick?: () => void }) => {
     return (
         <div className='p-4 h-[50vh] flex items-center justify-center'>
             <div className='text-center flex items-center justify-center flex-col gap-6'>
@@ -12,10 +12,10 @@ const ProjectsError = () => {
                     projects right now. Please try
                     again in a moment.
                 </p>
-                <Button>Retry Connection</Button>
+                <Button onClick={onClick}>Retry Connection</Button>
             </div>
         </div>
     )
 }
 
-export default ProjectsError
+export default PageError

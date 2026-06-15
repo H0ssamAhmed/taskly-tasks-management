@@ -1,19 +1,18 @@
 import PlusIcon from '@/assets/svgs/PlusIcon'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import ProjectsList from '../components/ProjectsList'
 import EmptyProjects from '../components/EmptyProjects'
 import ProjectsSkeleton from '../components/ProjectSkeleton'
-// import ProjectsError from '../components/ProjectsError'
 import ProjectsPagination from '../components/ProjectsPagination'
 import { useEffect, useState } from 'react'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
 import PageBody from '@/shared/PageBody'
 import { getProjects } from '../services/ProjectsApi'
-import ProjectsError from '../components/ProjectsError'
+import PageError from '../../../shared/PageError'
 
 const Projects = () => {
-    const loaction = useLocation()
+
     const [searchParams] = useSearchParams()
     const [error, setError] = useState(false)
     const page = searchParams.get("page") || 1
@@ -22,6 +21,7 @@ const Projects = () => {
     const [projects, setProjects] = useState([])
 
     const fetchProject = async () => {
+        setIsLoading(true)
         try {
             const response = await getProjects({ page: Number(page) })
             setProjects(response.data)
@@ -38,7 +38,7 @@ const Projects = () => {
     useEffect(() => {
         fetchProject()
 
-    }, [loaction])
+    }, [])
     if (isLoading) {
         return <ProjectsSkeleton />
     }
@@ -52,7 +52,7 @@ const Projects = () => {
                 <Button className='flex gap-4 justify-center items-center py-3 px-5'><PlusIcon /><Link to={"add"}>Create New Project</Link></Button>
             </PageHeader>
 
-            <ProjectsError />
+            <PageError onClick={fetchProject} />
 
 
         </div>
