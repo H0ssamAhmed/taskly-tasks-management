@@ -11,6 +11,10 @@ import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { getPrpjectEpics } from '../services/ProjectsApi'
 import type { ProjectEpicsType } from '../schema/types'
+import EpicsFullPageSkelton from '../components/epic/EpicSkelton'
+import ProjectsError from '../components/ProjectsError'
+import EmptyEpics from '../components/epic/EmptyEpics'
+import EmptyOnSearch from '../components/epic/EmptyOnSearch'
 
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
@@ -23,11 +27,14 @@ const ProjectEpics = () => {
     const [epics, setEpics] = useState<ProjectEpicsType[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const fetchEpics = async () => {
+    const [searachValue, setSearchValue] = useState<string>("")
+    const [fixedResponse, setFisedResponse] = useState<ProjectEpicsType[]>([])
 
+    const fetchEpics = async () => {
         try {
             const response = await getPrpjectEpics(id!)
             setEpics(response);
+            setFisedResponse(response);
 
         } catch (error) {
             setError(true)
@@ -42,17 +49,26 @@ const ProjectEpics = () => {
     }, [id])
 
     const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
-
+        const value = e.target.value.trim()
+        setSearchValue(value)
+        if (value) {
+            const filterEpics = fixedResponse.filter((epic) => epic.title.includes(value))
+            setEpics(filterEpics)
+            return
+        }
+        setEpics(fixedResponse)
     }
-    if (loading) {
-        return <h1>loading</h1>
-    }
-    if (error) {
-        return <h1>Error</h1>
+
+    const handleReset = () => {
+        setSearchValue("")
+        setEpics(fixedResponse)
     }
 
+    if (loading) return <EpicsFullPageSkelton />
 
+    if (error) return <ProjectsError />
+
+    if (!fixedResponse.length) return <EmptyEpics />
 
 
     return (<div className='py-2 px-2 md:px-4 lg:px-8 relative'>
@@ -65,13 +81,13 @@ const ProjectEpics = () => {
 
             >
                 <div className='flex items-center justify-end gap-4 w-full'>
-                    <SearchBox onSearch={handleSearchInputValue} />
+                    <SearchBox searachValue={searachValue} onSearch={handleSearchInputValue} />
                     <Button className='flex gap-4 justify-center items-center py-3 px-5 rounded-sm'><PlusIcon /><Link to={"new"}>Create New Epics</Link></Button>
                 </div>
             </PageHeader>
         </div>
         <div className='lg:hidden'>
-            <SearchBox className="w-full" onSearch={() => { }} />
+            <SearchBox searachValue={searachValue} className="w-full" onSearch={handleSearchInputValue} />
 
         </div>
 
@@ -79,6 +95,8 @@ const ProjectEpics = () => {
 
         <PageBody className='w-full lg:w-full bg-surface-low mb-20 lg:mb-0'>
             <EpicsList epics={epics} />
+            {!epics.length && <EmptyOnSearch onClick={handleReset} />}
+
         </PageBody>
 
 
@@ -108,13 +126,15 @@ const ProjectEpics = () => {
 export default ProjectEpics
 
 interface BoxSearchProps {
-    onSearch: (
-        e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    searachValue: string;
     className?: string,
 }
-const SearchBox = ({ onSearch, className }: BoxSearchProps) => {
+const SearchBox = ({ onSearch, searachValue, className }: BoxSearchProps) => {
+
+
     return (<div className={cn('w-1/2 py-3 rounded-sm relative', className)}>
         <SearchIcon className='absolute top-1/3 left-2' width={20} height={20} />
-        <Input onChange={onSearch} placeholder='Seare Epics' className='w-full py-3 ps-8 rounded-sm' />
+        <Input value={searachValue} onChange={onSearch} placeholder='Seare Epics' className='w-full py-3 ps-8 rounded-sm' />
     </div>)
 }
