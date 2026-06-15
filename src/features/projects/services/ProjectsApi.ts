@@ -110,3 +110,15 @@ export const creatPrpjectEpic = async (payload: ProjectEpicType) => {
   if (!res.ok) return res;
   return res;
 };
+export const getPrpjectEpics = async (id: string) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(
+    baseURL + `/rest/v1/project_epics?project_id=eq.${id}`,
+    {
+      method: "GET",
+      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    },
+  );
+  if (!res.ok) return res;
+  return res.json();
+};

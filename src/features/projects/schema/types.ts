@@ -25,3 +25,30 @@ export interface ProjectEpicType extends EpicFormData {
   assignee_id?: string;
   project_id: string;
 }
+
+export interface UserProfile {
+  sub: string;
+  name: string;
+  email: string;
+  department: string;
+}
+export interface TaskData {
+  id: string;
+  title: string;
+  description: string;
+  deadline: string;
+  project_id: string;
+  epic_id: string;
+  created_at: string;
+}
+
+export interface AssigneeType {
+  sub: string;
+  name: string;
+  email: string;
+  department: string;
+}
+export interface ProjectEpicsType extends TaskData {
+  assignee: AssigneeType;
+  created_by: UserProfile;
+}

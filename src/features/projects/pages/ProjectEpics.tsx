@@ -4,10 +4,14 @@ import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
 import Input from '@/shared/UI/Input'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import EpicsList from '../components/epic/EpicsList'
 import SearchIcon from '@/assets/svgs/SearchIcon'
 import { cn } from '@/lib/utils'
+import { useEffect, useState } from 'react'
+import { getPrpjectEpics } from '../services/ProjectsApi'
+import type { ProjectEpicsType } from '../schema/types'
+
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
     { link: "", text: "Project name" },
@@ -15,11 +19,42 @@ const BreadCrumbLinks = [
 ]
 
 const ProjectEpics = () => {
+    const { id } = useParams()
+    const [epics, setEpics] = useState<ProjectEpicsType[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+    const fetchEpics = async () => {
+
+        try {
+            const response = await getPrpjectEpics(id!)
+            setEpics(response);
+
+        } catch (error) {
+            setError(true)
+            console.error(error);
+        }
+        finally {
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        fetchEpics()
+    }, [id])
 
     const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value);
 
     }
+    if (loading) {
+        return <h1>loading</h1>
+    }
+    if (error) {
+        return <h1>Error</h1>
+    }
+
+
+
+
     return (<div className='py-2 px-2 md:px-4 lg:px-8 relative'>
         <Link className='bg-primary fixed p-6 lg:hidden z-10 rounded-lg bottom-28 right-6' to={"new"}><PlusIcon width={14} height={14} className='text-white' /></Link>
 
@@ -43,7 +78,7 @@ const ProjectEpics = () => {
 
 
         <PageBody className='w-full lg:w-full bg-surface-low mb-20 lg:mb-0'>
-            <EpicsList />
+            <EpicsList epics={epics} />
         </PageBody>
 
 

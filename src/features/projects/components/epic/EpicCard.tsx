@@ -2,53 +2,58 @@ import CanlenderIcon from '@/assets/svgs/CanlenderIcon'
 import CreatedByEpicIcon from '@/assets/svgs/CanlenderIcon'
 import OptionDotsIcon from '@/assets/svgs/OptionDotsIcon'
 import Avatar from '@/shared/UI/Avatar'
+import type { ProjectEpicsType } from '../../schema/types'
+import { cn } from '@/lib/utils'
+import { formatDate } from '@/lib/helpers'
 
-const EpicCard = () => {
+const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
+    const date = formatDate(epic.created_at)
+
     return (
         <div className='bg-white rounded-md'>
             <div className='hidden lg:block p-4 lg:border-s-4 border-s-green-800 rounded-md'>
                 <div className='flex items-center justify-between my-2'>
-                    <EpicBadge />
+                    <EpicBadge epicId={epic.epic_id} />
                     <OptionDotsIcon />
                 </div>
-                <h3 className='font-semibold text-xl/snug'>Sustainable Materials Integration</h3>
+                <h3 className='font-semibold text-xl/snug my-4'>{epic.title}</h3>
                 <div className='flex items-center justify-start gap-3'>
-                    <Avatar name='Hossam Ahmed' className=' my-4 rounded-md' />
+                    <Avatar name={epic.assignee.name} className=' my-4 rounded-md' />
                     <div>
                         <p>Assinee</p>
-                        <p className='text-md font-semibold'>{"ali red"}</p>
+                        <p className='text-md font-semibold'>{epic.assignee.name}</p>
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
                     <p className='text-xs flex items-center justify-start gap-1 my-4'>
                         <CreatedByEpicIcon />
                         <span>Created By:</span>
-                        <span className='font-semibold' >{"hossam Ahmed"}</span>
+                        <span className='font-semibold' >{epic.created_by.name}</span>
                     </p>
                     <p className='text-xs flex items-center justify-start gap-1 my-4'>
                         <CanlenderIcon />
-                        <span>22 Oct 2025</span>
+                        <span>{date}</span>
                     </p>
 
                 </div>
             </div>
             <div className='block lg:hidden p-4 rounded-md'>
                 <div className='flex items-center justify-between my-2'>
-                    <EpicBadge />
+                    <EpicBadge epicId={epic.epic_id} />
                     <OptionDotsIcon />
                 </div>
-                <h3 className='font-semibold text-xl/snug'>Sustainable Materials Integration</h3>
+                <h3 className='font-semibold text-xl/snug'>{epic.title}</h3>
                 <div className='flex items-center justify-between gap-3'>
                     <div className='flex items-center justify-between gap-3'>
-                        <Avatar name='Hossam Ahmed' className=' my-4 text-md rounded-md' />
+                        <Avatar name={epic.assignee.name} className=' my-4 text-md rounded-md' />
                         <div>
-                            <p className='text-md font-semibold'>{"ali red"}</p>
+                            <p className='text-md font-semibold'>{epic.assignee.name}</p>
                             <p className='text-muted'>Assinee</p>
                         </div>
                     </div>
                     <p className='text-xs text-end flex flex-col gap-1 my-4'>
                         <span className='text-muted'>DEADLINE:</span>
-                        <span>22 Oct 2025</span>
+                        <span>{date}</span>
                     </p>
                 </div>
             </div>
@@ -58,6 +63,6 @@ const EpicCard = () => {
 
 export default EpicCard
 
-const EpicBadge = () => {
-    return (<div>EPIC-102</div>)
+const EpicBadge = ({ epicId, className }: { epicId: string, className?: string }) => {
+    return (<p className={cn('px-2.5 py-1 bg-success rounded-xs font-bold text-[10px]', className)}>{epicId}</p>)
 }
