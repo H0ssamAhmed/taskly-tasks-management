@@ -22,6 +22,8 @@ const ProjectMember = () => {
 
     const fetchMemebers = async () => {
         setLoading(true)
+        setError(false)
+
         try {
             const memebers = await getProjectMemeber(id!)
             setMemebers(memebers);

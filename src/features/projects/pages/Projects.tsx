@@ -27,6 +27,7 @@ const Projects = () => {
 
 
         setIsLoading(true)
+        setError(false)
         try {
             const response = await getProjects({ page: Number(currentpage), limit: Number(limit) })
             setProjects(response.data)

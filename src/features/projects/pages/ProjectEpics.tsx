@@ -38,6 +38,8 @@ const ProjectEpics = () => {
 
     const fetchEpics = async () => {
         setLoading(true)
+        setError(false)
+
         try {
             const response = await getPrpjectEpics({ id: id!, page: Number(currentpage), limit: Number(limit) })
             setEpics(response.data);
