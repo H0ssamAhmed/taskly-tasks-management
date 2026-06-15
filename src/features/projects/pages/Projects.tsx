@@ -13,17 +13,22 @@ import PageError from '../../../shared/PageError'
 
 const Projects = () => {
 
+    const [searchparams] = useSearchParams();
+    const currentpage = searchparams.get("page") || 1;
+    const limit = searchparams.get("limmit") || 10;
     const [searchParams] = useSearchParams()
     const [error, setError] = useState(false)
-    const page = searchParams.get("page") || 1
     const [isLoading, setIsLoading] = useState(true)
     const [pagination, setPaginantion] = useState<string>("")
     const [projects, setProjects] = useState([])
 
+
     const fetchProject = async () => {
+
+
         setIsLoading(true)
         try {
-            const response = await getProjects({ page: Number(page) })
+            const response = await getProjects({ page: Number(currentpage), limit: Number(limit) })
             setProjects(response.data)
             setPaginantion(response.pagination)
 
@@ -37,8 +42,7 @@ const Projects = () => {
     }
     useEffect(() => {
         fetchProject()
-
-    }, [])
+    }, [searchParams])
     if (isLoading) {
         return <ProjectsSkeleton />
     }
@@ -77,7 +81,9 @@ const Projects = () => {
             }
             <div className='py-4 w-full px-4 bottom-4 left-0'>
 
-                <ProjectsPagination page={pagination} />
+                <ProjectsPagination
+
+                    data={pagination} />
             </div>
         </div>
     )

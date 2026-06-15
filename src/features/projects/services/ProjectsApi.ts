@@ -4,10 +4,16 @@ import { getAccessToken } from "@/utils/cookies";
 import type { ProjectFormData } from "../schema/Project.schema";
 import type { ProjectEpicType } from "../schema/types";
 
-export const pageLimit: number = 10;
-export const getProjects = async ({ page = 1 }: { page?: number }) => {
-  const limit: number = pageLimit;
-  const offset = (page - 1 < 0 ? 0 : page - 1) * pageLimit;
+export const defaultLimit: number = 10;
+interface Props {
+  page?: number;
+  limit?: number;
+}
+export const getProjects = async ({
+  page = 1,
+  limit = defaultLimit,
+}: Props) => {
+  const offset = (page - 1) * limit;
   const ACCESS_TOKEN = getAccessToken();
   try {
     const response = await fetch(
