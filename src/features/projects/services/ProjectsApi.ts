@@ -5,14 +5,14 @@ import type { ProjectFormData } from "../schema/Project.schema";
 import type { ProjectEpicType } from "../schema/types";
 
 export const defaultLimit: number = 10;
-interface Props {
+interface ProjectPagination {
   page?: number;
   limit?: number;
 }
 export const getProjects = async ({
   page = 1,
   limit = defaultLimit,
-}: Props) => {
+}: ProjectPagination) => {
   const offset = (page - 1) * limit;
   const ACCESS_TOKEN = getAccessToken();
   try {
@@ -116,15 +116,53 @@ export const creatPrpjectEpic = async (payload: ProjectEpicType) => {
   if (!res.ok) return res;
   return res;
 };
-export const getPrpjectEpics = async (id: string) => {
+
+interface EpicPaginantion extends ProjectPagination {
+  id: string;
+}
+export const getPrpjectEpics = async ({
+  page = 1,
+  limit = defaultLimit,
+  id,
+}: EpicPaginantion) => {
+  const offset = (page - 1) * limit;
   const ACCESS_TOKEN = getAccessToken();
-  const res = await fetch(
-    baseURL + `/rest/v1/project_epics?project_id=eq.${id}`,
-    {
-      method: "GET",
-      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
-    },
-  );
-  if (!res.ok) return res;
-  return res.json();
+  try {
+    const response = await fetch(
+      baseURL +
+        `/rest/v1/project_epics?project_id=eq.${id}&limit=${limit}&offset=${offset}`,
+      {
+        method: "GET",
+        headers: {
+          ...reqHeader,
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Prefer: "count=exact",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("UNAUTHORIZED");
+      }
+      if (response.status >= 500) {
+        throw new Error("SERVER_ERROR");
+      }
+      throw new Error("CLIENT_ERROR");
+    }
+
+    const rangeHeader =
+      (await response.headers.get("Content-Range")) || "0-9/0";
+    const result = {
+      data: await response.json(),
+      pagination: rangeHeader,
+    };
+    return result;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      console.error(error);
+      // throw new Error("NETWORK_ERROR");
+    }
+    throw error;
+  }
 };

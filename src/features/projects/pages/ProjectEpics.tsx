@@ -4,7 +4,7 @@ import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
 import Input from '@/shared/UI/Input'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import EpicsList from '../components/epic/EpicsList'
 import SearchIcon from '@/assets/svgs/SearchIcon'
 import { cn } from '@/lib/utils'
@@ -15,6 +15,8 @@ import EpicsFullPageSkelton from '../components/epic/EpicSkelton'
 import EmptyEpics from '../components/epic/EmptyEpics'
 import EmptyOnSearch from '../components/epic/EmptyOnSearch'
 import PageError from '../../../shared/PageError'
+import Pagination from '../components/Pagination'
+import usePagination from '../hooks/usePagination'
 
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
@@ -24,18 +26,24 @@ const BreadCrumbLinks = [
 
 const ProjectEpics = () => {
     const { id } = useParams()
+    const { limit, currentpage } = usePagination()
+    const [searchParams] = useSearchParams()
     const [epics, setEpics] = useState<ProjectEpicsType[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [searachValue, setSearchValue] = useState<string>("")
     const [fixedResponse, setFisedResponse] = useState<ProjectEpicsType[]>([])
+    const [pagination, setPaginantion] = useState<string>("")
+
 
     const fetchEpics = async () => {
         setLoading(true)
         try {
-            const response = await getPrpjectEpics(id!)
-            setEpics(response);
-            setFisedResponse(response);
+            const response = await getPrpjectEpics({ id: id!, page: Number(currentpage), limit: Number(limit) })
+            setEpics(response.data);
+            setFisedResponse(response.data);
+            setPaginantion(response.pagination)
+
 
         } catch (error) {
             setError(true)
@@ -47,7 +55,7 @@ const ProjectEpics = () => {
     }
     useEffect(() => {
         fetchEpics()
-    }, [id])
+    }, [id, searchParams])
 
     const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim()
@@ -101,24 +109,7 @@ const ProjectEpics = () => {
         </PageBody>
 
 
-        <div className='hidden lg:flex items-center justify-between' >
-            <p className='text-xs text-muted ' >Showing {10} of {50} active projects</p>
-            <div className='flex items-center py-20 justify-end gap-2'>
-                <Button
-
-                    className='rounded-sm border-slate-light disabled:opacity-50 border ' variant="ghost">{`<`}</Button>
-                <div className='hidden lg:flex items-center justify-end gap-2'>
-
-                    {Array.from({ length: 2 }).map((_, idx) => <Button
-                        variant={idx + 1 == 1 ? "primary" : "ghost"}
-                        className='rounded-sm border-slate-light border '>{idx + 1}</Button>)}
-                </div>
-
-                <Button
-
-                    className='rounded-sm border-slate-light disabled:opacity-50 border ' variant="ghost">{`>`}</Button>
-            </div>
-        </div>
+        <Pagination data={pagination} />
     </div>
 
     )

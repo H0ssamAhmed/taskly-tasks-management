@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import ProjectsList from '../components/ProjectsList'
 import EmptyProjects from '../components/add/EmptyProjects'
 import ProjectsSkeleton from '../components/ProjectSkeleton'
-import ProjectsPagination from '../components/ProjectsPagination'
+import Pagination from '../components/Pagination'
 import { useEffect, useState } from 'react'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
@@ -81,8 +81,7 @@ const Projects = () => {
             }
             <div className='py-4 w-full px-4 bottom-4 left-0'>
 
-                <ProjectsPagination
-
+                <Pagination
                     data={pagination} />
             </div>
         </div>
