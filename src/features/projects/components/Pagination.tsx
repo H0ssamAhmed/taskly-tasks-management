@@ -3,7 +3,7 @@ import usePagination from '../hooks/usePagination';
 import { getPaginationRange } from '@/lib/helpers';
 
 
-const ProjectsPagination = ({ data }: { data: string }) => {
+const Pagination = ({ data }: { data: string }) => {
   const { currentpage, limit, handleChangeQuery } = usePagination()
   const total_count = data.split("/")[1];
   const totalPages = Math.ceil(Number(total_count) / Number(limit))
@@ -16,15 +16,15 @@ const ProjectsPagination = ({ data }: { data: string }) => {
   const paginationRange = getPaginationRange({ currentPage: Number(currentpage), totalPages: totalPages });
   return (
     <>
-      <div className='flex items-center justify-between' >
-        <p className='text-xs text-muted hidden lg:block' >Showing {limit} of {total_count} active projects</p>
+      <div className='hidden lg:flex items-center justify-between' >
+        <p className='text-xs text-muted ' >Showing {limit} of {total_count} active projects</p>
         <div className='flex items-center py-20 justify-end gap-2'>
           <Button
             onClick={() => handleChangePage("-")}
 
             disabled={Number(currentpage) == 1}
             className='rounded-sm border-slate-light disabled:opacity-50 border ' variant="ghost">{`<`}</Button>
-          <div className='hidden lg:flex items-center justify-end gap-2'>
+          <div className='flex items-center justify-end gap-2'>
 
             {paginationRange.map((pageNumber, idx) => {
               if (pageNumber === '...') {
@@ -57,4 +57,4 @@ const ProjectsPagination = ({ data }: { data: string }) => {
   )
 }
 
-export default ProjectsPagination
+export default Pagination
