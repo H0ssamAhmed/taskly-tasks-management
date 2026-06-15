@@ -7,8 +7,8 @@ import { getProjectMemeber } from '../services/ProjectsApi'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { ProjectMemberType } from '../schema/types'
-import MembersTableSkeleton from '../components/MembersTableSkeleton'
-import MembersTable from '../components/MembersTable'
+import MembersTableSkeleton from '../components/memebers/MembersTableSkeleton'
+import MembersTable from '../components/memebers/MembersTable'
 import PageError from '../../../shared/PageError'
 
 

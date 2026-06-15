@@ -1,6 +1,6 @@
 
 import OptionDotsIcon from '@/assets/svgs/OptionDotsIcon'
-import type { ProjectMemberType } from '../schema/types'
+import type { ProjectMemberType } from '../../schema/types'
 import { cn } from '@/lib/utils'
 import { Button } from '@/shared/UI/Button'
 import Memeber from './Memeber'

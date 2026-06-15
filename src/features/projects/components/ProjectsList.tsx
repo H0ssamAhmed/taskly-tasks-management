@@ -1,5 +1,5 @@
-import ProjectCard from './ProjectCard'
-import AddCard from './AddCard'
+import ProjectCard from './add/ProjectCard'
+import AddCard from './add/AddCard'
 import type { ProjectType } from '../schema/types'
 
 const ProjectsList = ({ projects }: { projects: ProjectType[] }) => {

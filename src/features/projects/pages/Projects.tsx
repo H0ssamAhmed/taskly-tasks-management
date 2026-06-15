@@ -1,7 +1,7 @@
 import PlusIcon from '@/assets/svgs/PlusIcon'
 import { Link, useSearchParams } from 'react-router-dom'
 import ProjectsList from '../components/ProjectsList'
-import EmptyProjects from '../components/EmptyProjects'
+import EmptyProjects from '../components/add/EmptyProjects'
 import ProjectsSkeleton from '../components/ProjectSkeleton'
 import ProjectsPagination from '../components/ProjectsPagination'
 import { useEffect, useState } from 'react'

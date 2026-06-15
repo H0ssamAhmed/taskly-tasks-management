@@ -2,7 +2,7 @@
 import EditIcon from '@/assets/svgs/EditIcon'
 import { formatDate } from '@/lib/helpers'
 import { Link } from 'react-router-dom'
-import type { ProjectType } from '../schema/types'
+import type { ProjectType } from '../../schema/types'
 
 const ProjectCard = ({ id, name, description, created_at }: ProjectType) => {
     const date = formatDate(created_at)

@@ -9,14 +9,14 @@ import { Link, useParams } from 'react-router-dom';
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { descriptionLengthChecker, projectSchema } from '../schema/Project.schema'
-import type { EditProjectPayLoad } from '../schema/types'
+import type { EditProjectPayLoad } from '../../schema/types'
 import { fetchProjectById } from '@/features/projects/slice/projectDetailsSlice'
-import { updatePrpject } from '../services/ProjectsApi'
-import ProjectFormSkeleton from './ProjectFormSkeleton'
+import { updatePrpject } from '../../services/ProjectsApi'
 import Label from '@/shared/UI/Label'
 import Input from '@/shared/UI/Input'
 import { Button } from '@/shared/UI/Button'
+import ProjectFormSkeleton from '../ProjectFormSkeleton'
+import { descriptionLengthChecker, projectSchema } from '../../schema/Project.schema'
 
 const EditProjectForm = () => {
     const { id } = useParams()

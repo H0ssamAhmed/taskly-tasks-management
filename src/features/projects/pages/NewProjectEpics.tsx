@@ -1,7 +1,7 @@
 import BreadCrumb from '@/shared/BreadCrumb'
 import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
-import NewEpicForm from '../components/NewEpicForm'
+import NewEpicForm from '../components/epic/NewEpicForm'
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
     { link: "", text: "Project name" },

@@ -1,7 +1,7 @@
 
 import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
 
-import AddProjectForm from '../components/AddProjectForm'
+import AddProjectForm from '../components/add/AddProjectForm'
 import LambIcon from '@/assets/svgs/LambIcon'
 import BreadCrumb from '@/shared/BreadCrumb'
 import PageHeader from '@/shared/PageHeader'

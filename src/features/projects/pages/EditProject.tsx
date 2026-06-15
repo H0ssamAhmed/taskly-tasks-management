@@ -1,5 +1,5 @@
 
-import EditProjectForm from '../components/EditProjectForm'
+import EditProjectForm from '../components/edit/EditProjectForm'
 import AddMemberIcon from '@/assets/svgs/AddMemberIcon'
 import LambIcon from '@/assets/svgs/LambIcon'
 import BreadCrumb from '@/shared/BreadCrumb'
