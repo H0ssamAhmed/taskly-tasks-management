@@ -9,18 +9,23 @@ import PlusIcon from '@/assets/svgs/PlusIcon';
 import ListIcon from '@/assets/svgs/ListIcon';
 import { Button } from '@/shared/UI/Button';
 
-const EpicDetailsModel = ({ epic }: { epic: ProjectEpicsType }) => {
 
-    const closeModel = () => {
+interface Props {
+    epic: ProjectEpicsType,
+    onClose: () => void
+}
+const EpicDetailsModel = ({ onClose, epic }: Props) => {
 
-        console.log("epic");
-        console.log(epic);
+
+    if (!epic) {
+        return
     }
+
 
     return (
         <div className="fixed w-screen h-screen left-0 top-0 z-50 flex items-center justify-center">
             <div className="absolute w-full h-full   z-10 bg-black/50 backdrop-blur-sm"
-                onClick={closeModel}
+                onClick={onClose}
             />
 
             {/* Modal Content */}
@@ -34,7 +39,9 @@ const EpicDetailsModel = ({ epic }: { epic: ProjectEpicsType }) => {
                             </p>
                             <p className='headline-lg text-2xl'>{epic.title}</p>
                         </div>
-                        <p className='rounded-full cursor-pointer transition-all  p-4 hover:bg-error'><XmarkIcon width={24} height={24} /></p>
+                        <p
+                            onClick={onClose}
+                            className='rounded-full cursor-pointer transition-all  p-4 hover:bg-error'><XmarkIcon width={24} height={24} /></p>
                     </div>
                     <div className='flex flex-col my-4 gap-4'>
                         <span className='lg:hidden'>Description</span>
