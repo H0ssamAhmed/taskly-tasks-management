@@ -2,13 +2,15 @@ import { baseURL } from "@/lib/supabase";
 import { reqHeader } from "@/utils/constants/Request";
 import { getAccessToken } from "@/utils/cookies";
 import type { ProjectFormData } from "../schema/Project.schema";
-import type { ProjectEpicType } from "../schema/types";
+import type {
+  EpicPaginantion,
+  EpicQuery,
+  ProjectEpicType,
+  ProjectPagination,
+} from "../schema/types";
 
 export const defaultLimit: number = 10;
-interface ProjectPagination {
-  page?: number;
-  limit?: number;
-}
+
 export const getProjects = async ({
   page = 1,
   limit = defaultLimit,
@@ -117,9 +119,6 @@ export const creatPrpjectEpic = async (payload: ProjectEpicType) => {
   return res;
 };
 
-interface EpicPaginantion extends ProjectPagination {
-  id: string;
-}
 export const getPrpjectEpics = async ({
   page = 1,
   limit = defaultLimit,
@@ -165,4 +164,18 @@ export const getPrpjectEpics = async ({
     }
     throw error;
   }
+};
+
+export const fetchEpicDetails = async ({ epicId, projectId }: EpicQuery) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(
+    baseURL +
+      `/rest/v1/project_epics?project_id=eq.${projectId}&id=eq.${epicId}`,
+    {
+      method: "GET",
+      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    },
+  );
+  if (!res.ok) return res;
+  return res.json();
 };

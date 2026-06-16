@@ -52,3 +52,17 @@ export interface ProjectEpicsType extends TaskData {
   assignee: AssigneeType;
   created_by: UserProfile;
 }
+
+export interface ProjectPagination {
+  page?: number;
+  limit?: number;
+}
+
+export interface EpicPaginantion extends ProjectPagination {
+  id: string;
+}
+
+export interface EpicQuery {
+  epicId: string;
+  projectId: string;
+}

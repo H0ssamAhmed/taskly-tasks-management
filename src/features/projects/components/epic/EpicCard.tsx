@@ -1,16 +1,30 @@
-import CanlenderIcon from '@/assets/svgs/CanlenderIcon'
-import CreatedByEpicIcon from '@/assets/svgs/CanlenderIcon'
+import CanlenderIcon from '@/assets/svgs/AssigneeIcon'
+import CreatedByEpicIcon from '@/assets/svgs/AssigneeIcon'
 import OptionDotsIcon from '@/assets/svgs/OptionDotsIcon'
 import Avatar from '@/shared/UI/Avatar'
 import type { ProjectEpicsType } from '../../schema/types'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/helpers'
+import { useEpicDetails } from '../../hooks/useEpicDetails'
+import { useState } from 'react'
 
 const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
+    const [openModel, setOpenModel] = useState(false)
+    const { fetchEpic, epic: epicDetails } = useEpicDetails()
     const date = formatDate(epic.created_at)
+    const handleFetch = async () => {
+        const details = await fetchEpic({ epicId: epic.id, projectId: epic.project_id })
+        console.log(details);
+        console.log(epicDetails);
+        console.log(openModel);
+        setOpenModel(true)
 
+
+    }
     return (
-        <div className='bg-white rounded-md'>
+        <div className='bg-white rounded-md'
+            onClick={handleFetch}
+        >
             <div className='hidden lg:block p-4 lg:border-s-4 border-s-green-800 rounded-md'>
                 <div className='flex items-center justify-between my-2'>
                     <EpicBadge epicId={epic.epic_id} />
@@ -57,6 +71,7 @@ const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
                     </p>
                 </div>
             </div>
+
         </div>
     )
 }

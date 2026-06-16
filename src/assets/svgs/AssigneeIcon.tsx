@@ -1,6 +1,6 @@
 import type { MyIconProps } from '@/lib/types'
 
-const CanlenderIcon = ({ ...props }: MyIconProps) => {
+const AssigneeIcon = ({ ...props }: MyIconProps) => {
     return (<svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg"
 
         {...props}
@@ -10,4 +10,4 @@ const CanlenderIcon = ({ ...props }: MyIconProps) => {
     )
 }
 
-export default CanlenderIcon
+export default AssigneeIcon
