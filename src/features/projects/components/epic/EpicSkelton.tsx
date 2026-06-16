@@ -24,7 +24,7 @@ export const EpicSkelton = () => {
 
 const EpicsFullPageSkelton = () => {
     return (
-        <div className="w-full container mx-auto my-4">
+        <div className="w-full container mx-auto my-4 p-4">
 
             <div className="flex items-center justify-start gap-4 mb-8">
                 <span className="bg-surface-highest animate-pulse w-24 h-4"></span>

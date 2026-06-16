@@ -57,14 +57,14 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>Assignee </span>
                             <p className='flex items-center gap-2'>
-                                <Avatar className='p-4 w-4 h-4 text-sm bg-slate-light' name={epic.assignee.name} /> {epic.assignee.name}
+                                <Avatar className='p-4 w-4 h-4 text-sm bg-slate-light' name={epic.assignee.name} /> {epic.assignee.name || "No Assignee"}
                             </p>
                         </div>
                         <hr className='col-span-2 opacity-20 h-0.5 lg:hidden bg-muted' />
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>deadline </span>
                             <p className='flex items-center gap-2'>
-                                <CalenderIcon className='w-4 h-4' />{epic.deadline}
+                                <CalenderIcon className='w-4 h-4' />{epic.deadline || "No dataline"}
                             </p>
                         </div>
                         <div className="flex flex-col gap-4">
