@@ -3,44 +3,15 @@ import BreadCrumb from '@/shared/BreadCrumb'
 import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
-import { getProjectMemeber } from '../services/ProjectsApi'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import type { ProjectMemberType } from '../schema/types'
 import MembersTableSkeleton from '../components/memebers/MembersTableSkeleton'
 import MembersTable from '../components/memebers/MembersTable'
 import PageError from '../../../shared/PageError'
+import { useMembers } from '../hooks/useMember'
 
 
 const ProjectMember = () => {
-    const { id } = useParams()
-    const [memebers, setMemebers] = useState<ProjectMemberType[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
-
+    const { members, loading, error, fetchMemebers } = useMembers()
     const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: "Memebers", active: true }]
-
-    const fetchMemebers = async () => {
-        setLoading(true)
-        setError(false)
-
-        try {
-            const memebers = await getProjectMemeber(id!)
-            setMemebers(memebers);
-        } catch (error) {
-            setError(true)
-            console.error(error)
-        }
-        finally {
-            setLoading(false)
-        }
-    }
-    useEffect(() => {
-        fetchMemebers()
-    }, [])
-
-
-
     if (loading) {
         return <MembersTableSkeleton />
     }
@@ -74,7 +45,7 @@ const ProjectMember = () => {
 
 
             <PageBody>
-                <MembersTable memebers={memebers} />
+                <MembersTable memebers={members} />
             </PageBody>
 
         </div>

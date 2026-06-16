@@ -13,9 +13,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import type { ProjectEpicType } from '../../schema/types'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { creatPrpjectEpic } from '../../services/ProjectsApi'
+import { useMembers } from '../../hooks/useMember'
+import RowSkeleton from '../RowSkeleton'
 
 const NewEpicForm = () => {
     const { id } = useParams()
+    const { members, loading } = useMembers()
     const navigate = useNavigate()
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
         resolver: zodResolver(epicSchema),
@@ -98,12 +101,12 @@ const NewEpicForm = () => {
 
                     />
                     <div className='col-span-2'>
-                        <select className='w-full py-3  appearance-none  ps-4 pe-9 bg-surface-highest rounded-sm'
+                        {loading ? <RowSkeleton className='w-full py-5' /> : <select className='w-full py-3  appearance-none  ps-4 pe-9 bg-surface-highest rounded-sm'
                             {...register("assignee_id")}
                         >
                             <option value="">Select Memeber</option>
-                            <option value="f75e78b8-91ab-4fe9-a9f9-7473c7a059b9">Hossam Ahmed</option>
-                        </select>
+                            {members.map((member) => <option value={member.member_id}>{member.metadata.name}</option>)}
+                        </select>}
                     </div>
                 </InputLayout>
                 <InputLayout className='grid grid-cols-1 my-6 items-start'>
