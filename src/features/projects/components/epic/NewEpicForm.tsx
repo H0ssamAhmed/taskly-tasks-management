@@ -135,7 +135,7 @@ const NewEpicForm = () => {
                 <Link to={"/"}>
                     <Button disabled={isSubmitting} variant="secondary">Cancel</Button>
                 </Link>
-                <Button disabled={isSubmitting} variant="primary">Create Epic</Button>
+                <Button disabled={isSubmitting} variant="primary">{isSubmitting ? "loading.." : "Create Epic"}</Button>
             </div>
 
         </form>
