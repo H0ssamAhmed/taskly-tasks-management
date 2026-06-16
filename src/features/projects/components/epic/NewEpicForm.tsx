@@ -32,6 +32,8 @@ const NewEpicForm = () => {
         setisSubmitting(true)
         const payload: ProjectEpicType = {
             ...values,
+            assignee_id: values.assignee_id || null,
+            deadline: values.deadline || null,
             project_id: id!
         }
 
@@ -105,7 +107,7 @@ const NewEpicForm = () => {
                             {...register("assignee_id")}
                         >
                             <option value="">Select Memeber</option>
-                            {members.map((member) => <option value={member.member_id}>{member.metadata.name}</option>)}
+                            {members.map((member) => <option value={member.user_id}>{member.metadata.name}</option>)}
                         </select>}
                     </div>
                 </InputLayout>

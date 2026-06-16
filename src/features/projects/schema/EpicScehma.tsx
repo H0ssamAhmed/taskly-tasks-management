@@ -12,10 +12,12 @@ export const epicSchema = z.object({
 
     assignee_id: z
         .string()
+        .nullable()
         .optional(),
 
     deadline: z.
         string()
+        .nullable()
         .optional()
 });
 

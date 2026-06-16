@@ -14,7 +14,7 @@ const NewProjectEpics = () => {
         <div className='py-2 px-2 md:px-4  lg:px-8'>
             <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />
             <PageHeader
-                title='Project Members'
+                title='Create New Epic'
                 description="Define a major project phase or high-level milestone to group related tasks and track architectural progress."
             >
             </PageHeader>

@@ -22,7 +22,7 @@ export interface ProjectMemberType {
   user_id: string;
 }
 export interface ProjectEpicType extends EpicFormData {
-  assignee_id?: string;
+  assignee_id?: string | null;
   project_id: string;
 }
 
@@ -36,7 +36,7 @@ export interface TaskData {
   id: string;
   title: string;
   description: string;
-  deadline: string;
+  deadline?: string | null;
   project_id: string;
   epic_id: string;
   created_at: string;

@@ -35,8 +35,8 @@ const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
                     <div className='flex items-center justify-start gap-3'>
                         <Avatar name={epic.assignee.name} className=' my-4 rounded-md' />
                         <div>
-                            <p>Assinee</p>
-                            <p className='text-md font-semibold'>{epic.assignee.name}</p>
+                            <p>Assignee</p>
+                            <p className='text-md font-semibold'>{epic.assignee.name || "No Assignee"}</p>
                         </div>
                     </div>
                     <div className='flex items-center justify-between'>
