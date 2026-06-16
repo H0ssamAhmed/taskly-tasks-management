@@ -18,10 +18,12 @@ const EmptyEpics = () => {
                     epics to track progress better and maintain
                     architectural clarity.
                 </p>
-                <Button className='flex gap-4 justify-center items-center py-3 px-5'>
-                    <FlasIcon />
-                    <Link to={"new"}>Create First Epic</Link>
-                </Button>
+                <Link to={"new"}>
+                    <Button className='flex gap-4 justify-center items-center py-3 px-5'>
+                        <FlasIcon />
+                        Create First Epic
+                    </Button>
+                </Link>
 
                 <div className='flex my-10 justify-center items-center gap-4'>
                     {boxInfo.map((info, idx) => <Box {...info} key={idx} />)}
