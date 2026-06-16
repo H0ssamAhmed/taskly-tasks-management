@@ -22,7 +22,7 @@ export const getCurrentUser = async () => {
     const newTokens = await refreshToken();
     setCookie(ACCESS_TOKEN_KEY, newTokens.access_token);
     setCookie(REFRESH_TOKEN_KEY, newTokens.refresh_token);
-    return newTokens.user;
+    return newTokens.user.user_metadata;
   }
   return result.user_metadata;
 };

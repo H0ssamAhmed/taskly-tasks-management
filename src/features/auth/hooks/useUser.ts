@@ -2,9 +2,10 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect, useState } from "react";
 import { fetchCuurentUser } from "../authSlice/authSlice";
 import type { UserType } from "../schema/types";
+import { avatarLetter } from "@/lib/helpers";
 
 export function useUsers() {
-  const [avatarLetters, setAvatarLetters] = useState("");
+  const [avatarLetters, setAvatarLetters] = useState<string>("");
   const [user, setUser] = useState<UserType | null>(null);
   const dispatch = useAppDispatch();
   const { data, status, loading, error } = useAppSelector(
@@ -28,13 +29,8 @@ export function useUsers() {
         sub: data?.sub,
       };
       setUser(currentUser);
-
-      const first = name.split(" ")[0][0];
-      const second =
-        name.split(" ").length == 2
-          ? name.split(" ")[1][0]
-          : name.split(" ")[0][1];
-      setAvatarLetters(first + second);
+      const avatarLetters = avatarLetter(name);
+      setAvatarLetters(avatarLetters || "");
     }
   }, [data]);
 

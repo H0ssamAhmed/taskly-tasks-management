@@ -2,10 +2,17 @@ import { getCurrentUser } from "@/features/user/services/userApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { UserType } from "../schema/types";
 
-export const fetchCuurentUser = createAsyncThunk("user/fetchUser", async () => {
-  const response = await getCurrentUser();
-  return response;
-});
+export const fetchCuurentUser = createAsyncThunk(
+  "user/fetchUser",
+  async (_, thunkAPI) => {
+    try {
+      const response = await getCurrentUser();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
 interface AuthState {
   data: UserType | null;
   status: "idle" | "loading" | "success" | "error";

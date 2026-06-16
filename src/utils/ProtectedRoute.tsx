@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { getAccessToken } from "./cookies";
+import { getAccessToken, getRefreshToken } from "./cookies";
 import { useUsers } from "@/features/auth/hooks/useUser";
 
 interface ProtectedRouteProps {
@@ -9,6 +9,7 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation();
   const access_token = getAccessToken()
+  const refresh_token = getRefreshToken()
   const hash = window.location.hash.substring(1);
   const params = new URLSearchParams(hash);
   const type = params.get('type');
@@ -23,8 +24,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   if (error) {
     return <Navigate to={`/reset-password`} replace />
   }
-  if (!access_token) {
+  if (!refresh_token && !access_token) {
     return <Navigate to="/sign-in" />;
+  }
+  if (refresh_token && !access_token) {
+    return <Navigate to="/" />;
   }
   if (authError) {
     return <Navigate to="/sign-in" />;

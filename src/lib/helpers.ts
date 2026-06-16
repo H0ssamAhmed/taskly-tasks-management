@@ -52,6 +52,7 @@ export const getPaginationRange = ({
 };
 
 export const avatarLetter = (name: string) => {
+  if (!name) return;
   const first = name?.split(" ")[0][0];
   const second =
     name?.split(" ").length == 2
