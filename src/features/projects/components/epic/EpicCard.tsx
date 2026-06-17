@@ -20,6 +20,13 @@ const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
         setActiveEpic(true)
         await fetchEpic({ epicId: epic.id, projectId: epic.project_id })
     }
+    const closeModel = (isDirty: boolean) => {
+        resetModel()
+        if (isDirty) {
+            console.log("there are somehting is changed");
+
+        }
+    }
 
     return (
         <>
@@ -81,7 +88,7 @@ const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
                 <Spinner className='w-52 h-52' />
             </div>}
             {activeEpic && details && <EpicDetailsModel
-                onClose={resetModel}
+                onClose={closeModel}
                 epic={details}
             />}
         </>

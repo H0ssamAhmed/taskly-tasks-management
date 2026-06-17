@@ -35,7 +35,6 @@ const ProjectEpics = () => {
     const [fixedResponse, setFisedResponse] = useState<ProjectEpicsType[]>([])
     const [pagination, setPaginantion] = useState<string>("")
 
-
     const fetchEpics = async () => {
         setLoading(true)
         setError(false)

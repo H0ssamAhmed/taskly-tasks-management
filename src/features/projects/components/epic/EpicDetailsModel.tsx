@@ -18,7 +18,7 @@ import { useMembers } from '../../hooks/useMember';
 
 interface Props {
     epic: ProjectEpicsType,
-    onClose: () => void
+    onClose: (isDirty: boolean) => void
 }
 
 interface activeFileEdit {
@@ -33,6 +33,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
     const [descriptionDraft, setDescriptionDraft] = useState(localEpic.description);
     const [deadlineDraft, setDeadlineDraft] = useState(localEpic.deadline ?? "");
     const [assigneeDraft, setAssigneeDraft] = useState({ assignee_id: localEpic.assignee?.sub ?? "", name: localEpic.assignee?.name ?? "", });
+    const [isAnyDtailsChanged, SetIsAnyDtailsChanged] = useState<boolean>(false)
 
     const setActiveFiled = ({ name, value }: activeFileEdit) => {
         setCurrentTypeEdit({ name, value })
@@ -45,7 +46,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
         }
 
         await updateField("title", titleDraft);
-
+        SetIsAnyDtailsChanged(true)
         setCurrentTypeEdit(null);
     };
 
@@ -59,6 +60,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
             "description",
             descriptionDraft
         );
+        SetIsAnyDtailsChanged(true)
 
         setCurrentTypeEdit(null);
     };
@@ -71,6 +73,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
             e.target.value || null
         );
 
+        SetIsAnyDtailsChanged(true)
 
         setCurrentTypeEdit(null);
     };
@@ -86,24 +89,17 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
             setCurrentTypeEdit(null);
             return;
         }
-
-
         if (selectedId === null) {
             await updateField("assignee_id", null);
-
             setAssigneeDraft({
                 assignee_id: "",
                 name: "",
             });
-
+            SetIsAnyDtailsChanged(true)
             setCurrentTypeEdit(null);
-
             return;
         }
-
-        const member = members.find(
-            m => m.user_id === selectedId
-        );
+        const member = members.find(m => m.user_id === selectedId);
 
         if (!member) return;
 
@@ -116,7 +112,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
             assignee_id: selectedId,
             name: member.metadata.name,
         });
-
+        SetIsAnyDtailsChanged(true)
         setCurrentTypeEdit(null);
     };
 
@@ -126,7 +122,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
     return (
         <div className="fixed w-screen h-screen left-0 top-0 z-50 flex items-center justify-center">
             <div className="absolute w-full h-full   z-10 bg-black/50 backdrop-blur-sm"
-                onClick={onClose}
+                onClick={() => onClose(isAnyDtailsChanged)}
             />
 
             {/* Modal Content */}
@@ -161,7 +157,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
 
                         </div>
                         <p
-                            onClick={onClose}
+                            onClick={() => onClose(isAnyDtailsChanged)}
                             className='rounded-sm cursor-pointer transition-all  p-2 hover:bg-error/30'><XmarkIcon width={16} height={16} /></p>
                     </div>
 
