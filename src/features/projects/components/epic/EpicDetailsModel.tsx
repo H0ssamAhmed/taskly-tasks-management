@@ -41,7 +41,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                         </div>
                         <p
                             onClick={onClose}
-                            className='rounded-full cursor-pointer transition-all  p-4 hover:bg-error'><XmarkIcon width={24} height={24} /></p>
+                            className='rounded-sm cursor-pointer transition-all  p-2 hover:bg-error/30'><XmarkIcon width={16} height={16} /></p>
                     </div>
                     <div className='flex flex-col my-4 gap-4'>
                         <span className='lg:hidden'>Description</span>
@@ -56,9 +56,9 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                         </div>
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>Assignee </span>
-                            <p className='flex items-center gap-2'>
+                            <div className='flex items-center gap-2'>
                                 <Avatar className='p-4 w-4 h-4 text-sm bg-slate-light' name={epic.assignee.name} /> {epic.assignee.name || "No Assignee"}
-                            </p>
+                            </div>
                         </div>
                         <hr className='col-span-2 opacity-20 h-0.5 lg:hidden bg-muted' />
                         <div className="flex flex-col gap-4">

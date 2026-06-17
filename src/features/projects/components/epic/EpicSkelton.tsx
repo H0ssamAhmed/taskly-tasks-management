@@ -41,8 +41,8 @@ const EpicsFullPageSkelton = () => {
                 </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-8 w-full flex-wrap">
-                {Array.from({ length: 10 }).map(() => {
-                    return (<EpicSkelton />)
+                {Array.from({ length: 10 }).map((_, i) => {
+                    return (<EpicSkelton key={i} />)
                 })}
             </div>
         </div>
