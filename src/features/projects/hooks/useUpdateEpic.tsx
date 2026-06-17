@@ -43,6 +43,14 @@ export function useUpdateEpic(epic: ProjectEpicsType) {
         deadline: value,
       }));
     }
+    if (field === "assignee_id") {
+      console.log(value);
+
+      setLocalEpic(prev => ({
+        ...prev,
+        assignee_id: value,
+      }));
+    }
 
     try {
       setIsSaving(true);

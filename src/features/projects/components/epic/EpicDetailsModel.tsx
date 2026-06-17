@@ -12,6 +12,7 @@ import { useUpdateEpic } from '../../hooks/useUpdateEpic';
 import { useState } from 'react';
 import Input from '@/shared/UI/Input';
 import { cn } from '@/lib/utils';
+import { useMembers } from '../../hooks/useMember';
 
 
 
@@ -25,11 +26,13 @@ interface activeFileEdit {
     value: string
 }
 const EpicDetailsModel = ({ onClose, epic }: Props) => {
+    const { members } = useMembers()
     const { localEpic, isSaving, updateField } = useUpdateEpic(epic)
     const [currentTypeEdit, setCurrentTypeEdit] = useState<activeFileEdit | null>({ name: "", value: "" })
     const [titleDraft, setTitleDraft] = useState(localEpic.title);
     const [descriptionDraft, setDescriptionDraft] = useState(localEpic.description);
     const [deadlineDraft, setDeadlineDraft] = useState(localEpic.deadline ?? "");
+    const [assigneeDraft, setAssigneeDraft] = useState({ assignee_id: localEpic.assignee?.sub ?? "", name: localEpic.assignee?.name ?? "", });
 
     const setActiveFiled = ({ name, value }: activeFileEdit) => {
         setCurrentTypeEdit({ name, value })
@@ -75,7 +78,47 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
     const handleDeadineBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setDeadlineDraft(e.target.value)
     }
+    const handleAssignee = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = e.target.value || null;
+        const currentAssigneeId = localEpic.assignee?.sub ?? null;
 
+        if (selectedId === currentAssigneeId) {
+            setCurrentTypeEdit(null);
+            return;
+        }
+
+
+        if (selectedId === null) {
+            await updateField("assignee_id", null);
+
+            setAssigneeDraft({
+                assignee_id: "",
+                name: "",
+            });
+
+            setCurrentTypeEdit(null);
+
+            return;
+        }
+
+        const member = members.find(
+            m => m.user_id === selectedId
+        );
+
+        if (!member) return;
+
+        await updateField(
+            "assignee_id",
+            selectedId
+        );
+
+        setAssigneeDraft({
+            assignee_id: selectedId,
+            name: member.metadata.name,
+        });
+
+        setCurrentTypeEdit(null);
+    };
 
     if (!epic) return
 
@@ -152,12 +195,42 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                 <Avatar className='p-4 w-4 h-4 text-sm' name={epic.created_by.name} /> {epic.created_by.name}
                             </p>
                         </div>
-                        <div className="flex flex-col gap-4">
-                            <span className='text-muted text-xs uppercase'>Assignee </span>
-                            <div className='flex items-center gap-2'>
-                                <Avatar className='p-4 w-4 h-4 text-sm bg-slate-light' name={epic.assignee.name} /> {epic.assignee.name || "No Assignee"}
-                            </div>
-                        </div>
+                        {currentTypeEdit?.name === "assignee" ?
+                            (
+                                <div className='flex flex-col'>
+                                    <span className='text-muted text-xs uppercase'>assignee </span>
+                                    <select
+                                        className='py-4 rounded-sm'
+                                        disabled={isSaving}
+                                        value={assigneeDraft.assignee_id}
+                                        onChange={handleAssignee}
+
+                                    >
+                                        <option value="">
+                                            Unassigned
+                                        </option>
+
+                                        {members.map(member => (
+                                            <option
+                                                key={member.user_id}
+                                                value={member.user_id}
+                                            >
+                                                {member.metadata.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                            )
+                            :
+                            <div className="flex flex-col gap-4"
+                                onClick={() => setActiveFiled({ name: "assignee", value: localEpic.assignee.sub })}
+                            >
+                                <span className='text-muted text-xs uppercase'>assignee</span>
+                                <div className='flex items-center gap-2'>
+                                    <Avatar className='p-4 w-4 h-4 text-sm bg-slate-light/40' name={assigneeDraft.name} /> {assigneeDraft.name || "No Assignee"}
+                                </div>
+                            </div>}
                         <hr className='col-span-2 opacity-20 h-0.5 lg:hidden bg-muted' />
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>deadline </span>
