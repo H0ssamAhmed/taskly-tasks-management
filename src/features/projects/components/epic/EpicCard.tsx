@@ -2,28 +2,38 @@ import CanlenderIcon from '@/assets/svgs/AssigneeIcon'
 import CreatedByEpicIcon from '@/assets/svgs/AssigneeIcon'
 import OptionDotsIcon from '@/assets/svgs/OptionDotsIcon'
 import Avatar from '@/shared/UI/Avatar'
-import type { ProjectEpicsType } from '../../schema/types'
+import type { EpicPaginantion, ProjectEpicsType } from '../../schema/types'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/lib/helpers'
 import { useEpicDetails } from '../../hooks/useEpicDetails'
 import EpicDetailsModel from './EpicDetailsModel'
 import { useState } from 'react'
 import Spinner from '@/shared/UI/Spinner'
+import usePagination from '../../hooks/usePagination'
+import { useParams } from 'react-router-dom'
 
+interface Props {
+    epic: ProjectEpicsType,
+    fetchEpics: ({ id, page, limit }: EpicPaginantion) => void
 
-const EpicCard = ({ epic }: { epic: ProjectEpicsType }) => {
+}
+const EpicCard = ({ epic, fetchEpics }: Props) => {
+    const { id } = useParams();
+    const { currentpage, limit, } = usePagination()
     const [activeEpic, setActiveEpic] = useState<boolean>(false)
-
     const { fetchEpic, epic: details, loading, resetModel } = useEpicDetails()
+
+
     const date = formatDate(epic.created_at)
     const handleFetch = async () => {
         setActiveEpic(true)
         await fetchEpic({ epicId: epic.id, projectId: epic.project_id })
     }
-    const closeModel = (isDirty: boolean) => {
+    const closeModel = async (isDirty: boolean) => {
         resetModel()
+
         if (isDirty) {
-            console.log("there are somehting is changed");
+            fetchEpics({ id: id!, page: Number(currentpage), limit: Number(limit) })
 
         }
     }
