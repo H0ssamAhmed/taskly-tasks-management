@@ -1,6 +1,6 @@
 
 import EpicsModelIcon from '@/assets/svgs/EpicsModelIcon';
-import type { ProjectEpicsType, ProjectEpicType } from '../../schema/types';
+import type { ProjectEpicsType } from '../../schema/types';
 import XmarkIcon from '@/assets/svgs/XmarkIcon';
 import Avatar from '@/shared/UI/Avatar';
 import CalenderIcon from '@/assets/svgs/CalenderIcon';
@@ -11,40 +11,73 @@ import { Button } from '@/shared/UI/Button';
 import { useUpdateEpic } from '../../hooks/useUpdateEpic';
 import { useState } from 'react';
 import Input from '@/shared/UI/Input';
+import { cn } from '@/lib/utils';
+
 
 
 interface Props {
     epic: ProjectEpicsType,
     onClose: () => void
 }
+
+interface activeFileEdit {
+    name: string,
+    value: string
+}
 const EpicDetailsModel = ({ onClose, epic }: Props) => {
     const { localEpic, isSaving, updateField } = useUpdateEpic(epic)
+    const [currentTypeEdit, setCurrentTypeEdit] = useState<activeFileEdit | null>({ name: "", value: "" })
+    const [titleDraft, setTitleDraft] = useState(localEpic.title);
+    const [descriptionDraft, setDescriptionDraft] = useState(localEpic.description);
+    const [deadlineDraft, setDeadlineDraft] = useState(localEpic.deadline ?? "");
 
-    const [currentTypeEdit, setCurrentTypeEdit] = useState<keyof ProjectEpicType | null>()
-    const [title, setTitle] = useState(localEpic.title);
-    const [description, setDescription] = useState(localEpic.description);
-    const activeEdit = (inputType: keyof ProjectEpicType) => {
-        setCurrentTypeEdit(inputType)
+    const setActiveFiled = ({ name, value }: activeFileEdit) => {
+        setCurrentTypeEdit({ name, value })
     }
-    const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        if (!currentTypeEdit || title == localEpic.title) {
+
+    const handleTitleBlur = async () => {
+        if (titleDraft === localEpic.title) {
             setCurrentTypeEdit(null);
-
-            return
+            return;
         }
-        const editResponse = await updateField(name, value);
-        if (editResponse?.ok) {
-            setCurrentTypeEdit(null);
-            return
-        }
-        console.log(editResponse);
 
+        await updateField("title", titleDraft);
 
+        setCurrentTypeEdit(null);
     };
-    if (!epic) {
-        return
+
+    const handleDescriptionBlur = async () => {
+        if (descriptionDraft === localEpic.description) {
+            setCurrentTypeEdit(null);
+            return;
+        }
+
+        await updateField(
+            "description",
+            descriptionDraft
+        );
+
+        setCurrentTypeEdit(null);
+    };
+
+    const handleDeadineChange = async (e: React.FocusEvent<HTMLInputElement>) => {
+        setDeadlineDraft(e.target.value)
+
+        await updateField(
+            "deadline",
+            e.target.value || null
+        );
+
+
+        setCurrentTypeEdit(null);
+    };
+
+    const handleDeadineBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setDeadlineDraft(e.target.value)
     }
+
+
+    if (!epic) return
 
 
     return (
@@ -63,20 +96,25 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                 <span className='text-muted text-xs font-bold'>{epic.epic_id}</span>
                             </p>
 
-                            {currentTypeEdit == "title"
-                                ? <Input
-                                    name="title"
+                            {currentTypeEdit?.name === "title" ? (
+                                <Input
                                     disabled={isSaving}
-                                    className='w-2/3 py-2'
-                                    type='text'
-                                    value={title}
-                                    onBlur={handleBlur}
-                                    onChange={(e) => setTitle(e.target.value)} />
-                                : <p
-                                    onClick={() => activeEdit("title")}
-                                    className='headline-lg text-2xl'>{title}</p>
-                            }
-
+                                    value={titleDraft}
+                                    className={cn('w-2/3 py-2', isSaving && "opacity-50 ")}
+                                    onChange={(e) =>
+                                        setTitleDraft(e.target.value)
+                                    }
+                                    onBlur={handleTitleBlur}
+                                />
+                            ) : (
+                                <p
+                                    className='headline-lg text-2xl'
+                                    onClick={() => setActiveFiled({ name: "title", value: localEpic.title })
+                                    }
+                                >
+                                    {localEpic.title}
+                                </p>
+                            )}
 
                         </div>
                         <p
@@ -87,13 +125,25 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
 
 
 
-                    <div className='flex flex-col my-4 gap-4'
-                        onClick={() => activeEdit("description")}
-                    >
-                        <span className='lg:hidden'>Description</span>
-                        <p>{epic.description || "No description provided"}</p>
+                    {currentTypeEdit?.name === "description" ? (
+                        <textarea
+                            disabled={isSaving}
+                            value={descriptionDraft}
+                            className={cn('py-2 ps-4 pe-9 bg-surface-highest w-full h-20 rounded-sm', isSaving && "opacity-50 ")}
+                            onChange={(e) =>
+                                setDescriptionDraft(e.target.value)
+                            }
+                            onBlur={handleDescriptionBlur}
+                        />
+                    ) : (
+                        <div className='flex flex-col my-4 gap-4'
+                            onClick={() => setActiveFiled({ name: "description", value: localEpic.description })}
+                        >
+                            <span className='lg:hidden'>Description</span>
+                            <p> {localEpic.description || "No description provided"}</p>
+                        </div>
 
-                    </div>
+                    )}
 
                     <div className='grid grid-cols-2 gap-6 lg:grid-cols-3'>
                         <div className="flex flex-col gap-4">
@@ -111,9 +161,26 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                         <hr className='col-span-2 opacity-20 h-0.5 lg:hidden bg-muted' />
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>deadline </span>
-                            <p className='flex items-center gap-2'>
-                                <CalenderIcon className='w-4 h-4' />{epic.deadline || "No dataline"}
-                            </p>
+                            {currentTypeEdit?.name === "deadline" ? (
+                                <Input
+                                    min={new Date().toISOString().split('T')[0]}
+                                    name='deadline'
+                                    type="date"
+                                    disabled={isSaving}
+                                    value={deadlineDraft}
+                                    className={cn('py-2', isSaving && "opacity-50 ")}
+                                    onChange={handleDeadineChange}
+                                    onBlur={handleDeadineBlur}
+                                />
+                            ) : (
+                                <p
+                                    onClick={() => setActiveFiled({ name: "deadline", value: localEpic.deadline ?? "", })}
+                                    className='flex items-center gap-2'
+                                >
+                                    <CalenderIcon className='w-4 h-4' />{deadlineDraft || "No dataline"}
+                                </p>
+                            )}
+
                         </div>
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>created at </span>
