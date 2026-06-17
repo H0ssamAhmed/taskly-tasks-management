@@ -5,6 +5,7 @@ import type { ProjectFormData } from "../schema/Project.schema";
 import type {
   EpicPaginantion,
   EpicQuery,
+  ProjectEpicsType,
   ProjectEpicType,
   ProjectPagination,
 } from "../schema/types";
@@ -178,4 +179,21 @@ export const fetchEpicDetails = async ({ epicId, projectId }: EpicQuery) => {
   );
   if (!res.ok) return res;
   return res.json();
+};
+
+export const updateEpic = async ({
+  id,
+  payload,
+}: {
+  id: string;
+  payload: Partial<ProjectEpicsType>;
+}) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + `/rest/v1/epics?id=eq.${id}`, {
+    method: "PATCH",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) return res;
+  return res;
 };

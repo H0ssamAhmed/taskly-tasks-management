@@ -1,6 +1,6 @@
 
 import EpicsModelIcon from '@/assets/svgs/EpicsModelIcon';
-import type { ProjectEpicsType } from '../../schema/types';
+import type { ProjectEpicsType, ProjectEpicType } from '../../schema/types';
 import XmarkIcon from '@/assets/svgs/XmarkIcon';
 import Avatar from '@/shared/UI/Avatar';
 import CalenderIcon from '@/assets/svgs/CalenderIcon';
@@ -8,6 +8,9 @@ import { formatDate } from '@/lib/helpers';
 import PlusIcon from '@/assets/svgs/PlusIcon';
 import ListIcon from '@/assets/svgs/ListIcon';
 import { Button } from '@/shared/UI/Button';
+import { useUpdateEpic } from '../../hooks/useUpdateEpic';
+import { useState } from 'react';
+import Input from '@/shared/UI/Input';
 
 
 interface Props {
@@ -15,8 +18,30 @@ interface Props {
     onClose: () => void
 }
 const EpicDetailsModel = ({ onClose, epic }: Props) => {
+    const { localEpic, isSaving, updateField } = useUpdateEpic(epic)
+
+    const [currentTypeEdit, setCurrentTypeEdit] = useState<keyof ProjectEpicType | null>()
+    const [title, setTitle] = useState(localEpic.title);
+    const [description, setDescription] = useState(localEpic.description);
+    const activeEdit = (inputType: keyof ProjectEpicType) => {
+        setCurrentTypeEdit(inputType)
+    }
+    const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (!currentTypeEdit || title == localEpic.title) {
+            setCurrentTypeEdit(null);
+
+            return
+        }
+        const editResponse = await updateField(name, value);
+        if (editResponse?.ok) {
+            setCurrentTypeEdit(null);
+            return
+        }
+        console.log(editResponse);
 
 
+    };
     if (!epic) {
         return
     }
@@ -32,21 +57,44 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
             <div className="relative z-10 bg-white p-6 rounded-lg w-2xl shadow-xl">
                 <div className='rounded-sm '>
                     <div className=' flex items-center justify-between py-8'>
-                        <div className='flex flex-col gap-4'>
+                        <div className='flex grow flex-col gap-4'>
                             <p className='flex items-center justify-start gap-4'>
                                 <EpicsModelIcon />
                                 <span className='text-muted text-xs font-bold'>{epic.epic_id}</span>
                             </p>
-                            <p className='headline-lg text-2xl'>{epic.title}</p>
+
+                            {currentTypeEdit == "title"
+                                ? <Input
+                                    name="title"
+                                    disabled={isSaving}
+                                    className='w-2/3 py-2'
+                                    type='text'
+                                    value={title}
+                                    onBlur={handleBlur}
+                                    onChange={(e) => setTitle(e.target.value)} />
+                                : <p
+                                    onClick={() => activeEdit("title")}
+                                    className='headline-lg text-2xl'>{title}</p>
+                            }
+
+
                         </div>
                         <p
                             onClick={onClose}
                             className='rounded-sm cursor-pointer transition-all  p-2 hover:bg-error/30'><XmarkIcon width={16} height={16} /></p>
                     </div>
-                    <div className='flex flex-col my-4 gap-4'>
+
+
+
+
+                    <div className='flex flex-col my-4 gap-4'
+                        onClick={() => activeEdit("description")}
+                    >
                         <span className='lg:hidden'>Description</span>
                         <p>{epic.description || "No description provided"}</p>
+
                     </div>
+
                     <div className='grid grid-cols-2 gap-6 lg:grid-cols-3'>
                         <div className="flex flex-col gap-4">
                             <span className='text-muted text-xs uppercase'>created by</span>
