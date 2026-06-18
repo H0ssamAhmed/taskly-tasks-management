@@ -4,19 +4,16 @@ import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
 import Input from '@/shared/UI/Input'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import EpicsList from '../components/epic/EpicsList'
 import SearchIcon from '@/assets/svgs/SearchIcon'
 import { cn } from '@/lib/utils'
-import { useEffect, useState } from 'react'
-import { getPrpjectEpics } from '../services/ProjectsApi'
-import type { ProjectEpicsType } from '../schema/types'
 import EpicsFullPageSkelton from '../components/epic/EpicSkelton'
 import EmptyEpics from '../components/epic/EmptyEpics'
 import EmptyOnSearch from '../components/epic/EmptyOnSearch'
 import PageError from '../../../shared/PageError'
 import Pagination from '../components/Pagination'
-import usePagination from '../hooks/usePagination'
+import { useEpics } from '../hooks/useEpics'
 
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
@@ -25,55 +22,16 @@ const BreadCrumbLinks = [
 ]
 
 const ProjectEpics = () => {
-    const { id } = useParams()
-    const { limit, currentpage } = usePagination()
-    const [searchParams] = useSearchParams()
-    const [epics, setEpics] = useState<ProjectEpicsType[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
-    const [searachValue, setSearchValue] = useState<string>("")
-    const [fixedResponse, setFisedResponse] = useState<ProjectEpicsType[]>([])
-    const [pagination, setPaginantion] = useState<string>("")
+    const { loading,
+        epics,
+        error,
+        fetchEpics,
+        fixedResponse,
+        searachValue,
+        handleSearchInputValue,
+        handleReset,
+        pagination } = useEpics()
 
-
-    const fetchEpics = async () => {
-        setLoading(true)
-        setError(false)
-
-        try {
-            const response = await getPrpjectEpics({ id: id!, page: Number(currentpage), limit: Number(limit) })
-            setEpics(response.data);
-            setFisedResponse(response.data);
-            setPaginantion(response.pagination)
-
-
-        } catch (error) {
-            setError(true)
-            console.error(error);
-        }
-        finally {
-            setLoading(false)
-        }
-    }
-    useEffect(() => {
-        fetchEpics()
-    }, [id, searchParams])
-
-    const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.trim()
-        setSearchValue(value)
-        if (value) {
-            const filterEpics = fixedResponse.filter((epic) => epic.title.includes(value))
-            setEpics(filterEpics)
-            return
-        }
-        setEpics(fixedResponse)
-    }
-
-    const handleReset = () => {
-        setSearchValue("")
-        setEpics(fixedResponse)
-    }
 
     if (loading) return <EpicsFullPageSkelton />
 
@@ -105,7 +63,10 @@ const ProjectEpics = () => {
 
 
         <PageBody className='w-full lg:w-full bg-surface-low mb-20 lg:mb-0'>
-            <EpicsList epics={epics} />
+            <EpicsList
+                fetchEpics={fetchEpics}
+                epics={epics}
+            />
             {!epics.length && <EmptyOnSearch onClick={handleReset} />}
 
         </PageBody>
