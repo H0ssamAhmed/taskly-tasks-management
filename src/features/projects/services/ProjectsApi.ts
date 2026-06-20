@@ -179,3 +179,5 @@ export const fetchEpicDetails = async ({ epicId, projectId }: EpicQuery) => {
   if (!res.ok) return res;
   return res.json();
 };
+
+export const getProjectTask = async () => {};
