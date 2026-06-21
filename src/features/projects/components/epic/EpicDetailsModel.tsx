@@ -6,14 +6,14 @@ import Avatar from '@/shared/UI/Avatar';
 import CalenderIcon from '@/assets/svgs/CalenderIcon';
 import { formatDate } from '@/lib/helpers';
 import PlusIcon from '@/assets/svgs/PlusIcon';
-import ListIcon from '@/assets/svgs/ListIcon';
-import { Button } from '@/shared/UI/Button';
+
 import { useUpdateEpic } from '../../hooks/useUpdateEpic';
 import { useState } from 'react';
 import Input from '@/shared/UI/Input';
 import { cn } from '@/lib/utils';
 import { useMembers } from '../../hooks/useMember';
 import { Link } from 'react-router-dom';
+import EpicTasks from './EpicTasks';
 
 
 
@@ -247,7 +247,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                     onClick={() => setActiveFiled({ name: "deadline", value: localEpic.deadline ?? "", })}
                                     className='flex items-center gap-2'
                                 >
-                                    <CalenderIcon className='w-4 h-4' />{deadlineDraft || "No dataline"}
+                                    <CalenderIcon className='w-4 h-4' />{deadlineDraft || "No deadline"}
                                 </p>
                             )}
 
@@ -266,22 +266,11 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                     <div className='my-4 py-4 flex flex-col gap-6'>
                         <div className='flex items-center justify-between'>
                             <p className='text-lg/normal font-semibold'>Tasks</p>
-                            <Link to={"/"}>
+                            <Link to={`/project/${epic.project_id}/tasks/new?epic_id=${epic.id}`}>
                                 <button className='flex items-center justify-end gap-1 text-primary'><PlusIcon /> Add Task</button>
                             </Link>
                         </div>
-                        <div className='flex items-center justify-center rounded-sm w-full  bg-surface-highest h-62 border-dashed border-2 border-muted' >
-                            <div className='flex flex-col items-center justify-center gap-4'>
-                                <p className='w-10 h-10 flex items-center justify-center p-2 rounded-sm bg-surface-highest'>
-                                    <ListIcon />
-                                </p>
-                                <p className='my- '>No tasks have been added to this epic yet</p>
-                                <Button
-                                    className='flex items-center justify-center gap-2'
-                                ><PlusIcon />Add Task</Button>
-
-                            </div>
-                        </div>
+                        <EpicTasks epicId={epic.id} />
                     </div>
                 </div>
 

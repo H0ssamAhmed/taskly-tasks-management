@@ -85,3 +85,33 @@ export interface TaskType extends TaskFormData {
 export interface CreateTaskPayload extends TaskFormData {
   project_id?: string;
 }
+
+export interface TaskUser {
+  id: string | null;
+  name: string | null;
+  email: string | null;
+  department: string | null;
+}
+
+export interface TaskEpic {
+  id: string | null;
+  title: string | null;
+  epic_id: string | null;
+}
+
+export interface EpicTask {
+  id: string;
+  project_id: string;
+  title: string;
+
+  epic_id: string | null;
+  description?: string | null;
+  status: TaskStatusType | "TO_DO";
+  created_at: string | null;
+  due_date: string | null;
+  task_id: string | null;
+
+  epic: TaskEpic | null;
+  created_by: TaskUser | null;
+  assignee: TaskUser | null;
+}

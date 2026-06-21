@@ -6,7 +6,7 @@ import Label from '@/shared/UI/Label'
 import Spinner from '@/shared/UI/Spinner'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { taskSchema, type TaskFormData } from '../../schema/TaskSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { taskStatus, taskStatusDisaply } from '@/utils/constants/TaskStatus'
@@ -17,14 +17,22 @@ import { descriptionLengthChecker } from '../../schema/Project.schema'
 import { cn } from '@/lib/utils'
 import { createTask } from '../../services/TasksApi'
 import { ToastError, ToastSuccess } from '@/utils/Toast'
+import RowSkeleton from '../RowSkeleton'
 
 const AddTaskForm = () => {
     const { id } = useParams();
-
+    const [searchParams, setSearchParams] = useSearchParams()
+    const { epics, loading: loadingEpics } = useEpics()
+    const aciveEpic = searchParams.get("epic_id") || null
     const { members } = useMembers()
-    const { epics } = useEpics()
     const [loading, setLoading] = useState(false)
-    const { register, reset, watch, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(taskSchema) })
+    const { register, reset, watch, setValue, handleSubmit, formState: { errors } } = useForm({
+        resolver: zodResolver(taskSchema),
+        defaultValues: {
+            status: taskStatus["TO DO"],
+            epic_id: aciveEpic ?? null,
+        }
+    })
     const descritpionLenght = descriptionLengthChecker(watch("description"))
 
 
@@ -50,6 +58,13 @@ const AddTaskForm = () => {
             }
             ToastSuccess("Project created successfully")
             reset()
+            searchParams.delete("epic_id");
+            if (aciveEpic) {
+                searchParams.delete("epic_id");
+                setSearchParams(searchParams);
+                setValue("epic_id", null)
+
+            }
 
         } catch (error) {
             ToastError(`Failed to create project`)
@@ -84,7 +99,6 @@ const AddTaskForm = () => {
                                 text='status'
                             />
                             <select
-                                defaultValue={taskStatus["TO DO"]}
                                 {...register("status")}
                                 className=' bg-surface-highest p   p-3.5 w-full rounded-sm' name="status" id="status">
                                 {taskStatusDisaply.map((status) => <option value={taskStatus[status]}>{status}</option>
@@ -100,7 +114,6 @@ const AddTaskForm = () => {
                             />
                             <select
                                 id="assignee"
-                                // name="assignee_id"
                                 {...register("assignee_id")}
                                 className=' bg-surface-highest p-3.5 w-full rounded-sm' >
                                 <option value="">Select Memeber</option>
@@ -114,7 +127,7 @@ const AddTaskForm = () => {
                             htmlFor='epic'
                             text='epic'
                         />
-                        <select
+                        {loadingEpics ? <RowSkeleton className='w-full py-6' /> : <select
                             id="epic"
                             {...register("epic_id")}
                             className='bg-surface-highest p-3.5 w-full rounded-sm'
@@ -123,7 +136,7 @@ const AddTaskForm = () => {
 
                             {epics.map((epic) => <option className='bg-orange-400' value={epic.id}>{epic.epic_id}{" - "}{epic.title}</option>
                             )}
-                        </select>
+                        </select>}
                     </InputLayout>
 
 

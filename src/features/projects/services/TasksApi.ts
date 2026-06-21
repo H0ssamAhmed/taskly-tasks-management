@@ -14,3 +14,12 @@ export const createTask = async (payload: CreateTaskPayload) => {
   if (!res.ok) return res;
   return res;
 };
+
+export const getEpicTasks = async (id: string) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + `/rest/v1/project_tasks?epic_id=eq.${id}`, {
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+  });
+  if (!res.ok) return res;
+  return res.json();
+};
