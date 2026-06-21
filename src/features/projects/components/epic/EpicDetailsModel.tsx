@@ -13,6 +13,7 @@ import { useState } from 'react';
 import Input from '@/shared/UI/Input';
 import { cn } from '@/lib/utils';
 import { useMembers } from '../../hooks/useMember';
+import { Link } from 'react-router-dom';
 
 
 
@@ -265,7 +266,9 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                     <div className='my-4 py-4 flex flex-col gap-6'>
                         <div className='flex items-center justify-between'>
                             <p className='text-lg/normal font-semibold'>Tasks</p>
-                            <button className='flex items-center justify-end gap-1 text-primary'><PlusIcon /> Add Task</button>
+                            <Link to={"/"}>
+                                <button className='flex items-center justify-end gap-1 text-primary'><PlusIcon /> Add Task</button>
+                            </Link>
                         </div>
                         <div className='flex items-center justify-center rounded-sm w-full  bg-surface-highest h-62 border-dashed border-2 border-muted' >
                             <div className='flex flex-col items-center justify-center gap-4'>

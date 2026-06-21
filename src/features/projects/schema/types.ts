@@ -1,6 +1,7 @@
 import type { UserType } from "@/features/auth/schema/types";
 import type { ProjectFormData } from "@/features/projects/schema/Project.schema";
 import type { EpicFormData } from "./EpicScehma";
+import type { TaskFormData } from "./TaskSchema";
 
 export interface EditProjectPayLoad extends ProjectFormData {
   id: string;
@@ -65,4 +66,22 @@ export interface EpicPaginantion extends ProjectPagination {
 export interface EpicQuery {
   epicId: string;
   projectId: string;
+}
+
+export type TaskStatusType =
+  | `TO_DO`
+  | `IN_PROGRESS`
+  | `BLOCKED`
+  | `IN_REVIEW`
+  | `READY_FOR_QA`
+  | `REOPENED`
+  | `READY_FOR_PRODUCTION`
+  | `DONE`;
+
+export interface TaskType extends TaskFormData {
+  id: string;
+  project_id?: string;
+}
+export interface CreateTaskPayload extends TaskFormData {
+  project_id?: string;
 }

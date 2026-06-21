@@ -1,8 +1,7 @@
+import AddTaskForm from "./AddTaskForm"
 
 const TasksList = () => {
-    return (
-        <div>TasksList</div>
-    )
+    return (<AddTaskForm />)
 }
 
 export default TasksList

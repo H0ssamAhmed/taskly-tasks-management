@@ -17,7 +17,8 @@ import EditProject from './features/projects/pages/EditProject'
 import ProjectMember from './features/projects/pages/ProjectMember'
 import ProjectEpics from './features/projects/pages/ProjectEpics'
 import NewProjectEpics from './features/projects/pages/NewProjectEpics'
-import ProjectTasks from './features/projects/pages/ProjectTasks'
+import ProjectTasks from './features/projects/pages/ProjectTask'
+import NewProjectTask from './features/projects/pages/NewProjectTask'
 
 
 
@@ -47,6 +48,7 @@ function App() {
                 <Route path={mainLayoutPaths.project_epics} element={<ProjectEpics />} />
                 <Route path={mainLayoutPaths.project_epics + "/new"} element={<NewProjectEpics />} />
                 <Route path={mainLayoutPaths.project_tasks} element={<ProjectTasks />} />
+                <Route path={mainLayoutPaths.project_tasks + "/new"} element={<NewProjectTask />} />
                 <Route path={mainLayoutPaths.project_memebers} element={<ProjectMember />} />
                 <Route path={mainLayoutPaths.project_details} element={<EditProject />} />
 
