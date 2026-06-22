@@ -4,73 +4,35 @@ import { useForm } from 'react-hook-form'
 import CheckIcon from '@/assets/svgs/CheckIcon'
 import InputLayout from '@/features/auth/components/InputLayout'
 import InputErrorAlert from '@/features/auth/components/InputErrorAlert'
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import { ToastError, ToastSuccess } from '@/utils/Toast'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils'
-import { useAppDispatch, useAppSelector } from '@/store/store'
-import type { EditProjectPayLoad } from '../../schema/types'
-import { fetchProjectById } from '@/features/projects/slice/projectDetailsSlice'
-import { updatePrpject } from '../../services/ProjectsApi'
 import Label from '@/shared/UI/Label'
 import Input from '@/shared/UI/Input'
 import { Button } from '@/shared/UI/Button'
 import ProjectFormSkeleton from '../ProjectFormSkeleton'
-import { descriptionLengthChecker, projectSchema } from '../../schema/Project.schema'
+import { descriptionLengthChecker, projectSchema, type ProjectFormData } from '../../schema/Project.schema'
+import { useEditEpic } from '../../hooks/useEditEpic'
 
 const EditProjectForm = () => {
-    const { id } = useParams()
-    const [isSubmitting, setisSubmitting] = useState(false)
-    const dispatch = useAppDispatch()
-    const { data, status, loading } = useAppSelector((state) => state.ProjectDetails)
-
+    const { loading, epicDetails, submitEdits, isSubmitting } = useEditEpic()
     const { register, reset, watch, handleSubmit, formState: { errors, } } = useForm({
-        resolver: zodResolver(projectSchema),
+        resolver: zodResolver(projectSchema)
     })
-
     useEffect(() => {
-        if (id && status == "idle") {
-            dispatch(fetchProjectById(id))
-        }
-    }, [id, dispatch])
-
-
-    useEffect(() => {
-        if (status == "success") {
+        if (epicDetails) {
             reset({
-                name: data?.name,
-                description: data?.description,
-            })
+                name: epicDetails.name,
+                description: epicDetails.description ?? "",
+            });
         }
-    }, [status])
-
+    }, [epicDetails, reset]);
     const descritpionLenght = descriptionLengthChecker(watch("description"))
 
-    const submitting = async (values: { name: string, description: string }): Promise<void> => {
-        setisSubmitting(true)
-        const payload: EditProjectPayLoad = {
-            id: id!,
-            name: values.name,
-            description: values.description
-        }
-        try {
-            const res = await updatePrpject({ id: id!, payload })
-            if (!res.ok) {
-                const { msg }: { msg: string } = await res.json();
-                ToastError(`Failed to update project ${msg}`)
-                return
-            }
-            ToastSuccess("Project updated successfully")
-            dispatch(fetchProjectById(id!))
-        } catch (error) {
-            ToastError(`Failed to update project`)
-            console.error(error);
-        }
-        finally {
-            setisSubmitting(false)
-
-        }
+    const submitting = async (values: ProjectFormData): Promise<void> => {
+        submitEdits(values)
     }
+
     if (loading) {
         return <ProjectFormSkeleton />
     }
