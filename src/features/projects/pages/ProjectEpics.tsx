@@ -14,12 +14,9 @@ import EmptyOnSearch from '../components/epic/EmptyOnSearch'
 import PageError from '../../../shared/PageError'
 import Pagination from '../components/Pagination'
 import { useEpics } from '../hooks/useEpics'
+import { useEditEpic } from '../hooks/useEditEpic'
 
-const BreadCrumbLinks = [
-    { link: "/project", text: "Project" },
-    { link: "", text: "Project name" },
-    { link: "", text: "Epics", active: true }
-]
+
 
 const ProjectEpics = () => {
     const { loading,
@@ -31,15 +28,19 @@ const ProjectEpics = () => {
         handleSearchInputValue,
         handleReset,
         pagination } = useEpics()
+    const { epicDetails, loading: loadingTitle } = useEditEpic()
 
-
-    if (loading) return <EpicsFullPageSkelton />
+    if (loading || loadingTitle) return <EpicsFullPageSkelton />
 
     if (error) return <PageError onClick={fetchEpics} />
 
     if (!fixedResponse.length) return <EmptyEpics />
 
-
+    const BreadCrumbLinks = [
+        { link: "/project", text: "Project" },
+        { link: "", text: epicDetails?.name },
+        { link: "", text: "Epics", active: true }
+    ]
     return (<div className='py-2 px-2 md:px-4 lg:px-8 relative'>
         <Link className='bg-primary fixed p-6 lg:hidden z-10 rounded-lg bottom-28 right-6' to={"new"}><PlusIcon width={14} height={14} className='text-white' /></Link>
 

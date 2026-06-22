@@ -12,10 +12,16 @@ import Input from '@/shared/UI/Input'
 import { Button } from '@/shared/UI/Button'
 import ProjectFormSkeleton from '../ProjectFormSkeleton'
 import { descriptionLengthChecker, projectSchema, type ProjectFormData } from '../../schema/Project.schema'
-import { useEditEpic } from '../../hooks/useEditEpic'
+import type { ProjectType } from '../../schema/types'
 
-const EditProjectForm = () => {
-    const { loading, epicDetails, submitEdits, isSubmitting } = useEditEpic()
+interface Props {
+    loading: boolean,
+    epicDetails: ProjectType | null,
+    submitEdits: (values: ProjectFormData) => Promise<void>,
+    isSubmitting: boolean
+}
+const EditProjectForm = ({ loading, epicDetails, submitEdits, isSubmitting }: Props) => {
+
     const { register, reset, watch, handleSubmit, formState: { errors, } } = useForm({
         resolver: zodResolver(projectSchema)
     })

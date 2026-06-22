@@ -6,15 +6,15 @@ import BreadCrumb from '@/shared/BreadCrumb'
 import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
-import { useAppSelector } from '@/store/store'
-
+import { useEditEpic } from '../hooks/useEditEpic'
+import RowSkeleton from '../components/RowSkeleton'
 const EditProject = () => {
-    const { data } = useAppSelector((state) => state.ProjectDetails)
-    const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: data?.name, active: true }, { link: "", text: "Edit", active: true }]
+    const { loading, epicDetails, submitEdits, isSubmitting } = useEditEpic()
+    const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: epicDetails?.name, active: true }, { link: "", text: "Edit", active: true }]
 
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8'>
-            <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />
+            {loading ? <RowSkeleton className='hidden lg:flex w-1/3' /> : <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />}
             <PageHeader title='Edit Project' description='Define the scope and foundational details of your project.'>
                 <Button className='flex items-center justify-center gap-4 group'>
                     <AddMemberIcon
@@ -24,7 +24,12 @@ const EditProject = () => {
                     invite new member</Button>
             </PageHeader>
             <PageBody>
-                <EditProjectForm />
+                <EditProjectForm
+                    loading={loading}
+                    epicDetails={epicDetails ?? null}
+                    submitEdits={submitEdits}
+                    isSubmitting={isSubmitting}
+                />
             </PageBody>
             <div className='flex p-8 flex-col bg-background lg:flex-row gap-x-4 justify-center items-center'>
                 <div className='flex items-center justify-start gap-2'>
