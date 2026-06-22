@@ -36,11 +36,11 @@ export default EpicTasks
 const TaskRow = ({ task }: { task: EpicTask }) => {
 
     return (<div className='p-4 w-full rounded-sm border-slate-mid/10 border'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between gap-8 '>
             <div className='flex items-center justify-center gap-4'>
                 <Check />
                 <div>
-                    <h2 className='text-2xl font-medium'>{task.title}</h2>
+                    <h2 className='text-xl font-medium line-clamp-1'>{task.title}</h2>
                     {task.assignee?.id ? (
 
                         <div className='flex items-center justify-start gap-4'>

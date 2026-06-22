@@ -86,6 +86,7 @@ const AddTaskForm = () => {
                         />
                         <Input
                             {...register("title")}
+                            disabled={loading}
                             name="title"
                             placeholder='eg. Change the layout'
                             className='bg-surface-highest'
@@ -99,6 +100,7 @@ const AddTaskForm = () => {
                                 text='status'
                             />
                             <select
+                                disabled={loading}
                                 {...register("status")}
                                 className=' bg-surface-highest p   p-3.5 w-full rounded-sm' name="status" id="status">
                                 {taskStatusDisaply.map((status) => <option value={taskStatus[status]}>{status}</option>
@@ -113,6 +115,8 @@ const AddTaskForm = () => {
                                 text='assignee'
                             />
                             <select
+                                disabled={loading}
+
                                 id="assignee"
                                 {...register("assignee_id")}
                                 className=' bg-surface-highest p-3.5 w-full rounded-sm' >
@@ -128,6 +132,8 @@ const AddTaskForm = () => {
                             text='epic'
                         />
                         {loadingEpics ? <RowSkeleton className='w-full py-6' /> : <select
+                            disabled={loading}
+
                             id="epic"
                             {...register("epic_id")}
                             className='bg-surface-highest p-3.5 w-full rounded-sm'
@@ -148,6 +154,8 @@ const AddTaskForm = () => {
                         <Input
                             {...register("due_date")}
                             id="due_date"
+                            disabled={loading}
+
                             name="due_date"
                             type="datetime-local"
 
@@ -164,6 +172,8 @@ const AddTaskForm = () => {
 
                         <textarea
                             {...register("description")}
+                            disabled={loading}
+
                             name="description"
                             placeholder="Describe the scope and objectives of this epic..."
                             className=' py-2 ps-4 pe-9 bg-surface-highest w-full h-37 rounded-sm'
