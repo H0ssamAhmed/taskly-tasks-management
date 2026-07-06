@@ -7,6 +7,7 @@ import { useProjectTask } from '../hooks/useProjectTask'
 import SelectView from '../components/task/SelectView'
 import FilterIcon from '@/assets/svgs/FilterIcon'
 import SearchBox from '../components/SearchBox'
+import { useMobile } from '../hooks/useMobile'
 
 
 const BreadCrumbLinks = [
@@ -18,6 +19,7 @@ const BreadCrumbLinks = [
 
 const ProjectTask = () => {
     const { currentView } = useProjectTask("TO_DO")
+    const isMobile = useMobile()
 
 
 
@@ -34,11 +36,9 @@ const ProjectTask = () => {
         </PageHeader>
 
         <PageBody className='lg:w-full my-8'>
-            {
-                currentView == "board" ?
-                    <BoardView />
-                    :
-                    <ListView />
+            {currentView == "board" && !isMobile
+                ? <BoardView />
+                : <ListView />
             }
         </PageBody >
 
