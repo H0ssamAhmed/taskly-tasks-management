@@ -6,7 +6,7 @@ const ProjectsLayout = () => {
         <div className="mx-auto flex relative">
 
             <div className="flex flex-col items-center justify-center w-full">
-                <div className='w-full h-full '>
+                <div className='w-full h-ful'>
                     <Outlet />
                 </div>
             </div>

@@ -18,9 +18,9 @@ const MainLayout = () => {
             <div className="mx-auto flex relative">
                 {isNavMobileOpen && <div onClick={handleOpenNavMobile} className='w-screen z-20 h-screen bg-black/50 absolute'></div>}
                 <SideNav isNavMobileOpen={isNavMobileOpen} />
-                <div className="flex flex-col items-center justify-center w-full">
+                <div className="mx-auto flex relative h-screen overflow-hidden flex-col w-full">
                     <Header handleOpenNavMobile={handleOpenNavMobile} />
-                    <div className='w-full h-full '>
+                    <div className='w-full h-full min-w-0 '>
                         <Outlet />
                     </div>
                 </div>

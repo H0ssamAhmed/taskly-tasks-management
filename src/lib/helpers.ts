@@ -14,6 +14,41 @@ export const formatDate = (dateString: string): string => {
   return date.toLocaleDateString("en-GB", options);
 };
 
+export const checkTaskDate = (dateString: string | null): string => {
+  if (!dateString) {
+    return "Invalid Date";
+  }
+
+  const date = new Date(dateString);
+
+  const today = new Date();
+
+  // تجاهل الوقت ومقارنة التاريخ فقط
+  const targetDate = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+  );
+
+  const currentDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
+
+  if (targetDate.getTime() < currentDate.getTime()) {
+    return "Delayed";
+  }
+
+  if (targetDate.getTime() === currentDate.getTime()) {
+    return "Today";
+  }
+
+  return targetDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+};
 export const getPaginationRange = ({
   currentPage,
   totalPages,

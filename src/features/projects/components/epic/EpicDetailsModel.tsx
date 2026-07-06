@@ -270,7 +270,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                 <button className='flex items-center justify-end gap-1 text-primary'><PlusIcon /> Add Task</button>
                             </Link>
                         </div>
-                        <EpicTasks epicId={epic.id} />
+                        <EpicTasks epicId={epic.id} projectId={epic.project_id} />
                     </div>
                 </div>
 

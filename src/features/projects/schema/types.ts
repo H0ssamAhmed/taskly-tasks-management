@@ -78,6 +78,16 @@ export type TaskStatusType =
   | `READY_FOR_PRODUCTION`
   | `DONE`;
 
+export type TaskStatusDisplayType =
+  | `TO DO`
+  | `IN PROGRESS`
+  | `BLOCKED`
+  | `IN REVIEW`
+  | `READY FOR QA`
+  | `REOPENED`
+  | `READY FOR PRODUCTION`
+  | `DONE`;
+
 export interface TaskType extends TaskFormData {
   id: string;
   project_id?: string;
@@ -114,4 +124,9 @@ export interface EpicTask {
   epic: TaskEpic | null;
   created_by: TaskUser | null;
   assignee: TaskUser | null;
+}
+
+export interface FetchProjectTasksType {
+  projectId: string;
+  status?: TaskStatusType;
 }

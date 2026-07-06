@@ -24,7 +24,7 @@ export const useNavlist = () => {
     },
     {
       text: "Project Tasks",
-      path: `/project/${id}/tasks`,
+      path: `/project/${id}/tasks?view=board`,
       icon: List,
       isShow: id ? true : false,
     },

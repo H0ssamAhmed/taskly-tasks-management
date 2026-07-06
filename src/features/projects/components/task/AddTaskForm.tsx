@@ -24,17 +24,22 @@ const AddTaskForm = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const { epics, loading: loadingEpics } = useEpics()
     const aciveEpic = searchParams.get("epic_id") || null
+    const activeStatus = searchParams.get("status") || null
     const { members } = useMembers()
     const [loading, setLoading] = useState(false)
     const { register, reset, watch, setValue, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(taskSchema),
         defaultValues: {
-            status: taskStatus["TO DO"],
+            status: activeStatus ?? taskStatus["TO DO"],
             epic_id: aciveEpic ?? null,
         }
     })
     const descritpionLenght = descriptionLengthChecker(watch("description"))
 
+    const now = new Date();
+    const minDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
 
     const submitting = async (values: TaskFormData): Promise<void> => {
         const { title, description, assignee_id, epic_id, due_date, status } = { ...values }
@@ -155,10 +160,9 @@ const AddTaskForm = () => {
                             {...register("due_date")}
                             id="due_date"
                             disabled={loading}
-
+                            min={minDateTime}
                             name="due_date"
                             type="datetime-local"
-
                             className=' bg-surface-highest p-3.5 w-full rounded-sm'
                         />
                     </InputLayout>

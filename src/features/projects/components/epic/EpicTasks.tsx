@@ -1,4 +1,4 @@
-import { useTasks } from '../../hooks/useTasks'
+import { useEpicTasks } from '../../hooks/useEpicTasks'
 import ListIcon from '@/assets/svgs/ListIcon'
 import { Button } from '@/shared/UI/Button'
 import PlusIcon from '@/assets/svgs/PlusIcon'
@@ -8,12 +8,14 @@ import Avatar from '@/shared/UI/Avatar'
 import Check from '@/assets/svgs/Check'
 import ErrorCloudIcon from '@/assets/svgs/ErrorCloudIcon'
 import { formatDate } from '@/lib/helpers'
+import { Link } from 'react-router-dom'
 
-interface Props {
+interface EmptyTaskProps {
     epicId: string,
+    projectId: string,
 }
-const EpicTasks = ({ epicId }: Props) => {
-    const { tasks, error, loading, fetchTasks } = useTasks(epicId)
+const EpicTasks = ({ epicId, projectId }: EmptyTaskProps) => {
+    const { tasks, error, loading, fetchTasks } = useEpicTasks(epicId)
     if (loading) {
         return <div className='h-40 flex items-center justify-center'><Spinner className='w-20 h-20' /></div>
     }
@@ -25,7 +27,7 @@ const EpicTasks = ({ epicId }: Props) => {
         <div className='flex flex-col overflow-auto max-h-120'>
             {tasks.length
                 ? tasks.map((task) => <TaskRow task={task} key={task.id} />)
-                : <EmptyTask />}
+                : <EmptyTask projectId={projectId} epicId={epicId} />}
         </div>
     )
 }
@@ -60,16 +62,21 @@ const TaskRow = ({ task }: { task: EpicTask }) => {
     </div>)
 }
 
-const EmptyTask = () => {
+const EmptyTask = ({ projectId, epicId }: EmptyTaskProps) => {
     return <div className='flex items-center justify-center rounded-sm w-full  bg-surface-highest h-62 border-dashed border-2 border-muted' >
         <div className='flex flex-col items-center justify-center gap-4'>
             <p className='w-10 h-10 flex items-center justify-center p-2 rounded-sm bg-surface-highest'>
                 <ListIcon />
             </p>
             <p className='my- '>No tasks have been added to this epic yet</p>
-            <Button
-                className='flex items-center justify-center gap-2'
-            ><PlusIcon />Add Task</Button>
+            <Button>
+
+                <Link
+                    className='flex items-center justify-center gap-2'
+                    to={`/project/${projectId}/tasks/new?epic_id=${epicId}`}>
+                    <PlusIcon />Add Task
+                </Link>
+            </Button>
 
         </div>
     </div>
