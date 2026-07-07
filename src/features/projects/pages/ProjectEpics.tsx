@@ -13,6 +13,7 @@ import Pagination from '../components/Pagination'
 import { useEpics } from '../hooks/useEpics'
 import { useEditEpic } from '../hooks/useEditEpic'
 import SearchBox from '../components/SearchBox'
+import AddButton from '@/shared/AddButton'
 
 
 
@@ -40,7 +41,7 @@ const ProjectEpics = () => {
         { link: "", text: "Epics", active: true }
     ]
     return (<div className='py-2 px-2 md:px-4 lg:px-8 relative'>
-        <Link className='bg-primary fixed p-6 lg:hidden z-10 rounded-lg bottom-28 right-6' to={"new"}><PlusIcon width={14} height={14} className='text-white' /></Link>
+        <AddButton path='new' />
 
         <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />
         <div className='hidden lg:block'>

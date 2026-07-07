@@ -8,6 +8,7 @@ import SelectView from '../components/task/SelectView'
 import FilterIcon from '@/assets/svgs/FilterIcon'
 import SearchBox from '../components/SearchBox'
 import { useMobile } from '../hooks/useMobile'
+import AddButton from '@/shared/AddButton'
 
 
 const BreadCrumbLinks = [
@@ -23,7 +24,8 @@ const ProjectTask = () => {
 
 
 
-    return <div className='py-2 px-2 md:px-4 lg:px-8'>
+    return <div className='py-2 px-2 md:px-4 lg:px-8 relative'>
+        <AddButton path='new' />
         <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />
         <PageHeader title='Active Workboard' description="Curating Project Alpha's production pipeline and milestones.">
             <div className='flex items-center justify-end px-2 gap-2 w-full py-4'>

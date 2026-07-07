@@ -28,8 +28,13 @@ function ListView() {
                 {projectTasksListView.map((task: EpicTask) => {
                     return <TableRow task={task} />
                 })}
-
             </tbody>
+            <tfoot>
+                <tr>
+                    <td className=" text-xs text-muted text-start" colSpan={4}>Showing 5 of 24</td>
+                    <td className=" text-xs text-muted text-end">{"< " + "page 1 of 5" + " >"}</td>
+                </tr>
+            </tfoot>
         </table>
     )
 }
