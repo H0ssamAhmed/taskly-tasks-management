@@ -1,7 +1,7 @@
 import BreadCrumb from '@/shared/BreadCrumb'
 import PageBody from '@/shared/PageBody'
 import PageHeader from '@/shared/PageHeader'
-import TasksList from '../components/task/TasksList'
+import AddNewTask from '../components/task/AddNewTask'
 const BreadCrumbLinks = [
     { link: "/project", text: "Project" },
     { link: "", text: "Project name" },
@@ -17,7 +17,7 @@ const NewProjectTask = () => {
 
 
         <PageBody className='lg:w-5xl my-8 p-6'>
-            <TasksList />
+            <AddNewTask />
         </PageBody>
 
     </div>

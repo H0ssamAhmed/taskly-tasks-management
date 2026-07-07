@@ -9,10 +9,10 @@ import { useForm } from 'react-hook-form'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { taskSchema, type TaskFormData } from '../../schema/TaskSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { taskStatus, taskStatusDisaply } from '@/utils/constants/TaskStatus'
+import { taskStatus, taskStatus_spaced, taskStatusDisaply, type TaskStatusKey } from '@/utils/constants/TaskStatus'
 import { useMembers } from '../../hooks/useMember'
 import { useEpics } from '../../hooks/useEpics'
-import type { CreateTaskPayload } from '../../schema/types'
+import type { CreateTaskPayload, TaskStatusType } from '../../schema/types'
 import { descriptionLengthChecker } from '../../schema/Project.schema'
 import { cn } from '@/lib/utils'
 import { createTask } from '../../services/TasksApi'
@@ -25,12 +25,16 @@ const AddTaskForm = () => {
     const { epics, loading: loadingEpics } = useEpics()
     const aciveEpic = searchParams.get("epic_id") || null
     const activeStatus = searchParams.get("status") || null
+    const currentStatus: TaskStatusType =
+        activeStatus && activeStatus in taskStatus_spaced
+            ? taskStatus_spaced[activeStatus as TaskStatusKey]
+            : taskStatus_spaced["TO DO"];
     const { members } = useMembers()
     const [loading, setLoading] = useState(false)
     const { register, reset, watch, setValue, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(taskSchema),
         defaultValues: {
-            status: activeStatus ?? taskStatus["TO DO"],
+            status: currentStatus,
             epic_id: aciveEpic ?? null,
         }
     })

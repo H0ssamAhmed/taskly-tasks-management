@@ -1,7 +1,7 @@
 import AddTaskForm from "./AddTaskForm"
 
-const TasksList = () => {
+const AddNewTask = () => {
     return (<AddTaskForm />)
 }
 
-export default TasksList
+export default AddNewTask
