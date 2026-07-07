@@ -7,6 +7,7 @@ import { checkTaskDate } from "@/lib/helpers";
 import Avatar from "@/shared/UI/Avatar";
 import { cn } from "@/lib/utils";
 import CalenderIcon from "@/assets/svgs/CalenderIcon";
+import BoardColumnSkeleton from "./BoardColumnSkeleton";
 
 
 const BoardView = () => {
@@ -28,11 +29,11 @@ export default BoardView
 
 const Column = ({ status }: { status: TaskStatusKey }) => {
     const taskStatusValue: TaskStatusType = taskStatus_spaced[status]
-    const { projectTasksBoardView } = useProjectTask(taskStatusValue)
+    const { projectTasksBoardView, loading } = useProjectTask(taskStatusValue)
     return (<div className=" flex flex-col  gap-4 w-72">
         <ColumnHeader name={status} length={projectTasksBoardView.length ?? 0} />
         <AddNewTaskLink status={status} />
-        {projectTasksBoardView.map((task: EpicTask) => <TaskDetails task={task} key={task.id} />)}
+        {loading ? <BoardColumnSkeleton /> : projectTasksBoardView.map((task: EpicTask) => <TaskDetails task={task} key={task.id} />)}
     </div>)
 
 }
