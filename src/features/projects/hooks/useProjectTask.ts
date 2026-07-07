@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { getProjectTasks } from "../services/TasksApi";
+import {
+  getProjectTasksBoardView,
+  getProjectTasksInListView,
+} from "../services/TasksApi";
 import type { EpicTask, TaskStatusType } from "../schema/types";
 
 type ViewType = "board" | "list" | string | null;
@@ -10,8 +13,12 @@ export const useProjectTask = (status: TaskStatusType) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentView: ViewType =
     searchParams.get("view") === "list" ? "list" : "board";
-
-  const [projectTasks, setProjectTasks] = useState<EpicTask[] | []>([]);
+  const [projectTasksBoardView, setProjectTasksBoardView] = useState<
+    EpicTask[] | []
+  >([]);
+  const [projectTasksListView, setProjectTasksListView] = useState<
+    EpicTask[] | []
+  >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -23,15 +30,15 @@ export const useProjectTask = (status: TaskStatusType) => {
     }
   };
 
-  const fetchProjectTasks = async () => {
+  const fetchBoardTasks = async () => {
     setLoading(true);
     try {
-      const response = await getProjectTasks({
+      const response = await getProjectTasksBoardView({
         projectId: id!,
         status: status,
       });
       if (response) {
-        setProjectTasks(response);
+        setProjectTasksBoardView(response);
 
         return;
       }
@@ -43,14 +50,34 @@ export const useProjectTask = (status: TaskStatusType) => {
       setLoading(false);
     }
   };
+  const fetchListTasks = async () => {
+    setLoading(true);
+    try {
+      const response = await getProjectTasksInListView({
+        projectId: id!,
+      });
+      if (response) {
+        setProjectTasksListView(response);
 
+        return;
+      }
+      setError(false);
+    } catch (error) {
+      setError(true);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    fetchProjectTasks();
+    fetchBoardTasks();
+    fetchListTasks();
   }, []);
 
   return {
     loading,
-    projectTasks,
+    projectTasksBoardView,
+    projectTasksListView,
     error,
     changeView,
     currentView,

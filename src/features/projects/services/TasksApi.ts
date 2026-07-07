@@ -24,7 +24,7 @@ export const getEpicTasks = async (id: string) => {
   return res.json();
 };
 
-export const getProjectTasks = async ({
+export const getProjectTasksBoardView = async ({
   projectId,
   status,
 }: FetchProjectTasksType) => {
@@ -32,6 +32,22 @@ export const getProjectTasks = async ({
   const res = await fetch(
     baseURL +
       `/rest/v1/project_tasks?project_id=eq.${projectId}&status=eq.${status}`,
+    {
+      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    },
+  );
+  if (!res.ok) return res;
+  return res.json();
+};
+
+export const getProjectTasksInListView = async ({
+  projectId,
+}: {
+  projectId: string;
+}) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(
+    baseURL + `/rest/v1/project_tasks?project_id=eq.${projectId}`,
     {
       headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
     },

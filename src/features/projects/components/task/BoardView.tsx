@@ -28,11 +28,11 @@ export default BoardView
 
 const Column = ({ status }: { status: TaskStatusKey }) => {
     const taskStatusValue: TaskStatusType = taskStatus_spaced[status]
-    const { projectTasks } = useProjectTask(taskStatusValue)
+    const { projectTasksBoardView } = useProjectTask(taskStatusValue)
     return (<div className=" flex flex-col  gap-4 w-72">
-        <ColumnHeader name={status} length={projectTasks.length ?? 0} />
+        <ColumnHeader name={status} length={projectTasksBoardView.length ?? 0} />
         <AddNewTaskLink status={status} />
-        {projectTasks.map((task: EpicTask) => <TaskDetails task={task} key={task.id} />)}
+        {projectTasksBoardView.map((task: EpicTask) => <TaskDetails task={task} key={task.id} />)}
     </div>)
 
 }
