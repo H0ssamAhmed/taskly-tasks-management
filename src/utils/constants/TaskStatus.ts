@@ -31,12 +31,23 @@ export const taskStatus_spaced = {
   DONE: "DONE",
 } as const;
 export const taskStatus_underscore = {
-  toDo: "TO_DO",
-  inProgress: "IN_PROGRESS",
-  blocked: "BLOCKED",
-  inReview: "IN_REVIEW",
-  readyForQA: "READY_FOR_QA",
+  TO_DO: "TO DO",
+  IN_PROGRESS: "IN PROGRESS",
+  BLOCKED: "BLOCKED",
+  IN_REVIEW: "IN REVIEW",
+  READY_FOR_QA: "READY FOR QA",
   REOPENED: "REOPENED",
-  "READY FOR PRODUCTION": "READY_FOR_PRODUCTION",
+  READY_FOR_PRODUCTION: "READY FOR PRODUCTION",
   DONE: "DONE",
-};
+} as const;
+
+export const statusBadgeStyle = {
+  TO_DO: "bg-slate-mid/20 text-slate-dark font-semibold",
+  IN_PROGRESS: "bg-slate-light/30 text-slate-mid font-semibold",
+  BLOCKED: "bg-error/10 text-error font-semibold",
+  IN_REVIEW: "bg-muted/10 text-muted font-semibold",
+  READY_FOR_QA: "bg-warning  text-primary font-semibold",
+  REOPENED: "bg-orange-400 text-black font-semibold",
+  READY_FOR_PRODUCTION: "bg-green-400/80 text-black  font-semibold",
+  DONE: "bg-green-400/50 text-black  font-semibold",
+} as const;

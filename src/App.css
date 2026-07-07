@@ -130,3 +130,9 @@
 .global-icon:hover {
     opacity: 0.8;
 }
+
+
+
+.task-table tr td {
+    padding: 1.5rem 1.625rem;
+}
