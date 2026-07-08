@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import ListIcon from '@/assets/svgs/ListIcon'
 import BoardIcon from '@/assets/svgs/BoardIcon'
 
-const SelectView = () => {
+const SelectView = ({ className }: { className?: string }) => {
     const { currentView, changeView, } = useProjectTask("TO_DO")
     const [isOpen, setIsOpen] = useState(false)
     const handleChangeView = () => {
@@ -18,7 +18,7 @@ const SelectView = () => {
     }
 
     return (
-        <div className='relative h-12 rounded-sm w-40 bg-white'>
+        <div className={cn('relative h-12 rounded-sm w-40 bg-white', className)}>
             <Button onClick={openSelect} variant="ghost" className='flex items-center w-full h-full justify-start gap-4'>
                 {currentView == "board" ? <BoardIcon /> : <ListIcon />} {currentView == "board" ? "Board View" : "List View"}
             </Button>

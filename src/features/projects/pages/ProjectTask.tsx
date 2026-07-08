@@ -9,6 +9,9 @@ import FilterIcon from '@/assets/svgs/FilterIcon'
 import SearchBox from '../components/SearchBox'
 import { useMobile } from '../hooks/useMobile'
 import AddButton from '@/shared/AddButton'
+import { Link } from 'react-router-dom'
+import PlusIcon from '@/assets/svgs/PlusIcon'
+import { Button } from '@/shared/UI/Button'
 
 
 const BreadCrumbLinks = [
@@ -25,16 +28,18 @@ const ProjectTask = () => {
 
 
     return <div className='py-2 px-2 md:px-4 lg:px-8 relative'>
-        <AddButton path='new' />
+        <AddButton path='new' className='hidden lg:block bottom-10' />
         <BreadCrumb className='hidden lg:flex' links={BreadCrumbLinks} />
-        <PageHeader title='Active Workboard' description="Curating Project Alpha's production pipeline and milestones.">
-            <div className='flex items-center justify-end px-2 gap-2 w-full py-4'>
-                <SearchBox placeholder='Search tasks...' searachValue='' onSearch={() => { }} />
-                <SelectView />
-                <span className='bg-surface-highest p-3.5 cursor-pointer rounded-sm'><FilterIcon className='w-4 h-4' /></span>
-
+        <PageHeader
+            className='flex-col items-start lg:flex-row lg:items-center'
+            childrenClassName='flex w-full'
+            title='Active Workboard' description="Curating Project Alpha's production pipeline and milestones.">
+            <div className='flex flex-col lg:flex-row items-center justify-end px-2 gap-2 w-full py-4'>
+                <SearchBox className='w-full lg:w-1/3' placeholder='Search tasks...' searachValue='' onSearch={() => { }} />
+                <SelectView className='hidden lg:block ' />
+                <span className='bg-surface-highest p-3.5 cursor-pointer hidden lg:block rounded-sm'><FilterIcon className='w-4 h-4' /></span>
+                <Link className='flex items-center justify-center w-full gap-2 lg:hidden ' to={"new"}><Button className='flex items-center justify-center w-full gap-2' ><PlusIcon />Create Taskk</Button></Link>
             </div>
-
         </PageHeader>
 
         <PageBody className='lg:w-full my-8'>
