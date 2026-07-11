@@ -55,3 +55,22 @@ export const getProjectTasksInListView = async ({
   if (!res.ok) return res;
   return res.json();
 };
+
+export const getTaskDetails = async ({
+  projectId,
+  taskId,
+}: {
+  projectId: string;
+  taskId: string;
+}) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(
+    baseURL +
+      `/rest/v1/project_tasks?project_id=eq.${projectId}&id=eq.${taskId}`,
+    {
+      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    },
+  );
+  if (!res.ok) return res;
+  return res.json();
+};

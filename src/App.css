@@ -2,6 +2,7 @@
 
 :root {
     --primary: #003d9b;
+    --primary-dark: #041B3C;
     --primary-container: #0052cc;
     --background: #f9f9ff;
     --surface-highest: #d7e2ff;
@@ -25,6 +26,7 @@
 
 @theme {
     --color-primary: var(--primary);
+    --color-primary-dark: var(--primary-dark);
     --color-primary-container: var(--primary-container);
     --color-surface-highest: var(--surface-highest);
     --color-surface-low: var(--surface-low);

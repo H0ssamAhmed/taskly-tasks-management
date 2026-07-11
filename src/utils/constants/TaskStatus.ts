@@ -43,7 +43,7 @@ export const taskStatus_underscore = {
 
 export const statusBadgeStyle = {
   TO_DO: "bg-slate-mid/20 text-slate-dark font-semibold",
-  IN_PROGRESS: "bg-slate-light/30 text-slate-mid font-semibold",
+  IN_PROGRESS: "bg-blue-400/30 text-blue-800 font-semibold",
   BLOCKED: "bg-error/10 text-error font-semibold",
   IN_REVIEW: "bg-muted/10 text-muted font-semibold",
   READY_FOR_QA: "bg-warning  text-primary font-semibold",

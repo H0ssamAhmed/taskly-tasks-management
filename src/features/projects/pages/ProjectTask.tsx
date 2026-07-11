@@ -12,6 +12,8 @@ import AddButton from '@/shared/AddButton'
 import { Link } from 'react-router-dom'
 import PlusIcon from '@/assets/svgs/PlusIcon'
 import { Button } from '@/shared/UI/Button'
+import TaskDetailsPopup from '../components/task/TaskDetailsPopup'
+import { useAppSelector } from '@/store/store'
 
 
 const BreadCrumbLinks = [
@@ -22,6 +24,7 @@ const BreadCrumbLinks = [
 ]
 
 const ProjectTask = () => {
+    const { selectedTaskId } = useAppSelector((state) => state.taskDetails)
     const { currentView } = useProjectTask("TO_DO")
     const isMobile = useMobile()
 
@@ -47,6 +50,7 @@ const ProjectTask = () => {
                 ? <BoardView />
                 : <ListView />
             }
+            {selectedTaskId && <TaskDetailsPopup />}
         </PageBody >
 
     </div >
