@@ -12,7 +12,6 @@ import { getProjects } from '../services/ProjectsApi'
 import PageError from '../../../shared/PageError'
 
 const Projects = () => {
-
     const [searchparams] = useSearchParams();
     const currentpage = searchparams.get("page") || 1;
     const limit = searchparams.get("limmit") || 10;

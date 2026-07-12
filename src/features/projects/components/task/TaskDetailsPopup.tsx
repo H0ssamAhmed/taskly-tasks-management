@@ -11,6 +11,7 @@ import Avatar from "@/shared/UI/Avatar"
 import { formatDate } from "@/lib/helpers"
 import XmarkIcon from "@/assets/svgs/XmarkIcon"
 import TaskDetailsSkeleton from "./TaskDetailsSkeleton"
+import PageError from "@/shared/PageError"
 
 
 const TaskDetailsPopup = () => {
@@ -24,6 +25,16 @@ const TaskDetailsPopup = () => {
             projectId: id!
         }));
     }, [selectedTaskId]);
+
+
+    const refetch = () => {
+        if (selectedTaskId) {
+            dispatch(fetchTaskDetails({
+                taskId: selectedTaskId,
+                projectId: id!
+            }));
+        }
+    }
 
     const handleClosePop = () => {
         dispatch(closeModel())
@@ -53,6 +64,7 @@ const TaskDetailsPopup = () => {
             <div className="absolute bottom-0 left-0 lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 w-full lg:w-10/12 h-10/12 bg-white">
                 {!loading && data && status == "success" && <Details details={data} onClose={handleClosePop} />}
                 {loading && <TaskDetailsSkeleton />}
+                {<PageError onClick={refetch} />}
 
             </div>
         </div>
