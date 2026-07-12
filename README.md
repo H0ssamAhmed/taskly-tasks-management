@@ -1,75 +1,99 @@
-# React + TypeScript + Vite
+# Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Introduction
 
-Currently, two official plugins are available:
+This project is a **modern Project Management System** designed to help teams organize, track, and collaborate on work efficiently. It provides a structured workflow using **Projects → Epics → Tasks**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🎯 Objective
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+To build a scalable and user-friendly platform where teams can:
 
-Note: This will impact Vite dev & build performances.
+- Manage multiple projects
+- Break down work into epics and tasks
+- Assign responsibilities
+- Track progress visually (board view)
+- Collaborate with team members
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧩 Core Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🔐 Authentication
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- User signup & login
+- Secure session handling
+- Forgot password & reset flow
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 📁 Project Management
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Create, edit, and list projects
+- Each project contains:
+  - Title
+  - Description
+  - Members
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+### 👥 Team Collaboration
+
+- Invite members via email
+- Token-based invitation system
+- Auto-join after accepting invitation
+- Role-based membership (extensible)
+
+---
+
+### 🧱 Epics Management
+
+- Create and manage epics per project
+- Assign users to epics
+- Add deadlines
+
+---
+
+### ✅ Task Management
+
+- Create tasks inside epics or directly under project
+- Assign users
+- Set due dates
+- Track task status
+
+### Task Status Workflow:
+
+- TO_DO
+- IN_PROGRESS
+- BLOCKED
+- IN_REVIEW
+- READY_FOR_QA
+- REOPENED
+- READY_FOR_PRODUCTION
+- DONE
+
+---
+
+### 📊 Board View
+
+- Tasks displayed by status
+- Drag & drop between columns
+- Quick task creation per status
+
+---
+
+### 🔍 Search & Filtering
+
+- Search tasks by:
+  - Title
+  - Task ID
+- Filter by project or status
+
+---
+
+### 📄 Detailed Views
+
+- Epic details popup
+- Task creation & editing pages
+- Project members page
