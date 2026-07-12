@@ -9,6 +9,8 @@ import Check from '@/assets/svgs/Check'
 import ErrorCloudIcon from '@/assets/svgs/ErrorCloudIcon'
 import { formatDate } from '@/lib/helpers'
 import { Link } from 'react-router-dom'
+import { useAppDispatch } from '@/store/store'
+import { openModel } from '../../slice/taskSlice'
 
 interface EmptyTaskProps {
     epicId: string,
@@ -36,8 +38,18 @@ export default EpicTasks
 
 
 const TaskRow = ({ task }: { task: EpicTask }) => {
+    const dispatch = useAppDispatch();
 
-    return (<div className='p-4 w-full rounded-sm border-slate-mid/10 border'>
+    const handleOpenModel = () => {
+        console.log("dsds");
+
+        dispatch(openModel({ id: task.id }))
+    }
+
+    return (<div className='p-4 w-full rounded-sm border-slate-mid/10 border'
+        onClick={handleOpenModel}
+
+    >
         <div className='flex items-center justify-between gap-8 '>
             <div className='flex items-center justify-center gap-4'>
                 <Check />

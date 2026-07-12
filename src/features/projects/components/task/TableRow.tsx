@@ -3,11 +3,21 @@ import { formatDate } from '@/lib/helpers'
 import type { EpicTask, TaskUser } from '../../schema/types'
 import Avatar from '@/shared/UI/Avatar'
 import StatusBadge from './StatusBadge'
+import { useAppDispatch } from '@/store/store'
+import { openModel } from '../../slice/taskSlice'
 
 const TableRow = ({ task }: { task: EpicTask }) => {
     const due_date = task.due_date ? formatDate(task.due_date) : "No deadline"
+    const dispatch = useAppDispatch();
+
+    const handleOpenModel = () => {
+        dispatch(openModel({ id: task.id }))
+    }
+
     return (
-        <tr className='bg-whit'>
+        <tr className='bg-whit'
+            onClick={handleOpenModel}
+        >
             <td className="text-primary uppercase text-xs">{task.task_id}</td>
             <td className='font-medium text-sm'>{task.title}</td>
             <td><StatusBadge status={task.status} /></td>
