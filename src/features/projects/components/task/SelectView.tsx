@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useProjectTask } from '../../hooks/useProjectTask'
 import { Button } from '@/shared/UI/Button'
 import { cn } from '@/lib/utils'
@@ -8,6 +8,8 @@ import BoardIcon from '@/assets/svgs/BoardIcon'
 const SelectView = ({ className }: { className?: string }) => {
     const { currentView, changeView, } = useProjectTask("TO_DO")
     const [isOpen, setIsOpen] = useState(false)
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const handleChangeView = () => {
         changeView(currentView == "board" ? "list" : "board")
         setIsOpen(false)
@@ -16,9 +18,24 @@ const SelectView = ({ className }: { className?: string }) => {
     const openSelect = () => {
         setIsOpen(!isOpen)
     }
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
 
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     return (
-        <div className={cn('relative h-12 rounded-sm w-40 bg-white', className)}>
+        <div ref={containerRef} className={cn('relative h-12 rounded-sm w-40 bg-white', className)}>
             <Button onClick={openSelect} variant="ghost" className='flex items-center w-full h-full justify-start gap-4'>
                 {currentView == "board" ? <BoardIcon /> : <ListIcon />} {currentView == "board" ? "Board View" : "List View"}
             </Button>
