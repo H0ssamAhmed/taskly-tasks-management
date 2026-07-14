@@ -81,5 +81,7 @@ export const useProjectTask = (status: TaskStatusType) => {
     error,
     changeView,
     currentView,
+    fetchBoardTasks,
+    fetchListTasks,
   };
 };

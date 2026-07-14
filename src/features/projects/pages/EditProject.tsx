@@ -8,9 +8,14 @@ import PageHeader from '@/shared/PageHeader'
 import { Button } from '@/shared/UI/Button'
 import { useEditEpic } from '../hooks/useEditEpic'
 import RowSkeleton from '../components/RowSkeleton'
+import PageError from '@/shared/PageError'
 const EditProject = () => {
-    const { loading, epicDetails, submitEdits, isSubmitting } = useEditEpic()
+    const { loading, epicDetails, submitEdits, isSubmitting, error, fetchEpicDetails, } = useEditEpic()
     const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: epicDetails?.name, active: true }, { link: "", text: "Edit", active: true }]
+
+    if (error) {
+        return <PageError onClick={fetchEpicDetails} />
+    }
 
     return (
         <div className='py-2 px-2 md:px-4 lg:px-8'>

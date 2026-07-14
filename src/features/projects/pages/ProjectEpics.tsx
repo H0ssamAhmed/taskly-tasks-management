@@ -57,7 +57,6 @@ const ProjectEpics = () => {
         </div>
         <div className='lg:hidden'>
             <SearchBox searachValue={searachValue} className="w-full" onSearch={handleSearchInputValue} />
-
         </div>
 
 

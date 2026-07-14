@@ -8,18 +8,18 @@ import type { ProjectFormData } from "../schema/Project.schema";
 export const useEditEpic = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [isSubmitting, setisSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmmitting] = useState(false);
   const [epicDetails, setEpicDetails] = useState<ProjectType | null>();
+  const [error, setError] = useState(false);
 
   const fetchEpicDetails = async () => {
     setLoading(true);
+    setError(false);
     try {
       const response = await getProjectById(id!);
-      if (response.ok) {
-        const result = await response.json();
-        setEpicDetails(result[0]);
-      }
+      setEpicDetails(response[0]);
     } catch (error) {
+      setError(true);
       console.error(error);
     } finally {
       setLoading(false);
@@ -27,7 +27,7 @@ export const useEditEpic = () => {
   };
 
   const submitEdits = async (values: ProjectFormData): Promise<void> => {
-    setisSubmitting(true);
+    setIsSubmmitting(true);
     const payload: EditProjectPayLoad = {
       id: id!,
       name: values.name,
@@ -46,7 +46,7 @@ export const useEditEpic = () => {
       ToastError(`Failed to update project`);
       console.error(error);
     } finally {
-      setisSubmitting(false);
+      setIsSubmmitting(false);
     }
   };
 
@@ -55,8 +55,10 @@ export const useEditEpic = () => {
   }, [id]);
   return {
     loading,
+    setIsSubmmitting,
     isSubmitting,
-    setisSubmitting,
+    error,
+    fetchEpicDetails,
     epicDetails,
     submitEdits,
   };

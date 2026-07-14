@@ -9,6 +9,7 @@ import type {
   ProjectEpicType,
   ProjectPagination,
 } from "../schema/types";
+import { apiRequest } from "./RequestWrapper";
 
 export const defaultLimit: number = 10;
 
@@ -58,15 +59,10 @@ export const getProjects = async ({
 };
 
 export const creatPrpject = async (payload: ProjectFormData) => {
-  const ACCESS_TOKEN = getAccessToken();
-  const res = await fetch(baseURL + "/rest/v1/projects", {
+  return apiRequest(baseURL + "/rest/v1/projects", {
     method: "POST",
-    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
-
     body: JSON.stringify(payload),
   });
-  if (!res.ok) return res;
-  return res;
 };
 export const updatePrpject = async ({
   id,
@@ -86,6 +82,10 @@ export const updatePrpject = async ({
   return res;
 };
 export const getProjectById = async (id: string) => {
+  return apiRequest(baseURL + `/rest/v1/projects?id=eq.${id}&select=*`, {
+    method: "GET",
+  });
+
   const ACCESS_TOKEN = getAccessToken();
   const res = await fetch(baseURL + `/rest/v1/projects?id=eq.${id}&select=*`, {
     method: "GET",
@@ -96,16 +96,12 @@ export const getProjectById = async (id: string) => {
 };
 
 export const getProjectMemeber = async (id: string) => {
-  const ACCESS_TOKEN = getAccessToken();
-  const res = await fetch(
+  return apiRequest(
     baseURL + `/rest/v1/get_project_members?project_id=eq.${id}&select=*`,
     {
       method: "GET",
-      headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
     },
   );
-  if (!res.ok) return res;
-  return res.json();
 };
 
 export const creatPrpjectEpic = async (payload: ProjectEpicType) => {

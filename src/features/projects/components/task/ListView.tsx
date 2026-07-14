@@ -2,15 +2,18 @@ import { useProjectTask } from "../../hooks/useProjectTask"
 import type { EpicTask } from "../../schema/types"
 import TableRow from "./TableRow"
 import TableSkeleton from "./TableSkeleton"
+import TasksError from "./TasksError"
 
 
 function ListView() {
-    const { loading, projectTasksListView } = useProjectTask("TO_DO")
+    const { loading, projectTasksListView, error, fetchListTasks } = useProjectTask("TO_DO")
 
 
     if (loading) {
         return <TableSkeleton />
-
+    }
+    if (error) {
+        return <TasksError onClick={fetchListTasks} />
     }
     return (
         <table className="w-full task-table">

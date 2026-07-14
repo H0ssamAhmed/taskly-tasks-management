@@ -6,11 +6,11 @@ import type { EpicTask } from '../../schema/types'
 import Spinner from '@/shared/UI/Spinner'
 import Avatar from '@/shared/UI/Avatar'
 import Check from '@/assets/svgs/Check'
-import ErrorCloudIcon from '@/assets/svgs/ErrorCloudIcon'
 import { formatDate } from '@/lib/helpers'
 import { Link } from 'react-router-dom'
 import { useAppDispatch } from '@/store/store'
 import { openModel } from '../../slice/taskSlice'
+import TasksError from '../task/TasksError'
 
 interface EmptyTaskProps {
     epicId: string,
@@ -41,8 +41,6 @@ const TaskRow = ({ task }: { task: EpicTask }) => {
     const dispatch = useAppDispatch();
 
     const handleOpenModel = () => {
-        console.log("dsds");
-
         dispatch(openModel({ id: task.id }))
     }
 
@@ -92,20 +90,4 @@ const EmptyTask = ({ projectId, epicId }: EmptyTaskProps) => {
 
         </div>
     </div>
-}
-
-
-
-const TasksError = ({ onClick }: { onClick?: () => void }) => {
-    return (
-        <div className='text-center flex items-center justify-center flex-col gap-6'>
-            <ErrorCloudIcon />
-            <h1 className='headline-lg'>Something went wrong</h1>
-            <p className='text-center w-sm text-slate-mid'>We're having trouble retrieving your
-                projects right now. Please try
-                again in a moment.
-            </p>
-            <Button onClick={onClick}>Retry Connection</Button>
-        </div>
-    )
 }
