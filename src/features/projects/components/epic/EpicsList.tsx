@@ -1,11 +1,11 @@
 import { useAppSelector } from '@/store/store'
-import type { EpicPaginantion, ProjectEpicsType } from '../../schema/types'
+import type { ProjectEpicsType } from '../../schema/types'
 import EpicCard from './EpicCard'
 import TaskDetailsPopup from '../task/TaskDetailsPopup'
 
 interface Props {
     epics: ProjectEpicsType[],
-    fetchEpics: ({ id, page, limit }: EpicPaginantion) => void
+    fetchEpics: () => Promise<void>;
 
 }
 

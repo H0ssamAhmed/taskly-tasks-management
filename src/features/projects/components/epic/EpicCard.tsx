@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 
 interface Props {
     epic: ProjectEpicsType,
-    fetchEpics: ({ id, page, limit }: EpicPaginantion) => void
+    fetchEpics: ({ id, page, limit, searchTerm }: EpicPaginantion) => void
 
 }
 const EpicCard = ({ epic, fetchEpics }: Props) => {

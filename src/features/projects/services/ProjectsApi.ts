@@ -85,14 +85,6 @@ export const getProjectById = async (id: string) => {
   return apiRequest(baseURL + `/rest/v1/projects?id=eq.${id}&select=*`, {
     method: "GET",
   });
-
-  const ACCESS_TOKEN = getAccessToken();
-  const res = await fetch(baseURL + `/rest/v1/projects?id=eq.${id}&select=*`, {
-    method: "GET",
-    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
-  });
-  if (!res.ok) return res;
-  return res;
 };
 
 export const getProjectMemeber = async (id: string) => {
@@ -120,13 +112,14 @@ export const getPrpjectEpics = async ({
   page = 1,
   limit = defaultLimit,
   id,
+  searchTerm = "",
 }: EpicPaginantion) => {
   const offset = (page - 1) * limit;
   const ACCESS_TOKEN = getAccessToken();
   try {
     const response = await fetch(
       baseURL +
-        `/rest/v1/project_epics?project_id=eq.${id}&limit=${limit}&offset=${offset}`,
+        `/rest/v1/project_epics?project_id=eq.${id}&limit=${limit}&offset=${offset}&title=ilike.%25${searchTerm}%25`,
       {
         method: "GET",
         headers: {

@@ -1,70 +1,81 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import usePagination from "./usePagination";
-import type { ProjectEpicsType } from "../schema/types";
-import { useEffect, useState } from "react";
 import { getPrpjectEpics } from "../services/ProjectsApi";
+import type { ProjectEpicsType } from "../schema/types";
 
 export const useEpics = () => {
   const { id } = useParams();
   const { limit, currentpage } = usePagination();
-  const [searchParams] = useSearchParams();
+
   const [epics, setEpics] = useState<ProjectEpicsType[]>([]);
+  const [pagination, setPagination] = useState("");
+
   const [loading, setLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState(false);
-  const [searachValue, setSearchValue] = useState<string>("");
-  const [fixedResponse, setFisedResponse] = useState<ProjectEpicsType[]>([]);
-  const [pagination, setPaginantion] = useState<string>("");
 
-  const fetchEpics = async () => {
-    setLoading(true);
-    setError(false);
+  const [searchValue, setSearchValue] = useState("");
 
-    try {
-      const response = await getPrpjectEpics({
-        id: id!,
-        page: Number(currentpage),
-        limit: Number(limit),
-      });
-      setEpics(response.data);
-      setFisedResponse(response.data);
-      setPaginantion(response.pagination);
-    } catch (error) {
-      setError(true);
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchEpics = useCallback(
+    async (search = searchValue.trim()) => {
+      if (!id) return;
+
+      const searching = search.length > 0;
+
+      if (searching) {
+        setIsSearching(true);
+      } else {
+        setLoading(true);
+      }
+
+      setError(false);
+
+      try {
+        const response = await getPrpjectEpics({
+          id,
+          page: Number(currentpage),
+          limit: Number(limit),
+          searchTerm: search,
+        });
+
+        setEpics(response.data);
+        setPagination(response.pagination);
+      } catch (error) {
+        console.error(error);
+        setError(true);
+      } finally {
+        setLoading(false);
+        setIsSearching(false);
+      }
+    },
+    [id, currentpage, limit, searchValue],
+  );
+
   useEffect(() => {
     fetchEpics();
-  }, [id, searchParams]);
+  }, [fetchEpics]);
 
   const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
-    setSearchValue(value);
-    if (value) {
-      const filterEpics = fixedResponse.filter((epic) =>
-        epic.title.includes(value),
-      );
-      setEpics(filterEpics);
-      return;
-    }
-    setEpics(fixedResponse);
+    setSearchValue(e.target.value);
   };
 
   const handleReset = () => {
     setSearchValue("");
-    setEpics(fixedResponse);
   };
+
   return {
     loading,
-    epics,
     error,
-    fetchEpics,
-    fixedResponse,
-    searachValue,
-    handleSearchInputValue,
-    handleReset,
+    epics,
     pagination,
+
+    searchValue,
+    isSearching,
+
+    fetchEpics,
+
+    handleReset,
+    handleSearchInputValue,
   };
 };

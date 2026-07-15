@@ -38,7 +38,7 @@ const ProjectTask = () => {
             childrenClassName='flex w-full'
             title='Active Workboard' description="Curating Project Alpha's production pipeline and milestones.">
             <div className='flex flex-col lg:flex-row items-center justify-end px-2 gap-2 w-full py-4'>
-                <SearchBox className='w-full lg:w-1/3' placeholder='Search tasks...' searachValue='' onSearch={() => { }} />
+                <SearchBox className='w-full lg:w-1/3' placeholder='Search tasks...' searchValue='' onSearch={() => { }} />
                 <SelectView className='hidden lg:block ' />
                 <span className='bg-surface-highest p-3.5 cursor-pointer hidden lg:block rounded-sm'><FilterIcon className='w-4 h-4' /></span>
                 <Link className='flex items-center justify-center w-full gap-2 lg:hidden ' to={"new"}><Button className='flex items-center justify-center w-full gap-2' ><PlusIcon />Create Taskk</Button></Link>

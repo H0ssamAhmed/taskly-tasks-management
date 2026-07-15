@@ -18,22 +18,24 @@ import AddButton from '@/shared/AddButton'
 
 
 const ProjectEpics = () => {
-    const { loading,
+    const {
+        loading,
         epics,
         error,
         fetchEpics,
-        fixedResponse,
-        searachValue,
+        searchValue,
         handleSearchInputValue,
+        isSearching,
         handleReset,
-        pagination } = useEpics()
+        pagination,
+    } = useEpics();
     const { epicDetails, loading: loadingTitle } = useEditEpic()
 
     if (loading || loadingTitle) return <EpicsFullPageSkelton />
 
     if (error) return <PageError onClick={fetchEpics} />
 
-    if (!fixedResponse.length) return <EmptyEpics />
+    if (!epics.length && !searchValue && !loading) return <EmptyEpics />
 
     const BreadCrumbLinks = [
         { link: "/project", text: "Project" },
@@ -50,26 +52,26 @@ const ProjectEpics = () => {
 
             >
                 <div className='flex items-center justify-end gap-4 w-full'>
-                    <SearchBox placeholder='Seare Epics' searachValue={searachValue} onSearch={handleSearchInputValue} />
+                    <SearchBox placeholder='Seare Epics' searchValue={searchValue} onSearch={handleSearchInputValue} />
                     <Button className='flex gap-4 justify-center items-center py-3 px-5 rounded-sm'><PlusIcon /><Link to={"new"}>Create New Epics</Link></Button>
                 </div>
             </PageHeader>
         </div>
         <div className='lg:hidden'>
-            <SearchBox searachValue={searachValue} className="w-full" onSearch={handleSearchInputValue} />
+            <SearchBox searchValue={searchValue} className="w-full" onSearch={handleSearchInputValue} />
         </div>
 
 
 
-        <PageBody className='w-full lg:w-full bg-surface-low mb-20 lg:mb-0'>
+        {isSearching ? <LoadingSearch /> : <PageBody className='w-full lg:w-full bg-surface-low mb-20 lg:mb-0'>
             <EpicsList
                 fetchEpics={fetchEpics}
                 epics={epics}
             />
-            {!epics.length && <EmptyOnSearch onClick={handleReset} />}
+            {!epics.length && searchValue && <EmptyOnSearch onClick={handleReset} />}
 
         </PageBody>
-
+        }
 
         <Pagination data={pagination} />
     </div>
@@ -80,3 +82,8 @@ const ProjectEpics = () => {
 export default ProjectEpics
 
 
+const LoadingSearch = () => {
+    return (<div className='w-full h-full py-40 flex flex-col gap-4 items-center justify-center'>
+        <h1 className='display-lg'>Searching Epics... </h1>
+    </div>)
+}

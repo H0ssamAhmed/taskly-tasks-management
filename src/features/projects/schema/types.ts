@@ -61,6 +61,7 @@ export interface ProjectPagination {
 
 export interface EpicPaginantion extends ProjectPagination {
   id: string;
+  searchTerm?: string;
 }
 
 export interface EpicQuery {
