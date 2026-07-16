@@ -9,11 +9,12 @@ import FilterIcon from '@/assets/svgs/FilterIcon'
 import SearchBox from '../components/SearchBox'
 import { useMobile } from '../hooks/useMobile'
 import AddButton from '@/shared/AddButton'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import PlusIcon from '@/assets/svgs/PlusIcon'
 import { Button } from '@/shared/UI/Button'
 import TaskDetailsPopup from '../components/task/TaskDetailsPopup'
 import { useAppSelector } from '@/store/store'
+import { useState } from 'react'
 
 
 const BreadCrumbLinks = [
@@ -27,6 +28,26 @@ const ProjectTask = () => {
     const { selectedTaskId } = useAppSelector((state) => state.taskDetails)
     const { currentView } = useProjectTask("TO_DO")
     const isMobile = useMobile()
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchTerm = searchParams.get("title");
+    const [searchValue, setSearchValue] = useState(searchTerm || "")
+
+    const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        const params = new URLSearchParams(searchParams);
+
+        if (value) {
+            params.set("title", value);
+        } else {
+            params.delete("title");
+        }
+
+        setSearchParams(params);
+        setSearchValue(value)
+
+
+    };
+
 
 
 
@@ -38,7 +59,7 @@ const ProjectTask = () => {
             childrenClassName='flex w-full'
             title='Active Workboard' description="Curating Project Alpha's production pipeline and milestones.">
             <div className='flex flex-col lg:flex-row items-center justify-end px-2 gap-2 w-full py-4'>
-                <SearchBox className='w-full lg:w-1/3' placeholder='Search tasks...' searchValue='' onSearch={() => { }} />
+                <SearchBox className='w-full lg:w-1/3' placeholder='Search tasks...' searchValue={searchValue} onSearch={onSearch} />
                 <SelectView className='hidden lg:block ' />
                 <span className='bg-surface-highest p-3.5 cursor-pointer hidden lg:block rounded-sm'><FilterIcon className='w-4 h-4' /></span>
                 <Link className='flex items-center justify-center w-full gap-2 lg:hidden ' to={"new"}><Button className='flex items-center justify-center w-full gap-2' ><PlusIcon />Create Taskk</Button></Link>

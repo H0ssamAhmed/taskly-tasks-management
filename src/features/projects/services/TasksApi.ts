@@ -25,10 +25,11 @@ export const getEpicTasks = async (id: string) => {
 export const getProjectTasksBoardView = async ({
   projectId,
   status,
+  searchTerm = "",
 }: FetchProjectTasksType) => {
   return apiRequest(
     baseURL +
-      `/rest/v1/project_tasks?project_id=eq.${projectId}&status=eq.${status}`,
+      `/rest/v1/project_tasks?project_id=eq.${projectId}&status=eq.${status}&title=ilike.%25${searchTerm}%25`,
     {
       method: "GET",
     },
@@ -37,11 +38,14 @@ export const getProjectTasksBoardView = async ({
 
 export const getProjectTasksInListView = async ({
   projectId,
+  searchTerm = "",
 }: {
   projectId: string;
+  searchTerm?: string;
 }) => {
   return apiRequest(
-    baseURL + `/rest/v1/project_tasks?project_id=eq.${projectId}`,
+    baseURL +
+      `/rest/v1/project_tasks?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25`,
     {
       method: "GET",
     },

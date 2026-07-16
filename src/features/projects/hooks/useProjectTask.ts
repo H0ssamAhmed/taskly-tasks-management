@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
   getProjectTasksBoardView,
@@ -13,6 +13,7 @@ export const useProjectTask = (status: TaskStatusType) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentView: ViewType =
     searchParams.get("view") === "list" ? "list" : "board";
+  const searchTerm = searchParams.get("title") || "";
   const [projectTasksBoardView, setProjectTasksBoardView] = useState<
     EpicTask[] | []
   >([]);
@@ -30,7 +31,7 @@ export const useProjectTask = (status: TaskStatusType) => {
     }
   };
 
-  const fetchBoardTasks = async () => {
+  const fetchBoardTasks = useCallback(async () => {
     setLoading(true);
     try {
       const response = await getProjectTasksBoardView({
@@ -49,12 +50,13 @@ export const useProjectTask = (status: TaskStatusType) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchTerm]);
   const fetchListTasks = async () => {
     setLoading(true);
     try {
       const response = await getProjectTasksInListView({
         projectId: id!,
+        searchTerm: searchTerm,
       });
       if (response) {
         setProjectTasksListView(response);
@@ -69,10 +71,11 @@ export const useProjectTask = (status: TaskStatusType) => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchBoardTasks();
     fetchListTasks();
-  }, []);
+  }, [searchTerm]);
 
   return {
     loading,

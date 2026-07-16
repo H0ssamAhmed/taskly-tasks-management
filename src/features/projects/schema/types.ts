@@ -130,4 +130,5 @@ export interface EpicTask {
 export interface FetchProjectTasksType {
   projectId: string;
   status?: TaskStatusType;
+  searchTerm?: string;
 }
