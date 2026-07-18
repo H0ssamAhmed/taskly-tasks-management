@@ -34,15 +34,19 @@ const ProjectTask = () => {
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        const params = new URLSearchParams(searchParams);
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.delete("page")
+        newSearchParams.delete("limit")
+
+        setSearchParams(newSearchParams);
 
         if (value) {
-            params.set("title", value);
+            newSearchParams.set("title", value);
         } else {
-            params.delete("title");
+            newSearchParams.delete("title");
         }
 
-        setSearchParams(params);
+        setSearchParams(newSearchParams);
         setSearchValue(value)
 
 

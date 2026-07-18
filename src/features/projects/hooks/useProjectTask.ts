@@ -10,6 +10,8 @@ type ViewType = "board" | "list" | string | null;
 
 export const useProjectTask = (status: TaskStatusType) => {
   const { id } = useParams();
+  const [pagination, setPaginantion] = useState<string>("");
+
   const [searchParams, setSearchParams] = useSearchParams();
   const currentView: ViewType =
     searchParams.get("view") === "list" ? "list" : "board";
@@ -34,15 +36,17 @@ export const useProjectTask = (status: TaskStatusType) => {
   const fetchBoardTasks = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await getProjectTasksBoardView({
+      const { data: response, pagination } = await getProjectTasksBoardView({
         projectId: id!,
         status: status,
       });
       if (response) {
         setProjectTasksBoardView(response);
-
-        return;
       }
+      if (pagination) {
+        setPaginantion(pagination);
+      }
+
       setError(false);
     } catch (error) {
       setError(true);
@@ -54,14 +58,15 @@ export const useProjectTask = (status: TaskStatusType) => {
   const fetchListTasks = async () => {
     setLoading(true);
     try {
-      const response = await getProjectTasksInListView({
+      const { data: response, pagination } = await getProjectTasksInListView({
         projectId: id!,
         searchTerm: searchTerm,
       });
       if (response) {
         setProjectTasksListView(response);
-
-        return;
+      }
+      if (pagination) {
+        setPaginantion(pagination);
       }
       setError(false);
     } catch (error) {
@@ -73,8 +78,16 @@ export const useProjectTask = (status: TaskStatusType) => {
   };
 
   useEffect(() => {
-    fetchBoardTasks();
-    fetchListTasks();
+    setTimeout(() => {
+      if (currentView == "board") {
+        fetchBoardTasks();
+        return;
+      }
+      if (currentView == "list") {
+        fetchListTasks();
+        return;
+      }
+    }, 300);
   }, [searchTerm]);
 
   return {
@@ -82,6 +95,7 @@ export const useProjectTask = (status: TaskStatusType) => {
     projectTasksBoardView,
     projectTasksListView,
     error,
+    pagination,
     changeView,
     currentView,
     fetchBoardTasks,

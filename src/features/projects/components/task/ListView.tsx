@@ -1,12 +1,13 @@
 import { useProjectTask } from "../../hooks/useProjectTask"
 import type { EpicTask } from "../../schema/types"
+import TablePagination from "./TablePagination"
 import TableRow from "./TableRow"
 import TableSkeleton from "./TableSkeleton"
 import TasksError from "./TasksError"
 
 
 function ListView() {
-    const { loading, projectTasksListView, error, fetchListTasks } = useProjectTask("TO_DO")
+    const { loading, projectTasksListView, error, fetchListTasks, pagination } = useProjectTask("TO_DO")
 
 
     if (loading) {
@@ -32,11 +33,9 @@ function ListView() {
                     return <TableRow task={task} />
                 })}
             </tbody>
+
             <tfoot>
-                <tr>
-                    <td className=" text-xs text-muted text-start" colSpan={4}>Showing 5 of 24</td>
-                    <td className=" text-xs text-muted text-end">{"< " + "page 1 of 5" + " >"}</td>
-                </tr>
+                <TablePagination data={pagination} colSpan={4} />
             </tfoot>
         </table>
     )
