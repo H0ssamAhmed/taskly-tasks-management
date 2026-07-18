@@ -14,7 +14,7 @@ export const useMembers = () => {
     setError(false);
 
     try {
-      const memebers = await getProjectMemeber(id!);
+      const { data: memebers } = await getProjectMemeber(id!);
       setMembers(memebers);
     } catch (error) {
       setError(true);
