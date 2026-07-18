@@ -1,27 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export const usePagination = () => {
-  const [searchparams, setSearchParams] = useSearchParams();
-  const [currentpage, setCurrenPage] = useState(searchparams.get("page") || 1);
-  const [limit, setLimit] = useState(searchparams.get("limmit") || 10);
+export const usePagination = (data: string) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentpage, setCurrenPage] = useState(searchParams.get("page") || 1);
+  const [limit, setLimit] = useState(searchParams.get("limmit") || 10);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState("");
 
+  useEffect(() => {
+    if (data) {
+      setTotalPages(Math.ceil(Number(data?.split("/")[1]) / Number(limit)));
+      setTotalCount(data?.split("/")[1]);
+    }
+  }, []);
   const handleChangeQuery = ({
     page,
-    limit = "10",
+    limit: newLimit = "10",
   }: {
     page: string;
     limit?: string;
   }) => {
     setCurrenPage(page);
-    setLimit(limit);
-    setSearchParams({ limit, page });
-  };
+    setLimit(newLimit);
 
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", page);
+    newSearchParams.set("limit", newLimit);
+    setSearchParams(newSearchParams);
+  };
   return {
     currentpage,
-    limit,
+    limit: limit > totalCount ? totalCount : limit,
     handleChangeQuery,
+    totalPages,
   };
 };
 
