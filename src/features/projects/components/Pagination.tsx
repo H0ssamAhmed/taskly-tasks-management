@@ -4,10 +4,8 @@ import { getPaginationRange } from '@/lib/helpers';
 
 
 const Pagination = ({ data }: { data: string }) => {
-  const { currentpage, limit, handleChangeQuery } = usePagination()
+  const { currentpage, limit, handleChangeQuery, totalPages } = usePagination(data)
   const total_count = data.split("/")[1];
-  const totalPages = Math.ceil(Number(total_count) / Number(limit))
-
   const handleChangePage = (type: string | "+" | "-") => {
     const newPageNumber = type == "+" ? (Number(currentpage) + 1) : (Number(currentpage) - 1)
     handleChangeQuery({ page: String(newPageNumber), limit: String(limit) })
