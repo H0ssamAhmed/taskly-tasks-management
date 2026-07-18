@@ -108,64 +108,23 @@ export const creatPrpjectEpic = async (payload: ProjectEpicType) => {
   return res;
 };
 
-export const getPrpjectEpics = async ({
+export const getProjectEpics = async ({
   page = 1,
-  limit = defaultLimit,
+  limit = 10,
   id,
   searchTerm = "",
 }: EpicPaginantion) => {
   const offset = (page - 1) * limit;
-  const respone = await apiRequest(
-    baseURL +
-      `/rest/v1/project_epics?project_id=eq.${id}&limit=${limit}&offset=${offset}&title=ilike.%25${searchTerm}%25`,
-    {
-      method: "GET",
-      headers: {
-        Prefer: "count=exact",
-      },
+  const url = searchTerm
+    ? `/rest/v1/project_epics?project_id=eq.${id}&title=ilike.%25${searchTerm}%25`
+    : `/rest/v1/project_epics?project_id=eq.${id}&limit=${limit}&offset=${offset}`;
+  const respone = await apiRequest(baseURL + url, {
+    method: "GET",
+    headers: {
+      Prefer: "count=exact",
     },
-  );
-
+  });
   return respone;
-
-  // try {
-  //   const response = await fetch(
-  //     baseURL +
-  //       `/rest/v1/project_epics?project_id=eq.${id}&limit=${limit}&offset=${offset}&title=ilike.%25${searchTerm}%25`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         ...reqHeader,
-  //         Authorization: `Bearer ${ACCESS_TOKEN}`,
-  //         Prefer: "count=exact",
-  //       },
-  //     },
-  //   );
-
-  //   if (!response.ok) {
-  //     if (response.status === 401) {
-  //       throw new Error("UNAUTHORIZED");
-  //     }
-  //     if (response.status >= 500) {
-  //       throw new Error("SERVER_ERROR");
-  //     }
-  //     throw new Error("CLIENT_ERROR");
-  //   }
-
-  //   const rangeHeader =
-  //     (await response.headers.get("Content-Range")) || "0-9/0";
-  //   const result = {
-  //     data: await response.json(),
-  //     pagination: rangeHeader,
-  //   };
-  //   return result;
-  // } catch (error) {
-  //   if (error instanceof TypeError) {
-  //     console.error(error);
-  //     // throw new Error("NETWORK_ERROR");
-  //   }
-  //   throw error;
-  // }
 };
 
 export const fetchEpicDetails = async ({ epicId, projectId }: EpicQuery) => {

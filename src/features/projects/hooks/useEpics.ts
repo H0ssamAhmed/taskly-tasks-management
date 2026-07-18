@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import usePagination from "./usePagination";
-import { getPrpjectEpics } from "../services/ProjectsApi";
+import { getProjectEpics } from "../services/ProjectsApi";
 import type { ProjectEpicsType } from "../schema/types";
 
 export const useEpics = () => {
@@ -17,44 +17,40 @@ export const useEpics = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const fetchEpics = useCallback(
-    async (search = searchValue.trim()) => {
-      if (!id) return;
+  const fetchEpics = async (search = searchValue.trim()) => {
+    if (!id) return;
+    const searching = search.length > 0;
 
-      const searching = search.length > 0;
+    if (searching) {
+      setIsSearching(true);
+    } else {
+      setLoading(true);
+    }
 
-      if (searching) {
-        setIsSearching(true);
-      } else {
-        setLoading(true);
-      }
+    setError(false);
 
-      setError(false);
+    try {
+      const response = await getProjectEpics({
+        id,
+        page: Number(currentpage),
+        limit: limit ? Number(limit) : 10,
+        searchTerm: search,
+      });
 
-      try {
-        const response = await getPrpjectEpics({
-          id,
-          page: Number(currentpage),
-          limit: Number(limit),
-          searchTerm: search,
-        });
-
-        setEpics(response.data);
-        setPagination(response.pagination);
-      } catch (error) {
-        console.error(error);
-        setError(true);
-      } finally {
-        setLoading(false);
-        setIsSearching(false);
-      }
-    },
-    [id, currentpage, limit, searchValue],
-  );
+      setEpics(response.data);
+      setPagination(response.pagination);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+      setIsSearching(false);
+    }
+  };
 
   useEffect(() => {
     fetchEpics();
-  }, [fetchEpics]);
+  }, [id, currentpage]);
 
   const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);

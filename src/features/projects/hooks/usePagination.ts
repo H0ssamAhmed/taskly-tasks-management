@@ -6,7 +6,8 @@ interface Props {
 export const usePagination = ({ data = "0-0/*" }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentpage, setCurrenPage] = useState(searchParams.get("page") || 1);
-  const [limit, setLimit] = useState(searchParams.get("limmit") || 10);
+  const currentLimit = searchParams.get("limit") || 10;
+  const [limit, setLimit] = useState(currentLimit);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalCount, setTotalCount] = useState("");
 
