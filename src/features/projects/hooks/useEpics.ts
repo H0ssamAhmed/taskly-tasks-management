@@ -6,7 +6,7 @@ import type { ProjectEpicsType } from "../schema/types";
 
 export const useEpics = () => {
   const { id } = useParams();
-  const { limit, currentpage } = usePagination();
+  const { limit, currentpage } = usePagination({});
 
   const [epics, setEpics] = useState<ProjectEpicsType[]>([]);
   const [pagination, setPagination] = useState("");

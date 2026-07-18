@@ -19,7 +19,7 @@ interface Props {
 }
 const EpicCard = ({ epic, fetchEpics }: Props) => {
     const { id } = useParams();
-    const { currentpage, limit, } = usePagination()
+    const { currentpage, limit, } = usePagination({})
     const [activeEpic, setActiveEpic] = useState<boolean>(false)
     const { fetchEpic, epic: details, loading, resetModel } = useEpicDetails()
 

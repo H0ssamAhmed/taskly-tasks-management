@@ -11,6 +11,8 @@ import RowSkeleton from '../components/RowSkeleton'
 import PageError from '@/shared/PageError'
 const EditProject = () => {
     const { loading, epicDetails, submitEdits, isSubmitting, error, fetchEpicDetails, } = useEditEpic()
+
+
     const BreadCrumbLinks = [{ link: "/project", text: "Project" }, { link: "", text: epicDetails?.name, active: true }, { link: "", text: "Edit", active: true }]
 
     if (error) {

@@ -16,7 +16,8 @@ export const useEditEpic = () => {
     setLoading(true);
     setError(false);
     try {
-      const response = await getProjectById(id!);
+      const { data: response } = await getProjectById(id!);
+
       setEpicDetails(response[0]);
     } catch (error) {
       setError(true);

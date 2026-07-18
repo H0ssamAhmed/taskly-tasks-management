@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
-export const usePagination = (data?: string) => {
+interface Props {
+  data?: string;
+}
+export const usePagination = ({ data = "0-0/*" }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentpage, setCurrenPage] = useState(searchParams.get("page") || 1);
   const [limit, setLimit] = useState(searchParams.get("limmit") || 10);

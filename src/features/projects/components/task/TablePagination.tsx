@@ -7,7 +7,7 @@ interface TableFooterPaginationProps {
 }
 
 const TablePagination = ({ data, colSpan = 4 }: TableFooterPaginationProps) => {
-    const { currentpage, limit, handleChangeQuery, totalPages } = usePagination(data);
+    const { currentpage, limit, handleChangeQuery, totalPages } = usePagination({ data });
     const total_count = data.split("/")[1];
 
 

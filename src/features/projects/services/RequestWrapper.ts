@@ -26,7 +26,6 @@ export const apiRequest = async (url: string, options: RequestInit = {}) => {
 
     throw new Error(error?.message || "CLIENT_ERROR");
   }
-  console.log(response);
 
   const rangeHeader = (await response.headers.get("Content-Range")) || "0-9/0";
 
