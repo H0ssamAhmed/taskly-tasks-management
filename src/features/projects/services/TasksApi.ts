@@ -42,20 +42,26 @@ export const getProjectTasksBoardView = async ({
 export const getProjectTasksInListView = async ({
   projectId,
   searchTerm = "",
+  page = 1,
+  limit = 10,
 }: {
   projectId: string;
   searchTerm?: string;
+  page?: number;
+  limit?: number;
 }) => {
-  const respone = await apiRequest(
-    baseURL +
-      `/rest/v1/project_tasks?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25`,
-    {
-      method: "GET",
-      headers: {
-        Prefer: "count=exact",
-      },
+  const offset = (page - 1) * limit;
+
+  const url = searchTerm
+    ? `/rest/v1/project_tasks?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25`
+    : `/rest/v1/project_tasks?project_id=eq.${projectId}&limit=${limit}&offset=${offset}`;
+  // "GET "
+  const respone = await apiRequest(baseURL + url, {
+    method: "GET",
+    headers: {
+      Prefer: "count=exact",
     },
-  );
+  });
 
   return respone;
 };

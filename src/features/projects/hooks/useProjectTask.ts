@@ -10,9 +10,12 @@ type ViewType = "board" | "list" | string | null;
 
 export const useProjectTask = (status: TaskStatusType) => {
   const { id } = useParams();
-  const [pagination, setPaginantion] = useState<string>("");
 
+  const [pagination, setPaginantion] = useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const currentpage = searchParams.get("page") ?? 1;
+  const limit = searchParams.get("limit") ?? 10;
+
   const currentView: ViewType =
     searchParams.get("view") === "list" ? "list" : "board";
   const searchTerm = searchParams.get("title") || "";
@@ -61,6 +64,8 @@ export const useProjectTask = (status: TaskStatusType) => {
       const { data: response, pagination } = await getProjectTasksInListView({
         projectId: id!,
         searchTerm: searchTerm,
+        page: Number(currentpage),
+        limit: limit ? Number(limit) : 10,
       });
       if (response) {
         setProjectTasksListView(response);
@@ -88,7 +93,7 @@ export const useProjectTask = (status: TaskStatusType) => {
         return;
       }
     }, 300);
-  }, [searchTerm]);
+  }, [searchTerm, searchParams]);
 
   return {
     loading,
