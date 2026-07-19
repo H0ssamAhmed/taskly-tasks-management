@@ -112,7 +112,7 @@ const AddTaskForm = () => {
                                 disabled={loading}
                                 {...register("status")}
                                 className=' bg-surface-highest p   p-3.5 w-full rounded-sm' name="status" id="status">
-                                {taskStatusDisaply.map((status) => <option value={taskStatus[status]}>{status}</option>
+                                {taskStatusDisaply.map((status) => <option key={status} value={taskStatus[status]}>{status}</option>
                                 )}
                             </select>
 
@@ -130,7 +130,7 @@ const AddTaskForm = () => {
                                 {...register("assignee_id")}
                                 className=' bg-surface-highest p-3.5 w-full rounded-sm' >
                                 <option value="">Select Memeber</option>
-                                {members.map((member) => <option value={member.user_id}>{member.metadata.name}</option>
+                                {members.map((member) => <option key={member.member_id} value={member.user_id}>{member.metadata.name}</option>
                                 )}
                             </select>
                         </InputLayout>
