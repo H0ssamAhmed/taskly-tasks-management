@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import usePagination from "./usePagination";
 import { getProjectEpics } from "../services/ProjectsApi";
 import type { ProjectEpicsType } from "../schema/types";
 
 export const useEpics = () => {
   const { id } = useParams();
-  const { limit, currentpage } = usePagination({});
-
+  const { limit } = usePagination({});
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentpage = searchParams.get("page") ?? 1;
   const [epics, setEpics] = useState<ProjectEpicsType[]>([]);
   const [pagination, setPagination] = useState("");
 
@@ -30,15 +31,15 @@ export const useEpics = () => {
     setError(false);
 
     try {
-      const response = await getProjectEpics({
+      const { data, pagination } = await getProjectEpics({
         id,
         page: Number(currentpage),
         limit: limit ? Number(limit) : 10,
         searchTerm: search,
       });
 
-      setEpics(response.data);
-      setPagination(response.pagination);
+      setEpics(data);
+      setPagination(pagination);
     } catch (error) {
       console.error(error);
       setError(true);
@@ -50,10 +51,22 @@ export const useEpics = () => {
 
   useEffect(() => {
     fetchEpics();
-  }, [id, currentpage]);
+  }, [id, searchParams]);
 
   const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    const value = e.target.value;
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("page");
+    newSearchParams.delete("limit");
+
+    setSearchParams(newSearchParams);
+
+    if (value) {
+      newSearchParams.set("title", value);
+    } else {
+      newSearchParams.delete("title");
+    }
+    setSearchValue(value);
   };
 
   const handleReset = () => {

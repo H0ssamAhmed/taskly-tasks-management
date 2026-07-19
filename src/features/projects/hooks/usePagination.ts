@@ -5,18 +5,17 @@ interface Props {
 }
 export const usePagination = ({ data = "0-0/*" }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentpage, setCurrenPage] = useState(searchParams.get("page") || 1);
-  const currentLimit = searchParams.get("limit") || 10;
-  const [limit, setLimit] = useState(currentLimit);
+  const currentpage = Number(searchParams.get("page") ?? 1);
+  const limit = Number(searchParams.get("limit") ?? 10);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [totalCount, setTotalCount] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     if (data) {
       setTotalPages(Math.ceil(Number(data?.split("/")[1]) / Number(limit)));
-      setTotalCount(data?.split("/")[1]);
+      setTotalCount(Number(data?.split("/")[1]));
     }
-  }, []);
+  }, [data, limit]);
   const handleChangeQuery = ({
     page,
     limit: newLimit = "10",
@@ -24,17 +23,16 @@ export const usePagination = ({ data = "0-0/*" }: Props) => {
     page: string;
     limit?: string;
   }) => {
-    setCurrenPage(page);
-    setLimit(newLimit);
+    const params = new URLSearchParams(searchParams);
 
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set("page", page);
-    newSearchParams.set("limit", newLimit);
-    setSearchParams(newSearchParams);
+    params.set("page", page);
+    params.set("limit", newLimit);
+
+    setSearchParams(params);
   };
   return {
     currentpage,
-    limit: limit > totalCount ? totalCount : limit,
+    limit: Math.min(limit, Number(totalCount || 0)),
     handleChangeQuery,
     totalPages,
   };
