@@ -30,7 +30,7 @@ function ListView() {
             </thead>
             <tbody>
                 {projectTasksListView.map((task: EpicTask) => {
-                    return <TableRow task={task} />
+                    return <TableRow key={task.id} task={task} />
                 })}
             </tbody>
 
