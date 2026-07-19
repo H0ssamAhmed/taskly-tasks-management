@@ -73,7 +73,7 @@ const ProjectEpics = () => {
         </PageBody>
         }
 
-        <Pagination data={pagination} />
+        <Pagination length={epics?.length} data={pagination} />
     </div>
 
     )

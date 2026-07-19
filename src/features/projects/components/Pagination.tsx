@@ -3,8 +3,10 @@ import usePagination from '../hooks/usePagination';
 import { getPaginationRange } from '@/lib/helpers';
 
 
-const Pagination = ({ data }: { data: string }) => {
+const Pagination = ({ data, length }: { data: string, length: number }) => {
   const { currentpage, limit, handleChangeQuery, totalPages } = usePagination({ data })
+
+
   const total_count = data.split("/")[1];
   const handleChangePage = (type: string | "+" | "-") => {
     const newPageNumber = type == "+" ? (Number(currentpage) + 1) : (Number(currentpage) - 1)
@@ -15,7 +17,7 @@ const Pagination = ({ data }: { data: string }) => {
   return (
     <>
       <div className='hidden lg:flex items-center justify-between' >
-        <p className='text-xs text-muted ' >Showing {limit} of {total_count} active projects</p>
+        <p className='text-xs text-muted ' >Showing {Math.min(limit, Number(length))} of {total_count} active projects</p>
         <div className='flex items-center py-20 justify-end gap-2'>
           <Button
             onClick={() => handleChangePage("-")}

@@ -35,7 +35,7 @@ function ListView() {
             </tbody>
 
             <tfoot>
-                <TablePagination data={pagination} colSpan={4} />
+                <TablePagination length={projectTasksListView.length} data={pagination} colSpan={4} />
             </tfoot>
         </table>
     )

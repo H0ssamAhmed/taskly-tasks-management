@@ -3,10 +3,11 @@ import usePagination from '../../hooks/usePagination';
 
 interface TableFooterPaginationProps {
     data: string;
+    length: number,
     colSpan?: number;
 }
 
-const TablePagination = ({ data, colSpan = 4 }: TableFooterPaginationProps) => {
+const TablePagination = ({ data, length, colSpan = 4 }: TableFooterPaginationProps) => {
     const { currentpage, limit, handleChangeQuery, totalPages } = usePagination({ data });
     const total_count = data.split("/")[1];
 
@@ -19,7 +20,7 @@ const TablePagination = ({ data, colSpan = 4 }: TableFooterPaginationProps) => {
     return (
         <tr>
             <td className="text-xs text-muted text-start" >
-                Showing {limit} of {total_count}
+                Showing {length} of {total_count}
             </td>
             <td className="text-xs text-muted text-end" colSpan={colSpan}>
                 <div className="flex items-center justify-end gap-1">

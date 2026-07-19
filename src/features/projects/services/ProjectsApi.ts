@@ -9,7 +9,7 @@ import type {
   ProjectEpicType,
   ProjectPagination,
 } from "../schema/types";
-import { apiRequest } from "./RequestWrapper";
+import { apiRequest, apiRequestPOST } from "./RequestWrapper";
 
 export const defaultLimit: number = 10;
 
@@ -59,10 +59,11 @@ export const getProjects = async ({
 };
 
 export const creatPrpject = async (payload: ProjectFormData) => {
-  return apiRequest(baseURL + "/rest/v1/projects", {
-    method: "POST",
+  const respone = await apiRequestPOST(baseURL + "/rest/v1/projects", {
     body: JSON.stringify(payload),
   });
+
+  return respone;
 };
 export const updatePrpject = async ({
   id,

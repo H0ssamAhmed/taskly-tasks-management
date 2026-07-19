@@ -45,6 +45,7 @@ const Projects = () => {
             <div className='py-4 w-full px-4 bottom-4 left-0'>
 
                 <Pagination
+                    length={projects?.length}
                     data={pagination} />
             </div>
         </div>
