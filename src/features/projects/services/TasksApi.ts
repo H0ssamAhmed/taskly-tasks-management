@@ -1,8 +1,14 @@
 import { baseURL } from "@/lib/supabase";
 import { reqHeader } from "@/utils/constants/Request";
 import { getAccessToken } from "@/utils/cookies";
-import type { CreateTaskPayload, FetchProjectTasksType } from "../schema/types";
+import type {
+  CreateTaskPayload,
+  FetchProjectTasksType,
+  TaskStatusDisplayType,
+} from "../schema/types";
 import { apiRequest } from "./RequestWrapper";
+import type { UniqueIdentifier } from "@dnd-kit/core";
+import { taskStatus_spaced } from "@/utils/constants/TaskStatus";
 
 export const createTask = async (payload: CreateTaskPayload) => {
   const ACCESS_TOKEN = getAccessToken();
@@ -55,7 +61,6 @@ export const getProjectTasksInListView = async ({
   const url = searchTerm
     ? `/rest/v1/project_tasks?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25`
     : `/rest/v1/project_tasks?project_id=eq.${projectId}&limit=${limit}&offset=${offset}`;
-  // "GET "
   const respone = await apiRequest(baseURL + url, {
     method: "GET",
     headers: {
@@ -83,4 +88,18 @@ export const getTaskDetails = async ({
   );
   if (!res.ok) return res;
   return res.json();
+};
+interface Props {
+  taskId: UniqueIdentifier;
+  newStatus: TaskStatusDisplayType;
+}
+export const updatedTaskStatus = async ({ taskId, newStatus }: Props) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const newStatusValue = taskStatus_spaced[newStatus];
+  const payload = { status: newStatusValue };
+  return await fetch(baseURL + `/rest/v1/tasks?id=eq.${taskId}`, {
+    method: "PATCH",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    body: JSON.stringify(payload),
+  });
 };

@@ -107,7 +107,7 @@ const NewEpicForm = () => {
                             {...register("assignee_id")}
                         >
                             <option value="">Select Memeber</option>
-                            {members.map((member) => <option value={member.user_id}>{member.metadata.name}</option>)}
+                            {members?.map((member) => <option value={member.user_id}>{member.metadata.name}</option>)}
                         </select>}
                     </div>
                 </InputLayout>

@@ -89,12 +89,13 @@ export const getProjectById = async (id: string) => {
 };
 
 export const getProjectMemeber = async (id: string) => {
-  return apiRequest(
+  const respones = await apiRequest(
     baseURL + `/rest/v1/get_project_members?project_id=eq.${id}&select=*`,
     {
       method: "GET",
     },
   );
+  return respones;
 };
 
 export const creatPrpjectEpic = async (payload: ProjectEpicType) => {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
   getProjectTasksBoardView,
@@ -36,15 +36,20 @@ export const useProjectTask = (status: TaskStatusType) => {
     }
   };
 
-  const fetchBoardTasks = useCallback(async () => {
+  const fetchBoardTasks = async (ColStatus: TaskStatusType) => {
     setLoading(true);
     try {
       const { data: response, pagination } = await getProjectTasksBoardView({
         projectId: id!,
-        status: status,
+        status: ColStatus,
       });
       if (response) {
-        setProjectTasksBoardView(response);
+        const sortedTasks = response.sort(
+          (a: EpicTask, b: EpicTask) =>
+            new Date(String(b.created_at)).getTime() -
+            new Date(String(a.created_at)).getTime(),
+        );
+        setProjectTasksBoardView(sortedTasks);
       }
       if (pagination) {
         setPaginantion(pagination);
@@ -57,7 +62,8 @@ export const useProjectTask = (status: TaskStatusType) => {
     } finally {
       setLoading(false);
     }
-  }, [searchTerm]);
+  };
+
   const fetchListTasks = async () => {
     setLoading(true);
     try {
@@ -85,7 +91,7 @@ export const useProjectTask = (status: TaskStatusType) => {
   useEffect(() => {
     setTimeout(() => {
       if (currentView == "board") {
-        fetchBoardTasks();
+        fetchBoardTasks(status);
         return;
       }
       if (currentView == "list") {

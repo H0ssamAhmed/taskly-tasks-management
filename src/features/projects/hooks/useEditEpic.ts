@@ -17,8 +17,11 @@ export const useEditEpic = () => {
     setError(false);
     try {
       const { data: response } = await getProjectById(id!);
+      if (response.length) {
+        console.log(response);
 
-      setEpicDetails(response[0]);
+        setEpicDetails(response[0]);
+      }
     } catch (error) {
       setError(true);
       console.error(error);
