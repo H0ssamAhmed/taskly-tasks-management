@@ -26,8 +26,8 @@ const EditProject = () => {
                 <Button className='flex items-center justify-center gap-4 group'>
                     <AddMemberIcon
                         className="text-gray-500 hover:text-blue-500 group-hover:scale-110 transition-all duration-200"
-
                     />
+
                     invite new member</Button>
             </PageHeader>
             <PageBody>
