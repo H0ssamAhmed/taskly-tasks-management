@@ -8,7 +8,6 @@ import type {
 } from "../schema/types";
 import { apiRequest } from "./RequestWrapper";
 import type { UniqueIdentifier } from "@dnd-kit/core";
-import { taskStatus_spaced } from "@/utils/constants/TaskStatus";
 
 export const createTask = async (payload: CreateTaskPayload) => {
   const ACCESS_TOKEN = getAccessToken();
@@ -95,8 +94,7 @@ interface Props {
 }
 export const updatedTaskStatus = async ({ taskId, newStatus }: Props) => {
   const ACCESS_TOKEN = getAccessToken();
-  const newStatusValue = taskStatus_spaced[newStatus];
-  const payload = { status: newStatusValue };
+  const payload = { status: newStatus };
   return await fetch(baseURL + `/rest/v1/tasks?id=eq.${taskId}`, {
     method: "PATCH",
     headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },

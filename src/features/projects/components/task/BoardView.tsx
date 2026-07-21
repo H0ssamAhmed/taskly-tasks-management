@@ -1,16 +1,12 @@
 import { taskStatusDisaply } from "@/utils/constants/TaskStatus";
 import Column from "./Column";
-import { DndContext, DragOverlay, type DragEndEvent, type DragMoveEvent, type DragStartEvent } from "@dnd-kit/core"
-import { useState } from "react";
-import type { EpicTask } from "../../schema/types";
+import { DndContext, type DragEndEvent, type DragMoveEvent, type DragStartEvent } from "@dnd-kit/core"
 import { updatedTaskStatus } from "../../services/TasksApi";
 const BoardView = () => {
-    const [activeTask, setActiveTask] = useState<EpicTask | null>(null);
     const startDrag = (event: DragStartEvent) => {
-        const { active: { data: { current: currentTask } } } = event;
-        if (currentTask) {
-            setActiveTask(currentTask as EpicTask)
-        }
+        // const { active: { data: { current: currentTask } } } = event;
+        return event
+
     };
 
     const moveDrag = (event: DragMoveEvent) => {
@@ -27,6 +23,7 @@ const BoardView = () => {
         const newRefetch = over.data.current?.refetch;
         const currentStatus = active.data.current?.status;
         const currentRefetch = active.data.current?.refetch;
+        console.log("newStatus ", newStatus);
 
         const response = await updatedTaskStatus({
             taskId: active.id,
@@ -35,8 +32,6 @@ const BoardView = () => {
         if (response.ok) {
             await Promise.all([newRefetch(newStatus), currentRefetch(currentStatus)])
         }
-
-        setActiveTask(null);
     };
 
     return (
@@ -52,23 +47,6 @@ const BoardView = () => {
                     ))}
                 </div>
             </div>
-
-            <DragOverlay>
-
-                {
-                    activeTask &&
-                    <div className="
-            bg-orange-400
-            shadow-lg
-            rounded-md
-            p-4
-            w-72
-          ">
-                        {activeTask.title}
-                    </div>
-                }
-
-            </DragOverlay>
         </DndContext>
     )
 }
