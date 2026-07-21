@@ -7,8 +7,11 @@ import { useAppDispatch } from '@/store/store'
 import { openModel } from '../../slice/taskSlice'
 import { useDraggable } from '@dnd-kit/core'
 
-
-const TaskDetails = ({ task, refetch }: { task: EpicTask, refetch: (ColStatus: TaskStatusType) => Promise<void> }) => {
+interface Props {
+    task: EpicTask,
+    refetch: (colStatus: TaskStatusType) => Promise<{ isFetched: boolean }>
+}
+const TaskDetails = ({ task, refetch }: Props) => {
     const {
         attributes,
         listeners,

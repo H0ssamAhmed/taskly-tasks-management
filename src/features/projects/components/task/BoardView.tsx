@@ -2,7 +2,7 @@ import { taskStatusDisaply } from "@/utils/constants/TaskStatus";
 import Column from "./Column";
 import { DndContext, type DragEndEvent, type DragMoveEvent, type DragStartEvent } from "@dnd-kit/core"
 import { updatedTaskStatus } from "../../services/TasksApi";
-const BoardView = () => {
+import { ToastSuccess } from "@/utils/Toast"; const BoardView = () => {
     const startDrag = (event: DragStartEvent) => {
         // const { active: { data: { current: currentTask } } } = event;
         return event
@@ -23,14 +23,17 @@ const BoardView = () => {
         const newRefetch = over.data.current?.refetch;
         const currentStatus = active.data.current?.status;
         const currentRefetch = active.data.current?.refetch;
-        console.log("newStatus ", newStatus);
 
         const response = await updatedTaskStatus({
             taskId: active.id,
             newStatus: newStatus,
         });
         if (response.ok) {
-            await Promise.all([newRefetch(newStatus), currentRefetch(currentStatus)])
+            const [newStatusRes, oldStatusRes] = await Promise.all([newRefetch(newStatus), currentRefetch(currentStatus)])
+            if (newStatusRes && oldStatusRes) {
+                ToastSuccess("stateus updarted", { position: "top-center" })
+            }
+
         }
     };
 

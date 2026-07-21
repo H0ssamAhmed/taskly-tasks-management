@@ -32,8 +32,8 @@ export const apiRequest = async (url: string, options: RequestInit = {}) => {
   if (rangeHeader == "*/*" || "0-0/*" == rangeHeader) {
     return await response.json();
   } else {
-    const pasedResponse = await response.json();
-    return { data: pasedResponse, pagination: rangeHeader };
+    const parsedResponse = await response.json();
+    return { data: parsedResponse, pagination: rangeHeader };
   }
 };
 

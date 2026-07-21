@@ -36,12 +36,12 @@ export const useProjectTask = (status: TaskStatusType) => {
     }
   };
 
-  const fetchBoardTasks = async (ColStatus: TaskStatusType) => {
+  const fetchBoardTasks = async (colStatus: TaskStatusType) => {
     setLoading(true);
     try {
       const { data: response, pagination } = await getProjectTasksBoardView({
         projectId: id!,
-        status: ColStatus,
+        status: colStatus,
       });
       if (response) {
         const sortedTasks = response.sort(
@@ -62,6 +62,7 @@ export const useProjectTask = (status: TaskStatusType) => {
     } finally {
       setLoading(false);
     }
+    return { isFetched: !error };
   };
 
   const fetchListTasks = async () => {
