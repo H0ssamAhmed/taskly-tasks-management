@@ -1,8 +1,8 @@
-import toast from "react-hot-toast";
+import toast, { type ToastOptions } from "react-hot-toast";
 
-export const ToastError = (mes: string): string => {
-  return toast.error(mes);
+export const ToastError = (mes: string, options?: ToastOptions): string => {
+  return toast.error(mes, { ...options });
 };
-export const ToastSuccess = (mes: string): string => {
-  return toast.success(mes);
+export const ToastSuccess = (mes: string, options?: ToastOptions): string => {
+  return toast.success(mes, { ...options });
 };
