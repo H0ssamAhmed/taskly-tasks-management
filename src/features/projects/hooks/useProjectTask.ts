@@ -42,6 +42,7 @@ export const useProjectTask = (status: TaskStatusType) => {
       const { data: response, pagination } = await getProjectTasksBoardView({
         projectId: id!,
         status: colStatus,
+        searchTerm: searchTerm,
       });
       if (response) {
         const sortedTasks = response.sort(
@@ -99,7 +100,7 @@ export const useProjectTask = (status: TaskStatusType) => {
         fetchListTasks();
         return;
       }
-    }, 300);
+    }, 500);
   }, [searchTerm, searchParams]);
 
   return {
