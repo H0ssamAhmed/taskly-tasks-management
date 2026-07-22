@@ -1,4 +1,4 @@
-import { baseURL } from "@/lib/supabase";
+import { anonkey, baseURL } from "@/lib/supabase";
 import { reqHeader } from "@/utils/constants/Request";
 import { getAccessToken } from "@/utils/cookies";
 import type { ProjectFormData } from "../schema/Project.schema";
@@ -159,5 +159,34 @@ export const updateEpic = async ({
   if (!res.ok) return res;
   return res;
 };
-
-export const getProjectTask = async () => {};
+interface InvitaionProps {
+  p_email: string;
+  p_project_id: string;
+}
+export const sendProjectInvitation = async ({
+  p_email,
+  p_project_id,
+}: InvitaionProps) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const payloadDate = {
+    p_email,
+    p_project_id,
+    // p_app_url: "https://the-taskly.vercel.app", //production
+    p_app_url: "http://localhost:5173", // Developemnt
+    p_base_url: baseURL,
+  };
+  /**
+ * send-invite-email
+https://uggqlqmqxdytjfzjblrr.supabase.co/functions/v1/send-invite-email
+ */
+  const response = await fetch(baseURL + "/rest/v1/rpc/invite_member", {
+    method: "POST",
+    headers: {
+      apikey: anonkey,
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": `application/json`,
+    },
+    body: JSON.stringify(payloadDate),
+  });
+  return response;
+};

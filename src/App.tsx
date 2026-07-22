@@ -19,6 +19,7 @@ import ProjectEpics from './features/projects/pages/ProjectEpics'
 import NewProjectEpics from './features/projects/pages/NewProjectEpics'
 import ProjectTasks from './features/projects/pages/ProjectTask'
 import NewProjectTask from './features/projects/pages/NewProjectTask'
+import AcceptInvitation from './features/projects/invitaion/pages/AcceptInvitation'
 
 
 
@@ -55,8 +56,11 @@ function App() {
               </Route>
             </Route>
           </Route>
+          <Route path='/invite' element={<AcceptInvitation />} />
+
 
         </Routes>
+
         <Toaster
           position="bottom-right"
           reverseOrder={false}
