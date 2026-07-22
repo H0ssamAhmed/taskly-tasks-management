@@ -29,11 +29,12 @@ export const useProjectTask = (status: TaskStatusType) => {
   const [error, setError] = useState(false);
 
   const changeView = (nextView: ViewType) => {
+    const params = new URLSearchParams(searchParams);
     if (nextView) {
-      setSearchParams({
-        view: nextView,
-      });
+      params.set("view", nextView);
     }
+    setSearchParams(params);
+    return;
   };
 
   const fetchBoardTasks = async (colStatus: TaskStatusType) => {

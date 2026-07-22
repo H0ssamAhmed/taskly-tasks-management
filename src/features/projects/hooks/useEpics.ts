@@ -56,17 +56,14 @@ export const useEpics = () => {
   const handleSearchInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.delete("page");
-    newSearchParams.delete("limit");
-
-    setSearchParams(newSearchParams);
-
     if (value) {
+      newSearchParams.delete("page");
+      newSearchParams.delete("limit");
       newSearchParams.set("title", value);
     } else {
       newSearchParams.delete("title");
     }
-    setSearchValue(value);
+    setSearchParams(newSearchParams);
   };
 
   const handleReset = () => {
