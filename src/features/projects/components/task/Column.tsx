@@ -8,6 +8,7 @@ import TaskDetails from './TaskDetails'
 import ColumnError from './ColumnError'
 import { useDroppable } from '@dnd-kit/core'
 import { cn } from '@/lib/utils'
+import EmptyColTask from './EmptyColTask'
 const Column = ({ status }: { status: TaskStatusKey }) => {
     const taskStatusValue: TaskStatusType = taskStatus_spaced[status]
     const { projectTasksBoardView, loading, error, fetchBoardTasks } = useProjectTask(taskStatusValue)
@@ -29,6 +30,7 @@ const Column = ({ status }: { status: TaskStatusKey }) => {
                 isOver && "bg-primary/5 border-primary/5")}>
             <ColumnHeader name={status} length={projectTasksBoardView.length ?? 0} />
             <AddNewTaskLink status={status} />
+            {!loading && !projectTasksBoardView.length && <EmptyColTask status={status} />}
             {loading ? <BoardColumnSkeleton /> :
                 projectTasksBoardView.map((task: EpicTask) =>
                     <TaskDetails

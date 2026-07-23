@@ -45,11 +45,8 @@ const ProjectTask = () => {
         } else {
             newSearchParams.delete("title");
         }
-
         setSearchParams(newSearchParams);
         setSearchValue(value)
-
-
     };
 
 
