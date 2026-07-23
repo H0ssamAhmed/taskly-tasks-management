@@ -14,10 +14,14 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const params = new URLSearchParams(hash);
   const type = params.get('type');
   const urlToken = params.get('access_token');
-  const inviteToken = params.get('token');
-  const { authError } = useUsers()
+
+  // Parse query params (for invite tokens)
+  const searchParams = new URLSearchParams(window.location.search);
+  const inviteToken = searchParams.get('token');
+  const isInvitePage = location.pathname === '/invite';
+
+  const { authError } = useUsers();
   const error = window.location.href.includes('access_denied');
-  const IsInviteToken = window.location.href.includes("invite?token");
 
 
 
@@ -25,23 +29,34 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   if ((type === 'recovery' && urlToken)) {
     return <Navigate to={`/reset-password?access_token=${urlToken}`} replace />
   }
+
   if (error) {
     return <Navigate to={`/reset-password`} replace />
   }
-  if ((!refresh_token && !access_token)) {
-    const redirect = IsInviteToken ? "/sign-in?" : `/sign-in?token?=${inviteToken}`
-    return <Navigate to={redirect} />;
+  // NOT AUTHENTICATED
+  if (!refresh_token && !access_token) {
+    // Allow invite page access, but redirect to sign-in with redirect URL
+    if (isInvitePage && inviteToken) {
+      const redirectUrl = `/invite?token=${inviteToken}`;
+      return <Navigate to={`/sign-in?redirect=${encodeURIComponent(redirectUrl)}`} replace />;
+    }
+    // Other pages require authentication
+    return <Navigate to="/sign-in" replace />;
+  }
+  // Only refresh token, no access token
+  if (refresh_token && !access_token) {
+    return <Navigate to="/" replace />;
+  }
+  // Auth error
+  if (authError) {
+    return <Navigate to="/sign-in" replace />;
   }
 
-  if ((refresh_token && !access_token) && !IsInviteToken) {
-    return <Navigate to="/" />;
+  // Redirect root to project
+  if (location.pathname === "/") {
+    return <Navigate to="/project" replace />;
   }
-  if (authError) {
-    return <Navigate to="/sign-in" />;
-  }
-  if (location.pathname == "/") {
-    return <Navigate to="/project" />;
-  }
+
 
 
 

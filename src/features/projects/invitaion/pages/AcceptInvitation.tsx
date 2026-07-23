@@ -5,6 +5,7 @@ import { ToastError, ToastSuccess } from '@/utils/Toast'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { acceptInvitationbyToken } from '../../services/ProjectsApi'
 import { useState } from 'react'
+import { ProtectedRoute } from '@/utils/ProtectedRoute'
 
 const AcceptInvitation = () => {
     const [seaechParams] = useSearchParams()
@@ -22,11 +23,11 @@ const AcceptInvitation = () => {
             const response = await acceptInvitationbyToken({ token })
             if (!response.ok) {
                 ToastError("Failed to accecpt invitaion, try again", { position: "top-center", duration: 5000 })
-                navigator('/projects')
                 return
             }
 
             ToastSuccess("Accept Invitation successfully", { position: "top-center", duration: 5000 })
+            await navigator('/project')
         } catch (error) {
             console.error(error);
             ToastError("Failed to accecpt invitaion, try again", { position: "top-center", duration: 5000 })
@@ -38,16 +39,19 @@ const AcceptInvitation = () => {
     }
 
     return (
-        <div className='bg-white w-screen h-screen flex items-center justify-center'>
-            <div className='w-md h-1/4'>
-                <div className='flex items-center justify-center '><Logo /></div>
-                <div className='rounded-xl border-4 border-transparent border-t-primary my-4 '>
-                    <p className='text-slate-mid rounded-2xl bg-slate-light w-fit mx-auto px-2 my-4'>New Project Invitation</p>
-                    <p className='text-3xl text-primary-dark text-center py-4 font-bold px-20' >You've been invited to join new project</p>
-                    <Button disabled={accepting} onClick={handleAcceptinvitation} className='w-full rounded-sm'>{accepting ? "Loading" : "Accept Invitation"}</Button>
+        <ProtectedRoute>
+
+            <div className='bg-white w-screen h-screen flex items-center justify-center'>
+                <div className='w-md h-1/4'>
+                    <div className='flex items-center justify-center '><Logo /></div>
+                    <div className='rounded-xl border-4 border-transparent border-t-primary my-4 '>
+                        <p className='text-slate-mid rounded-2xl bg-slate-light w-fit mx-auto px-2 my-4'>New Project Invitation</p>
+                        <p className='text-3xl text-primary-dark text-center py-4 font-bold px-20' >You've been invited to join new project</p>
+                        <Button disabled={accepting} onClick={handleAcceptinvitation} className='w-full rounded-sm'>{accepting ? "Loading" : "Accept Invitation"}</Button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoute>
     )
 }
 

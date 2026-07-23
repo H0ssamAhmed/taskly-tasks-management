@@ -14,8 +14,12 @@ export const useMembers = () => {
     setError(false);
 
     try {
-      const { data: members } = await getProjectMemeber(id!);
-      setMembers(members);
+      const members = await getProjectMemeber(id!);
+      if (!members.pagination) {
+        setMembers(members);
+        return;
+      }
+      setMembers(members.data);
     } catch (error) {
       setError(true);
       console.error(error);
