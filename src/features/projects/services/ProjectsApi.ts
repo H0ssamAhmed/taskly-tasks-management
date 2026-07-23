@@ -171,8 +171,8 @@ export const sendProjectInvitation = async ({
   const payloadDate = {
     p_email,
     p_project_id,
-    // p_app_url: "https://the-taskly.vercel.app", //production
-    p_app_url: "http://localhost:5173", // Developemnt
+    p_app_url: "https://the-taskly.vercel.app", //production
+    // p_app_url: "http://localhost:5173", // Developemnt
     p_base_url: baseURL,
   };
   /**
