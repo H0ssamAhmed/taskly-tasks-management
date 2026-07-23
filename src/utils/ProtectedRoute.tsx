@@ -14,8 +14,12 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const params = new URLSearchParams(hash);
   const type = params.get('type');
   const urlToken = params.get('access_token');
+  const inviteToken = params.get('token');
   const { authError } = useUsers()
   const error = window.location.href.includes('access_denied');
+  const IsInviteToken = window.location.href.includes("invite?token");
+
+
 
 
   if ((type === 'recovery' && urlToken)) {
@@ -24,10 +28,12 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   if (error) {
     return <Navigate to={`/reset-password`} replace />
   }
-  if (!refresh_token && !access_token) {
-    return <Navigate to="/sign-in" />;
+  if ((!refresh_token && !access_token)) {
+    const redirect = IsInviteToken ? "/sign-in?" : `/sign-in?token?=${inviteToken}`
+    return <Navigate to={redirect} />;
   }
-  if (refresh_token && !access_token) {
+
+  if ((refresh_token && !access_token) && !IsInviteToken) {
     return <Navigate to="/" />;
   }
   if (authError) {

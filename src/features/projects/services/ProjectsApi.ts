@@ -190,3 +190,20 @@ https://uggqlqmqxdytjfzjblrr.supabase.co/functions/v1/send-invite-email
   });
   return response;
 };
+
+export const acceptInvitationbyToken = async ({ token }: { token: string }) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const payload = {
+    p_token: token,
+  };
+  const response = await fetch(baseURL + "/rest/v1/rpc/accept_invitation", {
+    method: "POST",
+    headers: {
+      apikey: anonkey,
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": `application/json`,
+    },
+    body: JSON.stringify(payload),
+  });
+  return response;
+};

@@ -52,11 +52,12 @@ function App() {
                 <Route path={mainLayoutPaths.project_tasks + "/new"} element={<NewProjectTask />} />
                 <Route path={mainLayoutPaths.project_memebers} element={<ProjectMember />} />
                 <Route path={mainLayoutPaths.project_details} element={<EditProject />} />
-
               </Route>
             </Route>
+
           </Route>
-          <Route path='/invite' element={<AcceptInvitation />} />
+
+          <Route path={mainLayoutPaths.acceptInvitation} element={<AcceptInvitation />} />
 
 
         </Routes>

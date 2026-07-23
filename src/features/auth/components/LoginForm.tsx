@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { logInSchema } from '../schema/logIn'
 import InputLayout from './InputLayout'
 import Label from '@/shared/UI/Label'
@@ -27,6 +27,8 @@ const LoginForm = () => {
     const [rememberMe, setRememberMe] = useState(false)
     const [error, setError] = useState("")
     const dispatch = useAppDispatch()
+    const [searchParams] = useSearchParams();
+    const redirect = searchParams.get("redirect");
 
     const showpasshandle = () => setShowPass(!showpass)
     const { register, handleSubmit, formState: { errors, } } = useForm({
@@ -64,7 +66,7 @@ const LoginForm = () => {
                     error: null,
                 })
             )
-            navegator('/')
+            navegator(redirect ? decodeURIComponent(redirect) : "/project");
         } catch (error) {
             ToastError("Network error")
             console.error(error);

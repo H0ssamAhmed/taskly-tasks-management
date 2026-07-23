@@ -33,7 +33,7 @@ const InvitaionModel = ({ onCloseModel }: Props) => {
     const { startResizing, height } = useResizableHeight({ initialHeight: 520, minHeight: 506 })
 
     const { id } = useParams();
-    const { register, handleSubmit, formState: { errors, } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors, } } = useForm({
         resolver: zodResolver(EmailInvitaion),
         defaultValues: { email: "" },
     })
@@ -47,6 +47,7 @@ const InvitaionModel = ({ onCloseModel }: Props) => {
             const response = await sendProjectInvitation({ p_email: email, p_project_id: id!, });
             if (response?.ok || response?.status == 204) {
                 ToastSuccess("Invitation sent successfully!", { position: "top-center" });
+                reset()
                 return
             }
             if (!response.ok) {

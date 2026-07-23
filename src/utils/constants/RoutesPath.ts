@@ -13,4 +13,5 @@ export const mainLayoutPaths = {
   project_tasks: "tasks",
   project_memebers: "memebers",
   project_details: "edit",
+  acceptInvitation: "invite",
 };
