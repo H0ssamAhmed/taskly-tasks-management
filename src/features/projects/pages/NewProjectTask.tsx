@@ -16,7 +16,7 @@ const NewProjectTask = () => {
         </PageHeader>
 
 
-        <PageBody className='lg:w-5xl my-8 p-6'>
+        <PageBody className='lg:w-full xl:w-5xl my-8 p-6'>
             <AddNewTask />
         </PageBody>
 
