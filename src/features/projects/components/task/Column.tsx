@@ -30,7 +30,7 @@ const Column = ({ status }: { status: TaskStatusKey }) => {
                 isOver && "bg-primary/5 border-primary/5")}>
             <ColumnHeader name={status} length={projectTasksBoardView.length ?? 0} />
             <AddNewTaskLink status={status} />
-            {!loading && !projectTasksBoardView.length && <EmptyColTask status={status} />}
+            {!loading && !projectTasksBoardView.length && !error && <EmptyColTask status={status} />}
             {loading ? <BoardColumnSkeleton /> :
                 projectTasksBoardView.map((task: EpicTask) =>
                     <TaskDetails
