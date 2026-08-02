@@ -2,6 +2,7 @@ import { useAppSelector } from '@/store/store'
 import type { ProjectEpicsType } from '../../schema/types'
 import EpicCard from './EpicCard'
 import TaskDetailsPopup from '../task/TaskDetailsPopup'
+import { createPortal } from 'react-dom';
 
 interface Props {
     epics: ProjectEpicsType[],
@@ -17,7 +18,7 @@ const EpicsList = ({ epics, fetchEpics }: Props) => {
             {epics.map((epic) => <EpicCard
                 fetchEpics={fetchEpics}
                 key={epic.id} epic={epic} />)}
-            {selectedTaskId && <TaskDetailsPopup />}
+            {selectedTaskId && createPortal(<TaskDetailsPopup />, document.body)}
 
         </div>
 

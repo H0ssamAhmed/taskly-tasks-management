@@ -101,7 +101,7 @@ const InvitaionModel = ({ onCloseModel }: Props) => {
                             <div className="flex  flex-col-reverse lg:flex-row gap-4 my-4 w-full items-center justify-between">
                                 <Button
                                     onClick={() => onCloseModel()}
-                                    variant="ghost" className="w-full" type="button">Cancel</Button>
+                                    variant="ghost" className="w-full border rounded-sm border-black/10" type="button">Cancel</Button>
                                 <Button disabled={isSubmiting} className="w-full ">
                                     {!isError ? (isSubmiting ? "Sending Invitaion..." : "Send invitaion") : "Try Again"}
 

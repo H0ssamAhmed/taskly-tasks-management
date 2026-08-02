@@ -13,6 +13,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import PlusIcon from '@/assets/svgs/PlusIcon'
 import { Button } from '@/shared/UI/Button'
 import TaskDetailsPopup from '../components/task/TaskDetailsPopup'
+import { createPortal } from 'react-dom';
+
 import { useAppSelector } from '@/store/store'
 import { useState } from 'react'
 
@@ -72,7 +74,7 @@ const ProjectTask = () => {
                 ? <BoardView />
                 : <ListView />
             }
-            {selectedTaskId && <TaskDetailsPopup />}
+            {selectedTaskId && createPortal(<TaskDetailsPopup />, document.body)}
         </PageBody >
 
     </div >

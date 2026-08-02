@@ -11,6 +11,7 @@ import InvitaionModel from '../components/memebers/InvitaionModel'
 import { useState } from 'react'
 import PlusIcon from '@/assets/svgs/PlusIcon'
 import { cn } from '@/lib/utils'
+import { createPortal } from 'react-dom'
 
 
 const ProjectMember = () => {
@@ -70,7 +71,7 @@ const ProjectMember = () => {
             <PageBody>
                 <MembersTable memebers={members} />
             </PageBody>
-            {isInvitaionOpen && <InvitaionModel onCloseModel={handlecloseInvitaionModel} />}
+            {isInvitaionOpen && createPortal(<InvitaionModel onCloseModel={handlecloseInvitaionModel} />, document.body)}
 
         </div>
     )
