@@ -144,6 +144,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                     onChange={(e) =>
                                         setTitleDraft(e.target.value)
                                     }
+                                    autoFocus
                                     onBlur={handleTitleBlur}
                                 />
                             ) : (
@@ -167,6 +168,8 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
 
                     {currentTypeEdit?.name === "description" ? (
                         <textarea
+                            autoFocus
+
                             disabled={isSaving}
                             value={descriptionDraft}
                             className={cn('py-2 ps-4 pe-9 bg-surface-highest w-full h-20 rounded-sm', isSaving && "opacity-50 ")}
@@ -201,6 +204,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                         disabled={isSaving}
                                         value={assigneeDraft.assignee_id}
                                         onChange={handleAssignee}
+                                        autoFocus
 
                                     >
                                         <option value="">
@@ -235,6 +239,7 @@ const EpicDetailsModel = ({ onClose, epic }: Props) => {
                                 <Input
                                     min={new Date().toISOString().split('T')[0]}
                                     name='deadline'
+                                    autoFocus
                                     type="date"
                                     disabled={isSaving}
                                     value={deadlineDraft}

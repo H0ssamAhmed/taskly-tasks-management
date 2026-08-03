@@ -5,6 +5,7 @@ import type {
   CreateTaskPayload,
   FetchProjectTasksType,
   TaskStatusDisplayType,
+  TaskStatusType,
 } from "../schema/types";
 import { apiRequest } from "./RequestWrapper";
 import type { UniqueIdentifier } from "@dnd-kit/core";
@@ -100,4 +101,32 @@ export const updatedTaskStatus = async ({ taskId, newStatus }: Props) => {
     headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
     body: JSON.stringify(payload),
   });
+};
+
+export type UpdateTaskPayload = Partial<{
+  title: string;
+  description: string | null;
+  assignee_id: string | null;
+  due_date: string | null;
+  epic_id: string | null;
+  status: TaskStatusType;
+}>;
+
+export const updateTask = async ({
+  id,
+  payload,
+}: {
+  id: string;
+  payload: UpdateTaskPayload;
+}) => {
+  const ACCESS_TOKEN = getAccessToken();
+  const res = await fetch(baseURL + `/rest/v1/tasks?id=eq.${id}`, {
+    method: "PATCH",
+    headers: { ...reqHeader, Authorization: `Bearer ${ACCESS_TOKEN}` },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to update task");
+  }
+  return res;
 };
