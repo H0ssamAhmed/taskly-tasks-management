@@ -92,16 +92,18 @@ export const useProjectTask = (status: TaskStatusType) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      if (currentView == "board") {
-        fetchBoardTasks(status);
-        return;
-      }
-      if (currentView == "list") {
-        fetchListTasks();
-        return;
-      }
-    }, 500);
+    return () => {
+      setTimeout(() => {
+        if (currentView == "board") {
+          fetchBoardTasks(status);
+          return;
+        }
+        if (currentView == "list") {
+          fetchListTasks();
+          return;
+        }
+      }, 500);
+    };
   }, [searchTerm, searchParams]);
 
   return {

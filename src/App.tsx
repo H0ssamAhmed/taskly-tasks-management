@@ -20,6 +20,7 @@ import NewProjectEpics from './features/projects/pages/NewProjectEpics'
 import ProjectTasks from './features/projects/pages/ProjectTask'
 import NewProjectTask from './features/projects/pages/NewProjectTask'
 import AcceptInvitation from './features/projects/invitaion/pages/AcceptInvitation'
+import MyStatistics from './features/MyStatistics/pages/MyStatistics'
 
 
 
@@ -54,6 +55,7 @@ function App() {
                 <Route path={mainLayoutPaths.project_details} element={<EditProject />} />
               </Route>
             </Route>
+            <Route path={mainLayoutPaths.my_statistics} element={<MyStatistics />} />
 
           </Route>
 

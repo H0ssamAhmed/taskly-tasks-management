@@ -24,6 +24,7 @@ import Tree from "./tree.svg";
 import CollapseArrow from "./l-arrow.svg";
 import Logout from "./logout.svg";
 import Burger from "./burger.svg";
+import Statistics from "./Statistics.svg";
 
 export {
   ArchitectureIcon,
@@ -52,6 +53,7 @@ export {
   CollapseArrow,
   Logout,
   Burger,
+  Statistics,
 };
 
 export type IconType =
@@ -80,4 +82,5 @@ export type IconType =
   | "Exclamation"
   | "CollapseArrow"
   | "Logout"
-  | "Burger";
+  | "Burger"
+  | "Statistics";

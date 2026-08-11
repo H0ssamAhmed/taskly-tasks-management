@@ -171,14 +171,10 @@ export const sendProjectInvitation = async ({
   const payloadDate = {
     p_email,
     p_project_id,
-    p_app_url: "https://the-taskly.vercel.app", //production
-    // p_app_url: "http://localhost:5173", // Developemnt
+    p_app_url: "https://the-taskly.vercel.app",
     p_base_url: baseURL,
   };
-  /**
- * send-invite-email
-https://uggqlqmqxdytjfzjblrr.supabase.co/functions/v1/send-invite-email
- */
+
   const response = await fetch(baseURL + "/rest/v1/rpc/invite_member", {
     method: "POST",
     headers: {

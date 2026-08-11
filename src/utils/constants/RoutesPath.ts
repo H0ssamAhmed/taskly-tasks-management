@@ -8,6 +8,7 @@ export const mainLayoutPaths = {
   main: "/",
   project_home: "",
   project: "/project",
+  my_statistics: "/my-statistics",
   add_project: "add",
   project_epics: "epics",
   project_tasks: "tasks",

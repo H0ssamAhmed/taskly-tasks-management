@@ -211,7 +211,7 @@ const Details = ({ details, onClose }: { details: EpicTask, onClose: () => void 
         await updateField("status", newStatus)
         setCurrentTypeEdit(null)
     }
-    console.log(localTask);
+
 
     return (
         <div className="h-full ">

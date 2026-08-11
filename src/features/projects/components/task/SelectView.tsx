@@ -10,8 +10,12 @@ const SelectView = ({ className }: { className?: string }) => {
     const [isOpen, setIsOpen] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const handleChangeView = () => {
-        changeView(currentView == "board" ? "list" : "board")
+    const handleChangeView = (view: "board" | "list") => {
+        if (view == currentView) {
+            setIsOpen(false)
+            return;
+        }
+        changeView(view)
         setIsOpen(false)
     }
 
@@ -40,8 +44,8 @@ const SelectView = ({ className }: { className?: string }) => {
                 {currentView == "board" ? <BoardIcon /> : <ListIcon />} {currentView == "board" ? "Board View" : "List View"}
             </Button>
             <div className={cn('absolute bg-white p-2 ps-4 w-full opacity-0 -z-10 mt-2 rounded-sm flex flex-col gap-4 transition-all duration-300', isOpen && 'opacity-100 z-10')}>
-                <p onClick={handleChangeView} className=' cursor-pointer flex items-center justify-start py-4 gap-4 w-full'> <BoardIcon /> Board View</p>
-                <p onClick={handleChangeView} className=' cursor-pointer flex items-center justify-start gap-4 w-full'><ListIcon /> List View</p>
+                <p onClick={() => handleChangeView("board")} className=' cursor-pointer flex items-center justify-start py-4 gap-4 w-full'> <BoardIcon /> Board View</p>
+                <p onClick={() => handleChangeView("list")} className=' cursor-pointer flex items-center justify-start gap-4 w-full'><ListIcon /> List View</p>
             </div>
         </div>
     )

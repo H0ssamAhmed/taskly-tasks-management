@@ -1,4 +1,11 @@
-import { Exclamation, File, List, Person, Tree } from "@/assets/svg";
+import {
+  Exclamation,
+  File,
+  List,
+  Person,
+  Tree,
+  Statistics,
+} from "@/assets/svg";
 import { useParams } from "react-router-dom";
 
 export type NavLink = {
@@ -14,6 +21,12 @@ export const useNavlist = () => {
       text: "Projects",
       path: `/project`,
       icon: File,
+      isShow: true,
+    },
+    {
+      text: "My Statistics",
+      path: `/my-statistics`,
+      icon: Statistics,
       isShow: true,
     },
     {
