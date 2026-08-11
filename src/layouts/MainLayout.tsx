@@ -24,7 +24,7 @@ const MainLayout = () => {
                         <Outlet />
                     </div>
                 </div>
-                <div className='flex lg:hidden items-center justify-between p-2 fixed z-10 bottom-0 w-full  broder-1 border-t border-slate-light bg-background  gap-2'>
+                <div className='flex lg:hidden items-center justify-start p-2 fixed z-10 bottom-0 w-full  broder-1 border-t border-slate-light bg-background  gap-4'>
                     {NavLinks.map((link, idx) => <SideLinkMobile key={idx + link.path} {...link}
 
                     />)}
