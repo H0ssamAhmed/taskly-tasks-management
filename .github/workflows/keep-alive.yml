@@ -1,5 +1,6 @@
 name: Keep Supabase Alive
 
+
 on:
   schedule:
     - cron: "0 0,12 * * *"
@@ -8,17 +9,13 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    steps:
-      - name: Install Supabase client
-        run: npm install @supabase/supabase-js
 
-      - name: Ping Supabase DB
+    steps:
+      - name: Ping Supabase
         run: |
-          node -e "
-          const { createClient } = require('@supabase/supabase-js');
-          const supabase = createClient('${{ secrets.VITE_SUPABASE_URL }}', '${{ secrets.VITE_SUPABASE_ANON_KEY }}');
-          supabase.from('projects').select('*').limit(1).then(({ error }) => {
-            if (error) { console.error(error); process.exit(1); }
-            console.log('Ping successful!');
-          });
-          "
+          curl --fail --show-error --silent \
+            "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/projects?select=id&limit=1" \
+            -H "apikey: ${{ secrets.VITE_SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.VITE_SUPABASE_ANON_KEY }}"
+
+          echo "Ping successful!"
